@@ -1,0 +1,15 @@
+/**
+ * \mainpage
+ *
+ * Welcome on this tiny EBML parser / formater library documentation
+ * pages.
+ *
+ * In order to start with the library, one should know what EBML is
+ * and why it is of interest. Check \ref Doc_WhatIsEBML if needed.
+ *
+ * Then depending on your needs, you may need to visit these two pages :
+ *  - \ref Doc_FormatingEBMLStreams
+ *  - \ref Doc_ParsingEBMLStreams
+ *
+ * And finally enjoy the class design :o)
+ */

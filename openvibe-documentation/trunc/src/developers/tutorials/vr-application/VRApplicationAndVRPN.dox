@@ -1,0 +1,235 @@
+/**
+* \page Doc_VRApplicationAndVRPN Creating a Virtual Reality application with Ogre3D and connecting it to OpenViBE with VRPN
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/tutorial-vr-application-ogre-vrpn/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+
+* - \b NB: Document based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+* 
+* \section Doc_VRApplicationAndVRPN_Intro Introduction
+* OpenViBE can be used to its full potency by designing and creating a complete BCI application. 
+* The previous turorials covered the acquisition process and the signal processing boxes.
+* We will see in this tutorial how to create the last link of the chain: an elaborated feedback.
+* OpenViBE provides everything to set up your first Virtual Reality (VR) application using the 
+* rendering engine Ogre3D, free and open-source. The tutorial will also cover how the VRPN protocol can be 
+* used in OpenViBE to interact with the third-party application. We strongly recommend to look at the
+* VR application given with the software: "Use-The-Force" (a.k.a. the tie-fighter demonstrator), 
+* where the participant has to lift a spaceship by using motor imagery of the feet. 
+*
+* Nota Bene:
+* - Source code of the tie-fighter demonstrator is under <em>/openvibe-applications/vr-demo</em>.
+* - For any further information on Ogre3D, please look at the official manual and wiki (http://www.ogre3d.org/).
+* - Regarding VRPN, more information can be found at http://www.cs.unc.edu/Research/vrpn/.
+*
+* \section Doc_VRApplicationAndVRPN_Loop The interaction loop
+* This first part describes the BCI interaction loop, and how it works in OpenViBE.
+* We are working with a complete BCI, where several entities are brought into play:
+* - Participant.
+* - EEG recording device (electrodes and amplifier).
+* - Real-time analysis program, OpenViBE for example.
+* - Feedback, a VR application for example.
+* 
+* As described in the figure below each entity is linked to the others: an interaction loop is created for the participant.
+* By changing his mental behaviour, he can modify the sensorial feedback the application gives him.
+*
+* \image html loop.png "The interaction loop"
+*
+* The connection between OpenViBE and the VR application is made through the Virtual Reality Peripheral Network (VRPN) 
+* (http://www.cs.unc.edu/Research/vrpn/), which relies on a client-server architecture. 
+* We provide with OpenViBE an implementation of both part. 
+*
+* \section Doc_VRApplicationAndVRPN_VRPN VRPN
+* \subsection Doc_VRApplicationAndVRPN_VRPN_Server The server side
+* The Designer is in charge of the VRPN server(s):
+* - \subpage Doc_BoxAlgorithm_AnalogVRPNServer for floating point values, one server can handle any number of variables.
+* - \subpage Doc_BoxAlgorithm_ButtonVRPNServer for two-states buttons, one server can handle any number of buttons. 
+* 
+* One Analog Server and one Button Server constitute one VRPN Peripheral or device, with a given name 
+* ("openvibe-vrpn" for example). Thus, if you need more than one of each type of server, 
+* you have to create another peripheral by giving the additional servers another name.
+*
+* \subsection Doc_VRApplicationAndVRPN_VRPN_Client The client side
+*
+* The VR application must now implement VRPN client(s). You can design your application the way you want, with any 
+* tool you may need. For example, the Blender Game Engine can be customize to include a VRPN client, 
+* implemented with python. 
+*
+* OpenViBE includes a basic framework that can be used to create VR application.
+* The VRPN client side is given in the class OpenViBEVRDemos::CAbstractVrpnPeripheral.
+* This object gives an abstraction of a VRPN peripheral. A CAbstractVrpnPeripheral object contains a CDeviceInfo,
+* that can handle at most one Analog Remote object and one Button Remote object.
+* \code
+class CDeviceInfo
+{
+public:
+	std::string m_sAddress;        // Device address
+	vrpn_Button_Remote* m_pButton; // Pointer to a Button Remote
+	vrpn_Analog_Remote* m_pAnalog; // Pointer to an Analog Remote
+};
+* \endcode
+*
+* The VRPN protocol relies on handler mechanism. Each VRPN Remote object has a registered handler, which will be called 
+* automatically when a change is detected on the server side (button switched or analog value modified).
+* Our implementation of these handlers stores all the new values in standard containers, for further use by the application.
+* \code
+void VRPN_CALLBACK handle_button(void* pUserData, const vrpn_BUTTONCB b)
+{
+	CAbstractVrpnPeripheral* l_pAbstractVrpnPeripheral=(CAbstractVrpnPeripheral *)pUserData;
+
+	// we save the new button state, in a pair (button_id,button_state)
+	std::pair < int, int > l_oVrpnButtonState;
+	l_oVrpnButtonState.first=b.button;
+	l_oVrpnButtonState.second=b.state;
+
+	// we store it in a list
+	l_pAbstractVrpnPeripheral->m_vButton.push_back(l_oVrpnButtonState);
+}
+
+void VRPN_CALLBACK handle_analog(void* pUserData, const vrpn_ANALOGCB a)
+{
+	CAbstractVrpnPeripheral* l_pAbstractVrpnPeripheral=(CAbstractVrpnPeripheral *)pUserData;
+
+	// we save the new values in a list (one value for each channel in the Analog Server)
+	std::list < double >  l_oVrpnAnalogState;
+	for(int i=0; i<a.num_channel; i++)
+	{
+		// User-defined scale & offset (1 & 0 by default)
+		l_oVrpnAnalogState.push_back(a.channel[i]*l_pAbstractVrpnPeripheral->m_dAnalogScale
+		                             +l_pAbstractVrpnPeripheral->m_dAnalogOffset);
+	}
+
+	//we store it in a list
+	l_pAbstractVrpnPeripheral->m_vAnalog.push_back(l_oVrpnAnalogState);
+}
+* \endcode
+*
+* When you create the peripheral, you must specify the address of the VRPN server you want to connect to. 
+* This address is basically [peripheral-name]@[hostname] ("openvibe-vrpn@localhost" for example.
+* \code
+CAbstractVrpnPeripheral(const std::string deviceAddress);
+* \endcode
+*
+* Then, the initialisation process will set up the CDeviceInfo and create the remote connection with the servers.
+* VRPN provides dynamic and robust connection mechanism, thus you can start and stop servers or clients at will, without problem.
+* Finally, the handlers are registered for each VRPN Remote.
+* \code
+void CAbstractVrpnPeripheral::init(void)
+{
+	m_pDevice=new CDeviceInfo;
+	m_pDevice->m_sAddress=m_sDeviceAddress;
+	m_pDevice->m_pAnalog=new vrpn_Analog_Remote(m_sDeviceAddress.c_str());
+	m_pDevice->m_pButton=new vrpn_Button_Remote(m_sDeviceAddress.c_str());
+
+	m_pDevice->m_pButton->register_change_handler(this, &handle_button);
+	m_pDevice->m_pAnalog->register_change_handler(this, &handle_analog);
+}
+* \encode
+*
+* The last step is the loop function, that has to be called regularly. 
+* It simply calls the main loop of the VRPN Remote object.
+* \code
+void CAbstractVrpnPeripheral::loop(void)
+{
+	m_pDevice->m_pButton->mainloop();
+	m_pDevice->m_pAnalog->mainloop();
+}
+* \endcode
+*
+* \section Doc_VRApplicationAndVRPN_Ogre Ogre3D VR application
+* The framework is based on Ogre3D. To design your own VR application, 
+* you have to inherit the given basic class: OpenViBEVRDemos::COgreVRApplication. 
+* This class handles for you pretty much everything related to Ogre and VRPN startup sequence, 
+* and their main loop calls.
+* You must only implement 2 specialized functions:
+* - COgreVRApplication::initialise(void), where you load your 3D scene.
+\code
+bool CMyRVApplication::initialise()
+{
+	//----------- LIGHTS -------------//
+	m_poSceneManager->setAmbientLight(Ogre::ColourValue(0.4, 0.4, 0.4));
+	m_poSceneManager->setShadowTechnique(SHADOWTYPE_TEXTURE_MODULATIVE);
+
+	Ogre::Light* l_poLight1 = m_poSceneManager->createLight("Light1");
+	l_poLight1->setPosition(-2,6,2);
+	
+	//...
+	// Load meshes, modify the camera, set the GUI, etc. 
+	//...
+}
+\endcode
+* - COgreVRApplication::process(void), where you use the newly received VRPN values (button state or analog values) 
+* and give the feedback to the participant. 
+\code
+bool CMyRVApplication::process()
+{
+    // we iterate over the Button states received
+    while(!m_poVrpnPeripheral->m_vButton.empty())
+    {
+        // we take the last pair (button_id, button_state)
+        std::pair < int, int >& l_rVrpnButtonState=m_poVrpnPeripheral->m_vButton.front();
+        //...
+        // Insert your specific behaviour here: 
+        // update local variables, change phases according to the button switched, etc. 
+        //...
+        // we discard the pair
+        m_poVrpnPeripheral->m_vButton.pop_front();
+    }
+
+    // If we received new values
+    if(!m_poVrpnPeripheral->m_vAnalog.empty())
+    {
+	    // we take the list of values, one for each channel in the Analog Server.
+	    std::list < double >& l_rVrpnAnalogState=m_poVrpnPeripheral->m_vAnalog.front();
+	    //...
+        // Insert your specific behaviour here. 
+        //...
+	    m_poVrpnPeripheral->m_vAnalog.pop_front();
+    }
+
+    //...
+    // Use your updated information to give feedback to the participant.
+    //...
+}
+\endcode
+* 
+* You will find in the function COgreVRApplication::setup(void) the startup sequence:
+* - OgreRoot creation.
+* - Resource setup & loading.
+* - Graphic driver and window configuration loading.
+* - OIS initialization (to read inputs from keyboard/mouse).
+* - CEGUI initialization (to display 2D widgets).
+* - Listener registration.
+* - VRPN peripheral creation.
+* - Default Camera creation.
+*
+* The COgreVRApplication::go(void) function calls this setup sequence,
+* and your specific function CMyRVApplication::initialise(void) next.
+* The Ogre rendering engine can then be started.
+* 
+* The callback COgreVRApplication::frameStarted(const FrameEvent& evt), called
+* each time a frame is rendered (limited to a defined frequency), handles OIS and VRPN main loops. 
+* It also calls your specific implementation CMyRVApplication::process(void).
+*
+* Bye default, the callback COgreVRApplication::keyPressed(const OIS::KeyEvent& evt) 
+* will stop the rendering process and exit the application when the ESCAPE key is pressed.
+* All other callbacks (mouse and keyboard related events) are simply returning successfully without any action.
+* Of course, you can overload these callbacks to match your particular needs.
+*
+* To use your new application, you just need to create it and launch the COgreVRApplication::go(void) function.
+\code
+OpenViBEVRDemos::COgreVRApplication * app;
+app = new OpenViBEVRDemos::CMyRVApplication();
+app->go();
+delete app;
+\endcode
+*
+* The main program in the file <em>ovavrd_main.cpp</em> is used to generate the <em>vr-demo</em> application.
+* The argument of the program is the name of the application. Currently, only the "tie-fighter" and the "handball" 
+* applications are available, but you can easily add your own application. Be sure that the name 
+* you give to your VR application is the same as the root directory of its shared files 
+* (example: <em>share/openvibe-applications/vr-demo/tie-fighter</em> for the application named "tie-fighter").
+* The auto-generated script <em>test-vr-demo.cmd</em> (or <em>test-vr-demo</em> on Linux) will need this coherence.
+*/

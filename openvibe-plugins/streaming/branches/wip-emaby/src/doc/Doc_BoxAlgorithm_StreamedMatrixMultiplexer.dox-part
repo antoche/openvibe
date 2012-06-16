@@ -1,0 +1,64 @@
+/**
+ * \page BoxAlgorithm_StreamedMatrixMultiplexer Streamed matrix multiplexer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Description|
+ * This box multiplexes streamed matrix stream on a low level basis (at the EBML stream level actually).
+ * This means the box sorts the different buffers received from its inputs and sends all of them
+ * on its output. For correct results, this supposes the inputs have "homogeneous content" in the sense that
+ * they should have e.g. the same number of channels, in the same order, the same number of samples per buffer etc...
+ *
+ * This box is usually used after an epoching related split in the pipeline, when you want to process the signals
+ * in a similar manner for a similar purpose. This actually joins the pipelines in only one, dropping the need
+ * to edit and execute similar boxes.
+ *
+ * \b Warning: this box is usually missused and used in place of a \ref Doc_BoxAlgorithm_SignalMerger box.
+ * Please consider reading this documentation twice, and maybe read the \ref Doc_BoxAlgorithm_SignalMerger
+ * documentation once again as well ;)
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Inputs|
+ * You can add as many input as you want.
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Input1|
+ * The first input stream.
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Input2|
+ * The second input stream.
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Output1|
+ * The output stream takes the header of the first stream and then sends buffers of the
+ * different input streams in a sorted way.
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Output1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamedMatrixMultiplexer_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_StreamedMatrixMultiplexer_Miscellaneous|
+ */

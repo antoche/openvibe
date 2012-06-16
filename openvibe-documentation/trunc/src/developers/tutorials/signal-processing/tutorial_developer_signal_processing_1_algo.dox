@@ -1,0 +1,334 @@
+/**
+ * \page Doc_Tutorial_Developer_SignalProcessing_Algorithm Implementing a signal processing algorithm
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/tutorial-1-implementing-a-signal-processing-box/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+ *
+ * - \b NB: Document based on <b> OpenViBE 0.8.0 </b> (30-sep-2010).
+ *
+ * This section of the tutorial presents a detailed implementation of the signal processing algorithm.
+ * It is made of two distinct parts : the \ref Doc_Tutorial_Developer_SignalProcessing_AlgorithmHeader
+ * (c++ header file) and the \ref Doc_Tutorial_Developer_SignalProcessing_AlgorithmImplementation (c++ cpp file).
+ *
+ * \section Doc_Tutorial_Developer_SignalProcessing_AlgorithmHeader Algorithm definition
+ *
+ * Here is the file containing the algorithm definition, we will detail each line of the file later on.
+ *
+ * \include "ovpCAlgorithmSignalProcessingAlgorithm.h"
+ * \dontinclude "ovpCAlgorithmSignalProcessingAlgorithm.h"
+ *
+ * First of all, we will include every identifier / define needed
+ * for this plugin to work. The OpenViBE toolkit will help in the
+ * implementation so we include it as well.
+ * \skip ovp_defines
+ * \until ovtk_all
+ *
+ * The next part defines all the unique CIdentifier objects that identify the algorithm, the algorithm descriptor, and all the inputs, outputs and triggers.
+ * These random identifiers can be generated randomly using the dedicated tool \b id-generator, provided by the OpenViBE software platform. Please be sure to use \b unique identifiers.
+ * \until ProcessDone
+ *
+ * In order to avoid name collisions, it is a safe practice to include
+ * all classes in a namespace. All standard OpenViBE plugins are defined 
+ * in sub namespaces of OpenViBEPlugins. Here we are going to build a
+ * new box for example purposes, so we narrow down the scope to the Samples sub namespace.
+ * \until {
+ * \until {
+ *
+ * Now that we are in the OpenViBEPlugins::Samples namespace, we have
+ * to define the classes making up the algorithm : 
+ * - the algorithm itself, and
+ * - its associated descriptor.
+ *
+ * The descriptor is retrieved by the kernel upon startup.
+ * It provides information about the algorithm and also allows to create instances 
+ * of this algorithm.
+ *
+ * We start by declaring the algorithm class. 
+ *
+ * First off, we must choose an appropriate class name. Since this example algorithm 
+ * is meant to be a general signal processing example, we use a general name. In practice,
+ * the name of an algorithm should always convey a rough idea of what kind of signal processing
+ * it performs.
+ *
+ * The interface common to all algorithms is IAlgorithm. Our algorithm must therefore
+ * inherit from it to be identified as a proper algorithm. However, 
+ * algorithms implementation is made easier by
+ * the OpenViBEToolkit::TAlgorithm template, which implements several functionalities 
+ * common to all algorithms (e.g. direct access to managers). 
+ * Therefore, we inherit from this template, using the required IAlgorithm interface as 
+ * the template argument.
+ *
+ * The first method to implement is release, which deletes the algorithm.
+ * \until release
+ *
+ * The gist of an algorithm implementation lies in three methods :
+ * initialize, uninitialize and process. Here is the life cycle of
+ * an algorithm : 
+ * - the algorithm is created (using the algorithm descriptor)
+ * - initialize is called once
+ * - process is called an indefinite number of times
+ * - uninitialize is called once
+ * - the algorithm is deleted
+ *
+ * Each of these methods returns a boolean reflecting whether 
+ * they operated successfully. If any of them returns false, the caller
+ * should assume the algorithm failed and should stop calling this 
+ * algorithm any further.
+ * \until process
+ *
+ * All OpenViBE classes have their own class identifier. Once a new identifier
+ * has been generated, one should associate it to the algorithm class using the
+ * _IsDerivedFromClass_Final_ macro. The first argument of the macro is the name
+ * of the parent class, the second is the algorithm identifier.
+ * \until protected
+ *
+ * In this simple example, we are going to design an algorithm that
+ * takes a single input parameter (a matrix) and produces a single output
+ * parameter (another matrix). 
+ * 
+ * In order to facilitate parameters usage,
+ * the algorithm should embed its parameters in parameter handlers.
+ * Parameter handlers provide transparent access to embedded parameters
+ * using an interface similar to the parameter interface. 
+ * \until }
+ *
+ * The algorithm definition is now complete, and we move on to its descriptor.  
+ * The algorithm descriptor provides information as to the role of its 
+ * associated algorithm, its author, version, category and so on. 
+ *
+ * The interface common to all algorithm descriptors is IAlgorithmDesc, which
+ * we inherit from.
+ *
+ * The release function can be left empty since a single instance of any given 
+ * descriptor is created by the plugin which contains it, at plugin loading time,
+ * and eventually destroyed by the plugin when it is unloaded.
+ *
+ * A number of methods return description strings which can be used to get a general idea
+ * of what the algorithm consists in.
+ *
+ * \until getStockItemName
+ * 
+ * The descriptor specifies what kind of algorithm it is able to create thanks to 
+ * the getCreatedClass method, which returns the name of the algorithm class. 
+ * Actual instances of the algorithm may be created using the create method.
+ * \until create
+ * 
+ * The algorithm prototype may be retrieved using getAlgorithmPrototype.
+ * The prototype gives information about inputs, outputs and triggers.
+ * 
+ * Inputs and outputs are parameters
+ * and can easily be manipulated with parameter
+ * handlers. Triggers are related to the algorithm state : input 
+ * triggers specify how the algorithm should execute when called, while
+ * output triggers give an indication of what state the algorithm ended in
+ * when done with processing. 
+ * \until {
+ *
+ * This signal processing algorithm has two parameters :
+ * one input containing the signal matrix to process and
+ * one output containing the processed signal. Each of these
+ * parameters is identified by an identifier, a name and a type.
+ * \until addOutputParameter
+ *
+ * This signal processing algorithm also has three triggers.
+ *
+ * The first one is an input trigger and is used to notify the
+ * algorithm that the initialization step could be performed. This
+ * initialization is different from the one done in initialize : when
+ * the latter method is called, the algorithm itself is initialized, whereas
+ * the former method initializes data the algorithm will process later on.
+ * Preconditions that must be validated before activating this trigger include :
+ *
+ * - The algorithm initialize method returned successfully
+ *
+ * - The input matrix description was filled
+ *
+ * The second trigger also is an input trigger. When set, it
+ * requests the actual processing of the input matrix and
+ * results in the production of an output matrix.
+ *
+ * The last trigger is an output trigger used to tell 
+ * the caller about the outcome of the signal processing stage.
+ * When and only when an output matrix is successfully produced, the algorithm
+ * activates this output trigger.
+ * \until addOutputTrigger
+ *
+ * Finally, the method returns true, notifying the
+ * caller (the kernel) that the box prototype was successfully retrieved.
+ * \until }
+ *
+ * Similarly to how we associated an identifier to the algorithm class,
+ * we specify the identifier of the algorithm descriptor using the
+ * _IsDerivedFromClass_Final_ macro. The first argument is algorithm descriptor's 
+ * parent interface and the second is the actual descriptor identifier.
+ * \until };
+ * \until };
+ * \until };
+ *
+ * \section Doc_Tutorial_Developer_SignalProcessing_AlgorithmImplementation Algorithm implementation
+ *
+ * Here is the file containing the algorithm implementation, we will detail each line of the file later on.
+ *
+ * \include "ovpCAlgorithmSignalProcessingAlgorithm.cpp"
+ * \dontinclude "ovpCAlgorithmSignalProcessingAlgorithm.cpp"
+ *
+ * First off, for easier development, it is common practice to declare using 
+ * several common OpenViBE namespaces at the beginning of the file, after
+ * including the required header files. A good rule of thumb is to never
+ * use "using" directives in header files, and to use them sparsely in 
+ * implementation files. Considering OpenViBE does not contain conflicting
+ * classes (no two classes are named identically among all its files), it is
+ * acceptable to declare using OpenViBE namespaces.
+ * \until OpenViBE::Plugins;
+ *
+ * Similarly, the OpenViBEPlugins project does not contain conflicting 
+ * classes and makes it acceptable to declare using some of its namespaces.
+ * \until OpenViBEPlugins::Samples
+ *
+ * On to the real meat of the implementation : there are three algorithm methods
+ * two implement,and the good news is that two of them are simple :)
+ * 
+ * In this example, initialize and uninitialize simply
+ * consist in connecting or disconnecting our parameter
+ * handlers to the actual parameters. These
+ * handlers will be used later to ease parameter
+ * value manipulation.
+ *
+ * Let's initialize our parameters.
+ * \until {
+ *
+ * ip_pMatrix is the input matrix pointer used by this
+ * algorithm. This parameter was declared in the
+ * algorithm descriptor as being of type OV_TypeId_Matrix
+ * and identified as OVP_Algorithm_SignalProcessingAlgorithm_InputParameterId_Matrix.
+ * The parameter can be retrieved with the getInputParameter
+ * function and passed to the handler using its initialize method. 
+ *
+ * Past this point, ip_pMatrix can be used as the object it encapsulates, that
+ * is, as an IMatrix* pointer using the -> operator.
+ * \until initialize
+ *
+ * Similarly, op_pMatrix is the output matrix pointer
+ * of this algorithm. The parameter can be retrieved
+ * with the getOutputParameter function and given to the
+ * handler. Past this point, op_pMatrix can be used
+ * as an IMatrix* pointer using the -> operator.
+ * \until initialize
+ *
+ * Returning true at the end of this initialize function
+ * tells the kernel everything went on nicely and no error
+ * occurred. If false is returned here, the kernel will
+ * consider this algorithm failed to initialize and won't call
+ * it anymore in the future.
+ * \until }
+ *
+ * Uninitialize should be called to terminate an algorithm which won't
+ * be used anymore. Thus, every initialized
+ * member should be freed and the whole environment should
+ * be left as it was before initialize was called.
+ * In this simple example, all that is needed is to disconnect our
+ * parameter handlers from their respective parameters.
+ * \until {
+ *
+ * op_pMatrix can be disconnected from its parameter
+ * thanks to the uninitialize method. Past this point,
+ * using operator -> will throw an exception and cause
+ * a crash.
+ * \until uninitialize
+ *
+ * The same can be done with ip_pMatrix.
+ * \until uninitialize
+ *
+ * As in initialize, returning true notifies the kernel 
+ * everything ran smoothly. 
+ * \until }
+ *
+ * Now all that is left to implement is the core of
+ * the algorithm, the process method which does the 
+ * actual signal processing. This method is called each time operations should be
+ * performed by this algorithm. 
+ * 
+ * What operations the algorithm should execute
+ * may be specified using input triggers.
+ * Every time process is called, the algorithm should
+ * check the state of its input triggers and 
+ * deduce what computations to perform. At the
+ * end of the processing, the algorithm can reflect
+ * its status by setting the appropriate output triggers.
+ * \until {
+ *
+ * First of all, we will retrieve input and output matrix pointers
+ * from the parameter handlers. Since our handler instances were
+ * templated with IMatrix*, there is an automatic cast
+ * operator that returns a pointer to the actual IMatrix* value.
+ * \until op_pMatrix
+ *
+ * Now, we have to examine each of the input triggers
+ * to know what to process. Those input triggers are declared
+ * in the algorithm prototype. In this case, there are two
+ * of them, namely OVP_Algorithm_SignalProcessingAlgorithm_InputTriggerId_Initialize
+ * and OVP_Algorithm_SignalProcessingAlgorithm_InputTriggerId_Process. Let's check
+ * whether the first one is activated
+ *
+ * \until {
+ *
+ * When the initialize trigger is active, we know that
+ * the input matrix contains a complete description of 
+ * the input matrices that will be forwarded to this algorithm
+ * (number of dimensions, dimension sizes, labels...).
+ *
+ * Since our processing function only changes some matrix
+ * values, the description of its output matrix is identical
+ * to that of its input matrix. Therefore, we copy it
+ * using the copyDescription helper function of the
+ * toolkit. Past this point, the output matrix will
+ * have the same aspect as the input matrix. However,
+ * its contents are undefined for now.
+ * \until }
+ *
+ *Let's now test whether the process input trigger is set.
+ * \until { 
+ *
+ * When this particular trigger is active, we know that
+ * the input matrix is completely filled, including its buffer
+ * (the part of the matrix that contains values).
+ * This is where the actual processing can take place.
+ * As an example, we demonstrate how to copy the input signal
+ * buffer, slightly modifying it by changing only the first sample 
+ * of each channel by setting it to 0.
+ *
+ * Input matrices are assumed to be two dimensional, and the samples of a
+ * given channel are listed in a row before moving on to the next 
+ * channel. 
+ * - the first dimension (index 0) of the matrix represents the number of channels
+ * - the second dimension (index 1) is made up of the samples of any given channel
+ *
+ * The getBuffer method returns a pointer to the first value of the matrix,
+ * that is, the first sample of the first channel. To access the jth sample 
+ * of the ith channel, one must offset this pointer by the following formula :
+ *
+ * i * sampleCount + j
+ *
+ * where sampleCount is the number of samples per channel, given by the size of
+ * the second dimension (index 1).
+ *
+ * In this example, we iterate over channels (i) and set their first sample
+ * (j == 0) to 0.
+ * \until }
+ *
+ * Now that the processing is done, this can be reflected to the caller by
+ * activating the "process done" output trigger, whose state will be checked
+ * by the caller. Therefore, the OVP_Algorithm_SignalProcessingAlgorithm_OutputTriggerId_ProcessDone
+ * output trigger is activated.
+ * \until }
+ *
+ * Finally, we should return true to notify the kernel that
+ * no error occurred during this processing step. If false is
+ * returned, the kernel won't ever call this algorithm anymore.
+ * \until }
+ *
+ * Now please go on to the final step : \subpage Doc_Tutorial_Developer_SignalProcessing_Box
+ */

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+./ov-acquisition-server.sh $*
+./ov-designer.sh $*
+./ov-id-generator.sh $*
+./ov-plugin-inspector.sh $*
+./ov-skeleton-generator.sh $*
+./ov-vr-demo-tie-fighter.sh $*
+./ov-vrpn-simulator.sh $*

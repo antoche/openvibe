@@ -1,0 +1,78 @@
+/**
+ * \page BoxAlgorithm_MatlabScripting Matlab Scripting
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Description|
+ The Matlab Scripting box uses the Matlab Engine to process data using Matlab.
+ This box can be configured with any number of inputs, outputs and settings, of any type.
+ You will need a valid Matlab installation and license at runtime. This box is currently compatible with 
+ Matlab 32 and 64 bits on Linux, but only with Matlab 32 bits on Windows.
+ 
+ For a complete tutorial, please check <a href="http://openvibe.inria.fr/tutorial-using-matlab-with-openvibe">this documentation page</a>.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Description|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Setting1|
+ The box clock frequency can be an integer between 1 and 128Hz. This tells how many time per second the box "Process" function will be called.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Setting2|
+ User must set the place where to find the Matlab executables. On windows it should be in the bin/win32 directory.
+ On Linux, fill this setting with the command line you are using to launch Matlab on your computer.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Setting3|
+ Please enter the Matlab working directory in which this box will work. This should be the absolute adress of the folder where you have put all the function files.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Setting4|
+ The name of the matlab function called when initializing the box (i.e. when pressing play in the scenario).
+ This function is called only once.
+ 
+ Its signature must be: [box_out] = initialize(box_in), where box_out and box_in are specific structure.
+ Please see the dedicated <a href="http://openvibe.inria.fr/tutorial-using-matlab-with-openvibe">tutorial</a> for a complete reference.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Setting4|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Setting5|
+ The name of the matlab function called on every tick of the process loop.
+ This function is called at the box clock frequency.
+ 
+ Its signature must be: [box_out] = process(box_in), where box_out and box_in are specific structure.
+ Please see the dedicated <a href="http://openvibe.inria.fr/tutorial-using-matlab-with-openvibe">tutorial</a> for a complete reference.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Setting5|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Setting6|
+ The name of the matlab function called when uninitializing the box (i.e. when pressing stop in the scenario).
+ This function is called only once.
+ 
+ Its signature must be: [box_out] = uninitialize(box_in), where box_out and box_in are specific structure.
+ Please see the dedicated <a href="http://openvibe.inria.fr/tutorial-using-matlab-with-openvibe">tutorial</a> for a complete reference.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Setting6|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Examples|
+ The dedicated <a href="http://openvibe.inria.fr/tutorial-using-matlab-with-openvibe">tutorial</a> provides 3 examples:
+ - Signal filtering
+ - FFT computation and spectrum plot in Matlab
+ - Signal and stimulation generator
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabScripting_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_MatlabScripting_Miscellaneous|
+ */

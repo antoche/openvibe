@@ -1,0 +1,15 @@
+material basic-arrow-basic-arrow-material
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 0 0 
+			diffuse 1 0 0 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+

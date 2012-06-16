@@ -1,0 +1,112 @@
+/**
+ * \page BoxAlgorithm_VotingClassifier Voting Classifier
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Description|
+The purpose of this simple classifier is to choose between multiple two class classifiers which
+one mostly fits a condition. For example imagine \c n states. Each of those states can be either active
+or inactive. Additionnaly, imagine you want only one active state at a time. Then you can have \c n
+two-class classifiers telling for each state if it is active or not, and a following voting classifier
+that chooses which of those states is the <em>most active</em>.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Inputs|
+You can add as many inputs as you need depending on the number of preceeding states.
+
+The inputs of this classifier can be changed to either streamed matrix of stimulations.
+
+In the case you choose stimulations, each active stimulation gives a point
+to the preceeding state. Both an inactive and a reject stimulation gives no point.
+Any other stimulation is ignored.
+After a number of repetitions, the state whith the best score is chossen.
+
+In the case you choose streamed matrix, the matrix must have only one
+element. This element is used as a score coefficient (in place of the simple 1-0 of the previous
+case).  After a number of repetitions, the state whith the best score is chossen.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Input1|
+Input streaam for the first state.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Input2|
+Input streaam for the second state.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Output1|
+This output sends a new stimulation as soon as the classifier received the correct number of votes
+from the preceeding states. The output stimulation is based on the 5th setting of the box. First
+state being selected would send exactly this stimulation. Second state would send this
+stimulation + 1 etc.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Setting1|
+This setting tells the box how many votes it needs before choosing. If the box uses stimulations,
+it must receive either the target or non target stimulation to consider a state has been voted.
+Additionaly, the box waits each state to be voted the correct number of times to take a decision.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Setting2|
+If the box uses stimulations, this settings tells what stimulation reflects that the state is active.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Setting3|
+If the box uses stimulations, this settings tells what stimulation reflects that the state is inactive.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Setting4|
+In case no choice can be made (for example, there are more than one state with the highest score), the
+voting classifier can choose to reject the vote and send a specific stimulation for this. This is more
+likely to happen when the box works on stimulation better than streamed matrix. You can force this box
+to choose using the 6th setting.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Setting4|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Setting5|
+This stimulation is used as a basis for the stimulations to send when a state is selected. First
+state being selected would send exactly this stimulation. Second state would send this
+stimulation + 1 etc.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Setting5|
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Setting6|
+This setting can force the box to choose a state even if more than one state have the highest score.
+In such case, there won't be any rejection. The way the box decides between the ex-aequo candidates
+is undefined.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Setting6|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Examples|
+This box is used in the <em>P300 speller</em> and the <em>P300 magic card</em> BCIs. Please see those
+scenarios in the sample <em>openvibe-scenarios</em>.
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VotingClassifier_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_VotingClassifier_Miscellaneous|
+ */

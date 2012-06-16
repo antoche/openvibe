@@ -1,0 +1,152 @@
+#ifndef __OpenViBEPlugins_BoxAlgorithm_@@ClassName@@_H__
+#define __OpenViBEPlugins_BoxAlgorithm_@@ClassName@@_H__
+
+//You may have to change this path to match your folder organisation
+#include "ovp_defines.h"
+
+#include <openvibe/ov_all.h>
+#include <openvibe-toolkit/ovtk_all.h>
+
+// The unique identifiers for the box and its descriptor.
+// Identifier are randomly chosen by the skeleton-generator.
+#define OVP_ClassId_BoxAlgorithm_@@ClassName@@ @@RandomIdentifierClass@@
+#define OVP_ClassId_BoxAlgorithm_@@ClassName@@Desc @@RandomIdentifierDescriptor@@
+
+namespace OpenViBEPlugins
+{
+	namespace @@Namespace@@
+	{
+		/**
+		 * \class CBoxAlgorithm@@ClassName@@
+		 * \author @@Author@@ (@@Company@@)
+		 * \date @@Date@@
+		 * \brief The class CBoxAlgorithm@@ClassName@@ describes the box @@BoxName@@.
+		 *
+		 */
+		class CBoxAlgorithm@@ClassName@@ : virtual public OpenViBEToolkit::TBoxAlgorithm < OpenViBE::Plugins::IBoxAlgorithm >
+		{
+		public:
+			virtual void release(void) { delete this; }
+
+			virtual OpenViBE::boolean initialize(void);
+			virtual OpenViBE::boolean uninitialize(void);
+				
+			//Here is the different process callbacks possible
+			// - On clock ticks :
+			@@ProcessClockComment@@virtual OpenViBE::boolean processClock(OpenViBE::CMessageClock& rMessageClock);
+			// - On new input received (the most common behaviour for signal processing) :
+			@@ProcessInputComment@@virtual OpenViBE::boolean processInput(OpenViBE::uint32 ui32InputIndex);
+			
+			// If you want to use processClock, you must provide the clock frequency.
+			@@ProcessClockComment@@virtual OpenViBE::uint64 getClockFrequency(void);
+			
+			virtual OpenViBE::boolean process(void);
+
+			// As we do with any class in openvibe, we use the macro below 
+			// to associate this box to an unique identifier. 
+			// The inheritance information is also made available, 
+			// as we provide the superclass OpenViBEToolkit::TBoxAlgorithm < OpenViBE::Plugins::IBoxAlgorithm >
+			_IsDerivedFromClass_Final_(OpenViBEToolkit::TBoxAlgorithm < OpenViBE::Plugins::IBoxAlgorithm >, OVP_ClassId_BoxAlgorithm_@@ClassName@@);
+
+		protected:
+			@@Algorithms@@
+		};
+
+
+		// If you need to implement a box Listener, here is a sekeleton for you.
+		// Use only the callbacks you need.
+		// For example, if your box has a variable number of input, but all of them must be stimulation inputs.
+		// The following listener callback will ensure that any newly added input is stimulations :
+		/*		
+		virtual OpenViBE::boolean onInputAdded(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index)
+		{
+			rBox.setInputType(ui32Index, OV_TypeId_Stimulations);
+		};
+		*/
+		
+		@@BoxListenerCommentIn@@
+		// The box listener can be used to call specific callbacks whenever the box structure changes : input added, name changed, etc.
+		// Please uncomment below the callbacks you want to use.
+		class CBoxAlgorithm@@ClassName@@Listener : public OpenViBEToolkit::TBoxListener < OpenViBE::Plugins::IBoxListener >
+		{
+		public:
+
+			//virtual OpenViBE::boolean onInitialized(OpenViBE::Kernel::IBox& rBox) { return true; };
+			//virtual OpenViBE::boolean onNameChanged(OpenViBE::Kernel::IBox& rBox) { return true; };
+			@@BoxListenerOnInputConnectedComment@@virtual OpenViBE::boolean onInputConnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnInputDisconnectedComment@@virtual OpenViBE::boolean onInputDisconnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnInputAddedComment@@virtual OpenViBE::boolean onInputAdded(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnInputRemovedComment@@virtual OpenViBE::boolean onInputRemoved(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnInputTypeChangedComment@@virtual OpenViBE::boolean onInputTypeChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnInputNameChangedComment@@virtual OpenViBE::boolean onInputNameChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnOutputConnectedComment@@virtual OpenViBE::boolean onOutputConnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnOutputDisconnectedComment@@virtual OpenViBE::boolean onOutputDisconnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnOutputAddedComment@@virtual OpenViBE::boolean onOutputAdded(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnOutputRemovedComment@@virtual OpenViBE::boolean onOutputRemoved(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnOutputTypeChangedComment@@virtual OpenViBE::boolean onOutputTypeChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnOutputNameChangedComment@@virtual OpenViBE::boolean onOutputNameChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnSettingAddedComment@@virtual OpenViBE::boolean onSettingAdded(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnSettingRemovedComment@@virtual OpenViBE::boolean onSettingRemoved(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnSettingTypeChangedComment@@virtual OpenViBE::boolean onSettingTypeChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnSettingNameChangedComment@@virtual OpenViBE::boolean onSettingNameChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnSettingDefaultValueChangedComment@@virtual OpenViBE::boolean onSettingDefaultValueChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			@@BoxListenerOnSettingValueChangedComment@@virtual OpenViBE::boolean onSettingValueChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+
+			_IsDerivedFromClass_Final_(OpenViBEToolkit::TBoxListener < OpenViBE::Plugins::IBoxListener >, OV_UndefinedIdentifier);
+		};
+		@@BoxListenerCommentOut@@
+
+		/**
+		 * \class CBoxAlgorithm@@ClassName@@Desc
+		 * \author @@Author@@ (@@Company@@)
+		 * \date @@Date@@
+		 * \brief Descriptor of the box @@BoxName@@.
+		 *
+		 */
+		class CBoxAlgorithm@@ClassName@@Desc : virtual public OpenViBE::Plugins::IBoxAlgorithmDesc
+		{
+		public:
+
+			virtual void release(void) { }
+
+			virtual OpenViBE::CString getName(void) const                { return OpenViBE::CString("@@BoxName@@"); }
+			virtual OpenViBE::CString getAuthorName(void) const          { return OpenViBE::CString("@@Author@@"); }
+			virtual OpenViBE::CString getAuthorCompanyName(void) const   { return OpenViBE::CString("@@Company@@"); }
+			virtual OpenViBE::CString getShortDescription(void) const    { return OpenViBE::CString("@@ShortDescription@@"); }
+			virtual OpenViBE::CString getDetailedDescription(void) const { return OpenViBE::CString("@@DetailedDescription@@"); }
+			virtual OpenViBE::CString getCategory(void) const            { return OpenViBE::CString("@@Category@@"); }
+			virtual OpenViBE::CString getVersion(void) const             { return OpenViBE::CString("@@Version@@"); }
+			virtual OpenViBE::CString getStockItemName(void) const       { return OpenViBE::CString("@@StockItemName@@"); }
+
+			virtual OpenViBE::CIdentifier getCreatedClass(void) const    { return OVP_ClassId_BoxAlgorithm_@@ClassName@@; }
+			virtual OpenViBE::Plugins::IPluginObject* create(void)       { return new OpenViBEPlugins::@@Namespace@@::CBoxAlgorithm@@ClassName@@; }
+			
+			@@BoxListenerCommentIn@@
+			virtual OpenViBE::Plugins::IBoxListener* createBoxListener(void) const               { return new CBoxAlgorithm@@ClassName@@Listener; }
+			virtual void releaseBoxListener(OpenViBE::Plugins::IBoxListener* pBoxListener) const { delete pBoxListener; }
+			@@BoxListenerCommentOut@@
+			virtual OpenViBE::boolean getBoxPrototype(
+				OpenViBE::Kernel::IBoxProto& rBoxAlgorithmPrototype) const
+			{
+				@@Inputs@@
+				@@InputFlagCanModify@@
+				@@InputFlagCanAdd@@
+				
+				@@Outputs@@
+				@@OutputFlagCanModify@@
+				@@OutputFlagCanAdd@@
+				
+				@@Settings@@
+				@@SettingFlagCanModify@@
+				@@SettingFlagCanAdd@@
+				
+				rBoxAlgorithmPrototype.addFlag(OpenViBE::Kernel::BoxFlag_IsUnstable);
+				
+				return true;
+			}
+			_IsDerivedFromClass_Final_(OpenViBE::Plugins::IBoxAlgorithmDesc, OVP_ClassId_BoxAlgorithm_@@ClassName@@Desc);
+		};
+	};
+};
+
+#endif // __OpenViBEPlugins_BoxAlgorithm_@@ClassName@@_H__

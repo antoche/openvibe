@@ -1,0 +1,65 @@
+/**
+ * \page BoxAlgorithm_GenericNetworkAcquisition Generic network acquisition
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Description|
+ * This plugin is used to receive signal information from a socket
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Output1|
+ * This stream contains information about the experiment and subject
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Output1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Output2|
+ * Contains the signal information for the different channels
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Output2|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Output3|
+ * Contains information about the stimulations that occured during the experiment
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Output3|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Setting1|
+ * The name of the server we want the plugin to connect to
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Setting1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Setting2|
+ * The server's port the plugin will try to connect to
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Examples|
+ *
+ * Let's consider that the server is running on the same computer as the designer, and is listening on port 1024.
+ *
+ * We have to setup the server's name :
+ * \code
+ * localhost
+ * \endcode
+ *
+ * And the server's port :
+ * \code
+ * 1024
+ * \endcode
+ *
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Examples|
+ */

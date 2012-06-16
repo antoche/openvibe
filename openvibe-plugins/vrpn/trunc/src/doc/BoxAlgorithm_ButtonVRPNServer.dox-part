@@ -1,0 +1,106 @@
+/**
+ * \page BoxAlgorithm_ButtonVRPNServer Button VRPN server
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Description|
+ *
+ * This plugin exposes several boolean states
+ * to an external application thanks to the \e VRPN protocol. \e VRPN stands
+ * for Virtual Reality Peripheral Network (http://www.cs.unc.edu/Research/vrpn/).
+ * It consists in a library that abstracts most used VR peripherals as
+ * an aggregation of basic components such as \e analogic data, \e buttons
+ * or \e trackers (localisation and orientation in space).
+ *
+ * The way §OpenViBE§ exposes these boolean states to
+ * external applications consists in emulating a multi-button
+ * device. The states are controled by stimulation streams and each
+ * button can be pressed and released by given stimulation identifiers.
+ * The number of buttons of the emulated device depends on the number
+ * of input of the box. Each time an input is added, the corresponding
+ * on/off stimulations are added to the settings of the box. Given this
+ * behavior, any \e VRPN ready application is able to get parameters
+ * from §OpenViBE§ and to provide feedback to the user as visual information
+ * or whatever way the feedback should be done.
+ *
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Inputs|
+ * This box accepts unlimited number of inputs. Initial box only
+ * has a single input but you can add as many \ref Doc_Streams_Stimulation
+ * inputs as you want to the box.
+ *
+ * Note that in case you add inputs, the total number of button
+ * of the emulated device will be the exact number of inputs, and
+ * that the corresponding settings will be added automatically.
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Input1|
+ * This input will receive a stimulation stream and change the corresponding
+ * button state according to two stimulations.
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Settings|
+ * Each input have a corresponding pair of stimulation codes that are
+ * used to press or release a button. When the first stimulation is
+ * found, the button switches to sate \e pressed. When the second one
+ * is found, the button switches to state \e released. In case the
+ * first stimulation appears while the button is already \e pressed,
+ * nothing happens. Similarly, when the second stimulation appears while
+ * the button is already \e released, nothing happens.
+ *
+ * If the on and off stimulation codes for a given button are the same,
+ * then when this stimulation happens, the button state switches to \e pressed
+ * and immedialty comes back to \e released. Client application will receive
+ * the two state changes.
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Setting1|
+ * This setting contains the name of the emulated peripheral. This will be used
+ * by the external application in order to connect to this peripheral. If this
+ * setting is \e openvibe-vrpn and the machine running §OpenViBE§ is
+ * \e openvibe-machine, then the complete \e VRPN peripheral name is
+ * \e openvibe-vrpn\@\e openvibe-machine.
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Setting1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Setting2|
+ * This setting gives the stimulation code to track to switch button state to
+ * \e pressed.
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Setting2|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Setting3|
+ * This setting gives the stimulation code to track to switch button state to
+ * \e released.
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ButtonVRPNServer_Miscellaneous|
+ * This box lacks an additional setting to specify the connection port.
+ * Default \e VRPN connection port is \c 3883. But it may be possible that
+ * you want to expose §OpenViBE§ on another port. This is not currently possible.
+ *
+ * For \e analogs emulation, you way want to look at the
+ * \ref Doc_BoxAlgorithm_AnalogVRPNServer documentation that does almost
+ * the same as this box but transcoding streamed matrices to analog states.
+ * |OVP_DocEnd_BoxAlgorithm_ButtonVRPNServer_Miscellaneous|
+ */

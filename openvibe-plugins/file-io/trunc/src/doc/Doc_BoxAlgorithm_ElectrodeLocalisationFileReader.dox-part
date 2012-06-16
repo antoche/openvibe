@@ -1,0 +1,57 @@
+/**
+ * \page BoxAlgorithm_ElectrodeLocalisationFileReader Electrode localisation file reader
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ElectrodeLocalisationFileReader_Description|
+ * This box loads files holding the normalized coordinates of an electrode set.
+ * |OVP_DocEnd_BoxAlgorithm_ElectrodeLocalisationFileReader_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ElectrodeLocalisationFileReader_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_ElectrodeLocalisationFileReader_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ElectrodeLocalisationFileReader_Output1|
+ * The output channel localization information.
+ * |OVP_DocEnd_BoxAlgorithm_ElectrodeLocalisationFileReader_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ElectrodeLocalisationFileReader_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_ElectrodeLocalisationFileReader_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_ElectrodeLocalisationFileReader_Setting1|
+ * The normalized coordinates file.
+ * |OVP_DocEnd_BoxAlgorithm_ElectrodeLocalisationFileReader_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ElectrodeLocalisationFileReader_Examples|
+ * A default electrode set should be included in your OpenViBE distribution. Look for
+ * it in the <tt>share/electrode_sets</tt> directory of the source tree of this plugin.
+ * It comes as a \ref Doc_MatrixFileFormat "text file" which is quite self explanatory,
+ * open it in a text editor to edit it. Electrode names are specified in the header
+ * section of the matrix, while actual coordinates are stored in the buffer section.
+ * |OVP_DocEnd_BoxAlgorithm_ElectrodeLocalisationFileReader_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ElectrodeLocalisationFileReader_Miscellaneous|
+ * The coordinates loaded by this box are sent once only (static coordinates, e.g. EEG), as
+ * opposed to regularly (dynamic coordinates, e.g. MEG).
+ * The supported file format is the \ref Doc_MatrixFileFormat "OpenViBE matrix" file format.
+ * Electrode coordinates must be normalized cartesian coordinates in the following frame
+ * of reference : X right, Y front and Z up.
+ * |OVP_DocEnd_BoxAlgorithm_ElectrodeLocalisationFileReader_Miscellaneous|
+ */

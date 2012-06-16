@@ -1,0 +1,51 @@
+/**
+ * \page BoxAlgorithm_SignalAverage Signal average
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalAverage_Description|
+ * This plugin computes the average of each incoming sample
+ * buffer and outputs the resulting signal.
+ * |OVP_DocEnd_BoxAlgorithm_SignalAverage_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalAverage_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalAverage_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalAverage_Input1|
+ * The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_SignalAverage_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalAverage_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalAverage_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalAverage_Output1|
+ * Signal containing the averages of the input sample buffers.
+ * |OVP_DocEnd_BoxAlgorithm_SignalAverage_Output1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalAverage_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_SignalAverage_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalAverage_Miscellaneous|
+ * The output signal's sample count per channel per buffer is one,
+ * since a buffer contains the averages (per channel) of the values
+ * of an input buffer.
+ * |OVP_DocEnd_BoxAlgorithm_SignalAverage_Miscellaneous|
+ */

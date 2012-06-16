@@ -1,0 +1,59 @@
+/** 
+\page Doc_DesignerTutorial2 Designer Tutorial 2: Customizing a scenario
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/designer-tutorial-2/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+- \b NB: Tutorial based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+
+\section designertutorial2_overview Overview
+
+This second tutorial demonstrates how scenario settings can be customized both offline (at scenario edition time) and online (as the scenario is being played).
+
+\section designertutorial2_step1 Step 1 : Identifying customizable boxes
+
+Some box algorithms expose settings for configuration by the scenario editor. They must be declared in the box prototype by the box developer, so as to let edition tools know about them. When working in the Designer, there is an easy way to know whether a box exposes configurable settings : look at the box name: 
+	- <b>Bold font</b> means the box exposes at least one configurable setting, whereas
+	- Normal font means the box is not configurable.
+
+Let's open the scenario that was designed in the first tutorial (see \ref Doc_DesignerTutorial1 "Tutorial 1"). Both boxes have bold name, meaning they can be customized offline.
+
+\image html designer_tutorial_2_identifying_customizable_boxes_v2.png "Two customizable boxes"
+
+\section designertutorial2_step2 Step 2: Offline settings modification
+
+To open the settings dialog of a box, double click on the box. Let's double click the Sinus Oscillator box. This pops up a dialog divided in two parts :
+	- the upper part shows the list of settings, where values can be entered via input fields,
+	- the lower part handles an alternate way of specifying settings by reading them from a file. This part can be unfold by clicking the '+' character. Tick the checkbox on the right and specify the file you want to use. Configuration file format is described in a dedicated page, \subpage Doc_BoxAlgorithmSettingsOverrideFileFormat.
+
+The most straightforward way to customise a box consists in modifying setting values from this dialog. The Sinus Oscillator has several settings, and the input field of each setting displays its default value. Let's  modify the number of channels for which to generate sinusoidal signals, by entering "2" in the Channel count input field. Validate the configuration by clicking the 'Apply' button.
+
+\image html designer_tutorial_2_box_settings_dialog_v2.png "Sinus Oscillator settings dialog"
+
+Save the new scenario settings by selecting the 'Save' option from the 'File' menu, or clicking the 'Save' button in the toolbar. 
+
+Now let's observe the changes made to the scenario by playing it. There is no need to modify the Signal Display box, which dynamically adapts itself to the number of channels in use in the scenario. Click the Play button to start the scenario : the visualisation box should automatically restrict its display to 2 channels only
+
+\image html designer_tutorial_2_changing_channel_count.png "Offline modification of the number of channels"
+
+\section designertutorial2_step3 Step 3: Online settings modification
+
+The previous step demonstrated how scenario settings may be initialized and saved along with other scenario information. 
+
+Now we are going to see how some settings can also be accessed as a scenario is being played, making it possible to dynamically modify some parameters.
+
+The prototype of a box specifies what inputs, outputs and (offline) settings it exposes. However, visualisation boxes (that is, boxes that display 2D or 3D data when a scenario is being played) offer another possibility to tune some of their parameters. Indeed, the visualisation box developer is offered the possibility to declare a toolbar for the box. When such a toolbar exists, it may be displayed by clicking the button named after the box which is displayed on top of the popup visualisation window.
+
+\image html designer_tutorial_2_toolbar_button.png "Visualisation boxes owning a toolbar have an active title button (highlighted in this figure)"
+
+Click the toolbar button : the toolbar is displayed in a popup window. A number of settings and commands are accessible from the toolbar, including zooming options, left and bottom rulers toggle buttons, a time scale setting, channel selection options and a button popping up a scenario information dialog. To know more about this plugin, refer to its user documentation here : \ref Doc_DataVisualisation_2DVisualisation_SignalDisplay
+
+The time scale, i.e. the time span covered by the displayed signals, can be modified using the dedicated spin button. Try entering a new value such as 3 (it is expressed in seconds). The bottom time ruler, if displayed, reflects this change immediately.
+
+\image html designer_tutorial_2_changing_time_scale_toolbar_v2.png 
+\image html designer_tutorial_2_changing_time_scale_visu_v2.png "Modifying the time scale using the toolbar"
+
+Now try out the other options to learn how the Signal Display plugin may be customised, then move on to \ref Doc_DesignerTutorial3 "Tutorial 3" to know how to use window manager!
+*/

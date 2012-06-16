@@ -1,0 +1,189 @@
+<Automaton>
+	<Variable name="StartExperiment"     value="1009"></Variable>
+	<Variable name="StartExperimentWait" value="10000"></Variable>
+	<Variable name="StartBaseLine"       value="9000"></Variable>
+	<Variable name="BaseLineDuration"    value="20000"></Variable>
+	<Variable name="StopBaseLine"        value="9001"></Variable>
+	<Variable name="TrialStart"          value="768"></Variable>
+	<Variable name="CrossOnScreen"       value="786"></Variable>
+	<Variable name="BeepWait"            value="2000"></Variable>
+	<Variable name="Beep"                value="785"></Variable>
+	<Variable name="WaitForCue"          value="1000"></Variable>
+	<Variable name="LeftCue"             value="769"></Variable>
+	<Variable name="RightCue"            value="770"></Variable>
+	<Variable name="DisplayCueWait"      value="1250"></Variable>
+	<Variable name="TrialEnd"            value="800"></Variable>
+	<Variable name="ContinuousFeedback"  value="781"></Variable>
+	<Variable name="ContinuousFeedbackDuration" value="3750"></Variable>
+	<Variable name="EndExperiment"       value="1010"></Variable>
+	<Variable name="EndExperimentWait"   value="4000"></Variable>
+	<Node class="ActionSendEvent">
+		<Property class="Event">
+			<Parameter class="IVariable">StartExperiment</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionWaitTime">
+		<Property class="Duration">
+			<Parameter class="IVariable">StartExperimentWait</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionSendEvent">
+		<Property class="Event">
+			<Parameter class="IVariable">StartBaseLine</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionSendEvent">
+		<Property class="Event">
+			<Parameter class="IVariable">Beep</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionWaitTime">
+		<Property class="Duration">
+			<Parameter class="IVariable">BaseLineDuration</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionSendEvent">
+		<Property class="Event">
+			<Parameter class="IVariable">StopBaseLine</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionSendEvent">
+		<Property class="Event">
+			<Parameter class="IVariable">Beep</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionWaitTime">
+		<Property class="Duration">
+			<Parameter class="IVariable">StartExperimentWait</Parameter>
+		</Property>
+	</Node>
+	<Node class="RandomOrder">
+		<Property class="Iteration">
+			<Parameter class="IValue">20</Parameter>
+		</Property>
+		<Child>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">TrialStart</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">CrossOnScreen</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">BeepWait</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">Beep</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">WaitForCue</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">LeftCue</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">DisplayCueWait</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">ContinuousFeedback</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">ContinuousFeedbackDuration</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">TrialEnd</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="RandomDuration">
+					<Parameter class="IInterval">1500 3500</Parameter>
+				</Property>
+			</Node>
+		</Child>
+		<Child>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">TrialStart</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">CrossOnScreen</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">BeepWait</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">Beep</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">WaitForCue</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">RightCue</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">DisplayCueWait</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">ContinuousFeedback</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="Duration">
+					<Parameter class="IVariable">ContinuousFeedbackDuration</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionSendEvent">
+				<Property class="Event">
+					<Parameter class="IVariable">TrialEnd</Parameter>
+				</Property>
+			</Node>
+			<Node class="ActionWaitTime">
+				<Property class="RandomDuration">
+					<Parameter class="IInterval">1500 3500</Parameter>
+				</Property>
+			</Node>
+		</Child>
+	</Node>
+	<Node class="ActionSendEvent">
+		<Property class="Event">
+			<Parameter class="IVariable">EndExperiment</Parameter>
+		</Property>
+	</Node>
+	<Node class="ActionWaitTime">
+		<Property class="Duration">
+			<Parameter class="IVariable">EndExperimentWait</Parameter>
+		</Property>
+	</Node>
+</Automaton>

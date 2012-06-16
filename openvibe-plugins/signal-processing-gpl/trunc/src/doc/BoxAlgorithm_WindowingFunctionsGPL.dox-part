@@ -1,0 +1,64 @@
+/**
+ * \page BoxAlgorithm_WindowingFunctionsGPL Windowing functions - GPL
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Description|
+ * This plugin is used to apply a window to the input signal.
+ * This plugin allows the selection of the kind of window
+ * (Hamming, Hanning, Hann, Blackman, Triangular, Square Root).
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Input1|
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Setting1|
+ * Select the name of window between Hamming, Hanning, Hann,
+ * Blackman, Triangular and Square Root.
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Examples|
+ * Let's consider our input signal.
+ * To prevent rebound in spectrum analysis due to the square root
+ * windowing, select a Hanning window for example.
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_WindowingFunctionsGPL_Miscellaneous|
+ * This plugin applies a window to  the input signal. Several
+ * windows are available.
+ * |OVP_DocEnd_BoxAlgorithm_WindowingFunctionsGPL_Miscellaneous|
+ */

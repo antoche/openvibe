@@ -1,0 +1,80 @@
+/**
+ * \page BoxAlgorithm_RunCommand Run Command
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Description|
+ * This box allows to launch a command on specific stimulation reception.
+ * The goal of this is to trigger an external process on specific events,
+ * for example launch an external process on a given stimulation.
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Input1|
+ * The stimulation stream to use. The specified stimulations are looked
+ * for into this stream and as soon as a matching stimulation is found,
+ * the command is launched.
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Settings|
+ * You can add as many settings as you want so to detect a variable number
+ * of stimulations and launch its associated command. It is always a pair
+ * of settings : stimulation to detect / command tu launch.
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Setting1|
+ * The first stimulation to detect.
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Setting2|
+ * The command to launch when first stimulation is detected.
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_RunCommand_Miscellaneous|
+ * The different commandline you write should be accessible in the
+ * configured PATH.
+ *
+ * If you have complex commands to launch, you should
+ * consider writing a script that does the work. This way, you'll keep
+ * the box configuration simple.
+ *
+ * Default behavior is to launch the command synchronously. It means
+ * that the command you launch should not be time consuming. If you want
+ * asynchrnonous call, then you have to postfix the command with
+ * <em>&</em> under, eg :
+ * \code
+ * xdg-open http://openvibe.inria.fr &
+ * \endcode
+ * For Windows, you have to prefix the command with \e START, eg :
+ * \code
+ * START iexplore http://openvibe.inria.fr
+ * \endcode
+ *
+ * The implementation of this box uses POSIX function \c system
+ * to trigger the command. If you are interested in this command's
+ * behavior, see the manual page at http://linux.die.net/man/3/system
+ * |OVP_DocEnd_BoxAlgorithm_RunCommand_Miscellaneous|
+ */

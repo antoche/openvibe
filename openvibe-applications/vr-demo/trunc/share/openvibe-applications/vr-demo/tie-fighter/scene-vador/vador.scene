@@ -1,0 +1,23 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <nodes>
+        <node name="DCS_position">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="0" z="0" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="vador">
+                <scale x="1" y="1" z="1" />
+                <position x="1.071" y="-0.935" z="-1.105" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="vador" id="19" meshFile="vador.mesh" castShadows="true" receiveShadows="true">
+                    <subentities>
+                        <subentity index="0" materialName="vador-surface04" />
+                        <subentity index="1" materialName="vador-surface01" />
+                        <subentity index="2" materialName="vador-surface02" />
+                        <subentity index="3" materialName="vador-surface03" />
+                        <subentity index="4" materialName="vador-surface05" />
+                    </subentities>
+                </entity>
+            </node>
+        </node>
+    </nodes>
+</scene>

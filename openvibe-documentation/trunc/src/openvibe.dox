@@ -1,0 +1,285 @@
+/**
+ * \mainpage Home
+ *
+ * \section Doc_PreliminaryNote Note
+ *
+ * The writing of the §OpenViBE§ project documentation is in progress and far from complete at the moment. The way 
+ * the documentation is structured may also change over time. However, existing documentation files are already made 
+ * available to users and developers since they contain valuable information, albeit in a not very organised fashion. 
+ * This is a start...
+ *
+ * Don't forget to read the \subpage Doc_FAQ !
+ *
+ * Have a nice reading!
+ *
+ * \section Doc_Overview Overview
+ *
+ * This website describes the §OpenViBE§ software platform. §OpenViBE§ enables to design, test and use
+ * Brain-Computer Interfaces. Brain-Computer Interfaces (BCI) are communication systems that enable users to
+ * send commands to computers only by means of brain activity.
+ *
+ * §OpenViBE§ is free and open source (under the term of this \subpage Doc_Licence). The whole software is developed in C++.
+ * It consists of a set of software modules that can be integrated easily and efficiently to design BCI applications.
+ * Key features of the platform are:
+ *
+ * - <b>Modularity and reusability.</b> Our platform is a set of software modules devoted to
+ * the acquisition, pre-processing, processing and visualization of cerebral data, as well as to the
+ * interaction with virtual reality displays. §OpenViBE§ being a general purpose software implies
+ * users should be able to easily add new software modules in order to fit their needs. This is ensured thanks to
+ * the concept of box algorithm, a "black box" in charge of a fraction of the whole processing pipeline,
+ * that allows to develop reusable components, reduces development time and helps to quickly extend functionalities
+ * (See \ref Doc_BoxAlgorithms for a list of the existing box algorithms).
+ * - <b>Different types of user.</b> §OpenViBE§ is designed for different types of user:
+ * developers, clinicians, BCI researchers, etc. Their various needs are addressed
+ * and different tools are proposed for each of them, depending on their programming skills
+ * and their knowledge in brain processes.
+ * - <b>Portability.</b> The platform operates independently from the different
+ * software and hardware targets.
+ * It includes an abstraction allowing to run with various acquisition machines, such as EEG or MEG.
+ * It can run on Windows and Linux and also includes different data visualisation techniques.
+ * Also, it is based on free and portable softwares (e.g., GTK+, IT++, GSL, VRPN, GCC).
+ * - <b>Connection with virtual reality (VR).</b> Our software can be integrated with high-end VR
+ * applications. §OpenViBE§ can serve as an external peripheral to connect a BCI system to
+ * any kind of VR application. It also takes advantage of VR displays
+ * thanks to a light abstraction of a scenegraph management library, allowing to visualize
+ * cerebral activity more efficiently or to provide incentive training environments (e.g., for neurofeedback).
+ *
+ * As compared to other BCI softwares, the §OpenViBE§ platform
+ * is highly modular. It addresses the needs of different types of users (programmers and
+ * non-programmers) and proposes a user-friendly graphical language which allows
+ * non-programmers to design a BCI without writing a single line of code.
+ * Moreover, §OpenViBE§ is portable, is independent of the hardware or software, can run
+ * on both Windows and Linux and is entirely based on free and open-source softwares.
+ *
+ * \section Doc_UserDocumentationSection User Documentation
+ * - \subpage Doc_ConfigurationManager
+ * - \subpage Doc_ExperimentEnvironment
+ * - \subpage Doc_AcquisitionServerUserDocumentation
+ *   - \subpage Doc_AcquisitionServerOverview
+ * - \subpage Doc_DesignerUserDocumentation
+ *   - \subpage Doc_BoxAlgorithms  "Existing Boxes"
+ *   - \subpage Doc_DesignerOverview
+ *   - \subpage Doc_WindowManagerUsage
+ *   - \subpage Doc_BoxAlgorithmSettingsOverrideFileFormat
+ *   - \subpage Doc_DesignerUserDocumentationTutorial
+ *     - \subpage Doc_DesignerTutorial1
+ *     - \subpage Doc_DesignerTutorial2
+ *     - \subpage Doc_DesignerTutorial3
+ *     - \subpage Doc_DesignerTutorial4
+ * - \subpage Doc_Scenario
+ *   - \subpage Doc_Scenario_BoxTutorials
+ *   - \subpage Doc_Scenario_BCI_Neurofeedback
+ *   - \subpage Doc_Scenario_BCI_TieFighter
+ *   - \subpage Doc_Scenario_BCI_MotorImagery
+ *   - \subpage Doc_Scenario_BCI_MotorImageryCSP
+ *   - \subpage Doc_Scenario_BCI_Handball 
+ *   - \subpage Doc_Scenario_BCI_P300Speller
+ *   - \subpage Doc_Scenario_BCI_P300SpellerXDAWN
+ *   - \subpage Doc_Scenario_BCI_P300MagicCard
+ *   - \subpage Doc_Scenario_InsermP300Speller
+ *   - \subpage Doc_Scenario_SSVEP
+ *
+ * \section Doc_DeveloperDocumentationSection Developer Documentation
+ * - \subpage Doc_Install "Installation procedure"
+ * - \subpage Doc_DeveloperTutorials "Developer tutorials"
+ *   - \subpage Doc_DeveloperDocumentation_Tools
+ *     - \subpage Doc_DeveloperTools_SkeletonGenerator
+ *     - \subpage Doc_DeveloperTools_IdGenerator
+ *   - \subpage Doc_DeveloperDocumentation_Driver
+ *     - \subpage Doc_CreatingANewDriver
+ *     - \subpage Doc_ConfiguringANewDriver
+ *     - \subpage Doc_DriverImpedanceChecker
+ *     - \subpage Doc_DriverJitterCorrection
+ *   - \subpage Doc_DeveloperDocumentation_Plugin
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_IntroductionPage
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_Algorithm
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_Box
+ *     - \subpage Doc_DocumentationHowTo_Users_BoxAlgorithms
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_CodecToolkit
+ *   - \subpage Doc_VRApplicationAndVRPN
+ * - \subpage Doc_GlobalDefines
+ * - \subpage Doc_OpenViBEStreams
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_Ref
+ * - \subpage Doc_Stimulations
+ * - \subpage Doc_MatrixFileFormat
+ * - \subpage todo "Things that should be done"
+ *
+ * \section Doc_EBML Details on EBML
+ * - \subpage Doc_WhatIsEBML
+ * - \subpage Doc_ParsingEBMLStreams
+ * - \subpage Doc_FormatingEBMLStreams
+ *
+ * \section Doc_OngoingDocumentation Ongoing Documentation
+ * - \subpage Doc_BoxAlgorithmConnectorTypes (should be completed - YR)
+ * - \subpage Doc_SoftwareArchitectureOverview (should be completed - YR)
+ * - \subpage Doc_VisualisationManager (orphaned page - VD)
+ * - \subpage Doc_VisualisationContext (orphaned page - VD)
+ * - \subpage Doc_DataVisualisation (orphaned page - VD)
+ *
+ * \section Doc_Contact Contact
+ * - Software Home : http://openvibe.inria.fr
+ * - Forum : http://openvibe.inria.fr/forum
+ * - INRIA gForge : https://gforge.inria.fr/projects/openvibe
+ * - Mailing Lists : https://gforge.inria.fr/mail/?group_id=276
+ * - Bug Tracker : http://openvibe.inria.fr/tracker
+ * - IRC : \e \#openvibe on \e irc.freenode.net
+ * - Research Project: http://www.irisa.fr/bunraku/OpenViBE
+ */
+
+/** \page Doc_UserDocumentation User Documentation
+ <p><div class="important"> 
+ These documentation pages are deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new user documentation section can be found \htmlonly <a href="http://openvibe.inria.fr/documentation-index/#User+Documentation "> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+ * - \subpage Doc_ConfigurationManager
+ * - \subpage Doc_AcquisitionServerUserDocumentation
+ *   - \subpage Doc_AcquisitionServerOverview
+ * - \subpage Doc_DesignerUserDocumentation
+ *   - \subpage Doc_BoxAlgorithms "Existing Boxes"
+ *   - \subpage Doc_DesignerOverview
+ *   - \subpage Doc_WindowManagerUsage
+ *   - \subpage Doc_BoxAlgorithmSettingsOverrideFileFormat
+ *   - \subpage Doc_ExperimentEnvironment
+ *   - \subpage Doc_DesignerUserDocumentationTutorial
+ *     - \subpage Doc_DesignerTutorial1
+ *     - \subpage Doc_DesignerTutorial2
+ *     - \subpage Doc_DesignerTutorial3
+ *     - \subpage Doc_DesignerTutorial4
+ * - \subpage Doc_Scenario
+ *   - \subpage Doc_Scenario_BoxTutorials 
+ *   - \subpage Doc_Scenario_BCI_Neurofeedback
+ *   - \subpage Doc_Scenario_BCI_TieFighter 
+ *   - \subpage Doc_Scenario_BCI_MotorImagery
+ *   - \subpage Doc_Scenario_BCI_MotorImageryCSP
+ *   - \subpage Doc_Scenario_BCI_Handball
+ *   - \subpage Doc_Scenario_BCI_P300Speller
+ *   - \subpage Doc_Scenario_BCI_P300SpellerXDAWN
+ *   - \subpage Doc_Scenario_BCI_P300MagicCard
+ *   - \subpage Doc_Scenario_InsermP300Speller
+ *   - \subpage Doc_Scenario_SSVEP
+ */
+
+/** \page Doc_DeveloperDocumentation Developer Documentation
+ <p><div class="important"> 
+ These documentation pages are deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new developer documentation section can be found \htmlonly <a href="http://openvibe.inria.fr/documentation-index/#Developer+Documentation "> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br> 
+ <p><div class="important"> 
+ If you want to see your work integrated in the project, you must follow the coding rules specified by the lead developer team.
+ These rules are available on this page : \ref Doc_Contribution</a>. Please read this page carefully ! 
+ <br/>
+ We won't integrate any candidate modules that does not follow these rules.</div></p>
+ * <br />
+ * <br />
+ * 
+ * - \subpage Doc_Install "Installation procedure"
+ * - \subpage Doc_DeveloperTutorials "Developer tutorials"
+ *   - \subpage Doc_DeveloperDocumentation_Tools
+ *     - \subpage Doc_DeveloperTools_SkeletonGenerator
+ *     - \subpage Doc_DeveloperTools_IdGenerator
+ *   - \subpage Doc_DeveloperDocumentation_Driver
+ *     - \subpage Doc_CreatingANewDriver
+ *     - \subpage Doc_ConfiguringANewDriver
+ *     - \subpage Doc_DriverImpedanceChecker
+ *     - \subpage Doc_DriverJitterCorrection
+ *   - \subpage Doc_DeveloperDocumentation_Plugin
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_IntroductionPage
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_Algorithm
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_Box
+ *     - \subpage Doc_DocumentationHowTo_Users_BoxAlgorithms
+ *     - \subpage Doc_Tutorial_Developer_SignalProcessing_CodecToolkit
+ *   - \subpage Doc_VRApplicationAndVRPN
+ * - \subpage Doc_GlobalDefines
+ * - \subpage Doc_OpenViBEStreams
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_Ref
+ * - \subpage Doc_Stimulations
+ * - \subpage Doc_MatrixFileFormat
+ * - \subpage todo "Things that should be done"
+ */
+
+/**
+ * \page Doc_AcquisitionServerUserDocumentation Acquisition server user documentation
+ * - \subpage Doc_AcquisitionServerOverview
+ */
+
+/**
+ * \page Doc_DesignerUserDocumentation Designer user documentation
+ * - \subpage Doc_BoxAlgorithms "Existing Boxes"
+ * - \subpage Doc_DesignerOverview
+ * - \subpage Doc_WindowManagerUsage
+ * - \subpage Doc_BoxAlgorithmSettingsOverrideFileFormat
+ * - \subpage Doc_ExperimentEnvironment
+ * - \subpage Doc_DesignerUserDocumentationTutorial
+ *   - \subpage Doc_DesignerTutorial1
+ *   - \subpage Doc_DesignerTutorial2
+ *   - \subpage Doc_DesignerTutorial3
+ *   - \subpage Doc_DesignerTutorial4
+ */
+
+/**
+ * \page Doc_DesignerUserDocumentationTutorial Designer tutorials
+ * - \subpage Doc_DesignerTutorial1
+ * - \subpage Doc_DesignerTutorial2
+ * - \subpage Doc_DesignerTutorial3
+ * - \subpage Doc_DesignerTutorial4
+ */
+ 
+ /**
+ * \page Doc_DeveloperTutorials Developer tutorials
+ * - \subpage Doc_DeveloperDocumentation_Tools
+ *   - \subpage Doc_DeveloperTools_SkeletonGenerator
+ *   - \subpage Doc_DeveloperTools_IdGenerator
+ * - \subpage Doc_DeveloperDocumentation_Driver
+ *   - \subpage Doc_CreatingANewDriver
+ *   - \subpage Doc_ConfiguringANewDriver
+ *   - \subpage Doc_DriverImpedanceChecker
+ *   - \subpage Doc_DriverJitterCorrection
+ * - \subpage Doc_DeveloperDocumentation_Plugin
+ *   - \subpage Doc_Tutorial_Developer_SignalProcessing_IntroductionPage
+ *   - \subpage Doc_Tutorial_Developer_SignalProcessing_Algorithm
+ *   - \subpage Doc_Tutorial_Developer_SignalProcessing_Box
+ *   - \subpage Doc_DocumentationHowTo_Users_BoxAlgorithms
+ *   - \subpage Doc_Tutorial_Developer_SignalProcessing_CodecToolkit
+ */
+
+/**
+ * \page Doc_Scenario Existing scenarios
+ * - \subpage Doc_Scenario_BoxTutorials
+ * - \subpage Doc_Scenario_BCI_Neurofeedback
+ * - \subpage Doc_Scenario_BCI_TieFighter
+ * - \subpage Doc_Scenario_BCI_MotorImagery
+ * - \subpage Doc_Scenario_BCI_MotorImageryCSP
+ * - \subpage Doc_Scenario_BCI_Handball
+ * - \subpage Doc_Scenario_BCI_P300Speller
+ * - \subpage Doc_Scenario_BCI_P300SpellerXDAWN
+ * - \subpage Doc_Scenario_BCI_P300MagicCard
+ * - \subpage Doc_Scenario_InsermP300Speller
+ * - \subpage Doc_Scenario_SSVEP
+ */
+ 
+ /**
+ * \page Doc_DeveloperDocumentation_Driver Developing a Driver
+ * - \subpage Doc_CreatingANewDriver
+ * - \subpage Doc_ConfiguringANewDriver
+ * - \subpage Doc_DriverImpedanceChecker
+ * - \subpage Doc_DriverJitterCorrection
+ */
+ 
+ /**
+ * \page Doc_DeveloperDocumentation_Plugin Developing a Plugin
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_IntroductionPage
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_Algorithm
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_Box
+ * - \subpage Doc_DocumentationHowTo_Users_BoxAlgorithms
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_CodecToolkit
+ */
+ 
+ /**
+ * \page Doc_DeveloperDocumentation_Tools Developer Tools
+ * - \subpage Doc_DeveloperTools_SkeletonGenerator
+ * - \subpage Doc_DeveloperTools_IdGenerator
+ */

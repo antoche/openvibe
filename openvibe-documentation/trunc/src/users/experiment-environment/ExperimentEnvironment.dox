@@ -1,0 +1,115 @@
+/**
+* \page Doc_ExperimentEnvironment Setting up an experiment environment
+*
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/setting-up-an-experiment-environment/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+ 
+* - \b NB: Document based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+*
+* This document is based on an article from  
+\htmlonly <a href="http://stickyvibe.tuxfamily.org/blog/?p=106">Yann Renard's blog </a> \endhtmlonly .
+* It covers the use of the configuration file and configuration tokens to 
+* create a local experiment environment.
+* 
+* \section Doc_ExperimentEnvironment_ExistingTokens Introduction: the existing tokens
+* The configuration manager tool provides access to different variables than can be used in 
+* OpenViBE, in any path or file name.
+* The \ref Doc_ConfigurationManager "Configuration Manager" dedicated page shows you how to set up the Designer 
+* and Acquisition Server configuration tokens (to show unstable drivers and boxes for example).
+* We focuses here on the other tokens.
+*
+* These configuration tokens can be divided in 3 groups:
+* - the "openvibe" variables are those declared in the Kernel or in the local configuration file.
+* - the "core" variables are predefined, and different each time they are called.
+* - the "environment" variables are those declared in the operating system.
+*
+* Here is a list of the existing variables. All paths are relative to the execution directory.
+*
+\htmlonly
+<center>
+<table class='variables' cellpading=3 cellspacing=0>
+<tr bgcolor=lightgrey> <th>Group</th>     <th>Variable</th>           <th>Value</th>                       </tr>
+<tr>        <td rowspan=7>openvibe</td>   <td>${Path_Bin}</td>        <td>../bin</td>                      </tr>
+<tr>                                      <td>${Path_Lib}</td>        <td>../lib</td>                      </tr>
+<tr>                                      <td>${Path_Log}</td>        <td>../log</td>                      </tr>
+<tr>                                      <td>${Path_Root}</td>       <td>..</td>                          </tr>
+<tr>                                      <td>${Path_Samples}</td>    <td>../share/openvibe-scenarios</td> </tr>
+<tr>                                      <td>${Path_Tmp}</td>        <td>../tmp</td>                      </tr>
+<tr>                                      <td>${Path_Data}</td>       <td>..</td>                      </tr>
+<tr>        <td rowspan=5>core</td>       <td>$core{date}</td>        <td>Current date (y-m-d)</td>       </tr>
+<tr>                                      <td>$core{index}</td>       <td>A value incremented each time the variable is called</td> </tr>
+<tr>                                      <td>$core{random}</td>      <td>Random value in [0,2^32]</td>    </tr>
+<tr>                                      <td>$core{real-time}</td>   <td>Time elapsed since start of the scenario</td></tr>
+<tr>                                      <td>$core{time}</td>        <td>Current time (h.m.s)</td>        </tr>
+<tr>        <td>Environment</td>          <td>$env{VariableName}</td> <td>Any environment variable set in the system</td>         </tr> 
+</table>
+</center>
+\endhtmlonly
+*
+\htmlonly
+<!--
+* \subsection Doc_ExperimentEnvironment_ExistingTokens_Examples Examples
+* Here is some examples to illustrate the use of these OpenViBE environment variables.
+* - Writing a data file with a Generic Stream Writer box, without overwriting any previous file:
+*    - Filename: <em>record-[$core{date}-$core{time}].ov</em>
+*    - Result: the generic file will be stored in <em>../share/openvibe-scenarios/signals/</em>, 
+*      with name <em>record-[2010-02-15-15.09.20].ov</em> for example.
+* - Reading a local XML stimulation file with a XML stimulation scenario player (linux):
+*    - Filename: <em>$env{HOME}/openvibe/stimulations/my-stimulation-scenario.xml</em>
+*    - Result: the player will read stimulation scenario from a given file in the HOME directory.
+*
+-->
+\endhtmlonly
+* \section Doc_ExperimentEnvironment_Setup Setting up an experiment environment
+* The custom file that you can edit depending on your needs and preferences is <em>~/.openviberc</em> 
+* on Linux and <em>C:\\Document & Settings\\your-name\\openvibe.conf</em> on Windows. 
+* The syntax of the file is quite simple : 1 line per token, token name = token value, e.g.:
+\code
+Example1 = this is an example
+Example2 = this is another example
+Example3 = Example 1 is ${Example1} 
+# this is a comment
+\endcode
+* OpenViBE expands several box settings such as the filenames, thanks to the configuration manager. 
+* For example, if you put this in your configuration file :
+\code
+ExperimentPath = /home/me/openvibe-data/signals 
+\endcode
+* Then your file writer boxes (be it GDF, OpenViBE, CSV or whatever other box writer) could use a filename 
+* such as ${ExperimentPath}/record.gdf
+*
+* You can use a token value inside a token name. Suppose you have a configuration file with :
+\code
+Current = Experiment1
+CurrentPath = ${${Current}Path} 
+\endcode
+* In this example, CurrentPath will automatically be expanded to ${Experiment1Path}. 
+* To take advantage of this, you could add the following to your configuration file :
+\code
+## Configures what experiment is being performed
+# ExperimentName = MotorImagery
+ExperimentName = P300Speller
+# ExperimentName = Neurofeedback
+
+## Configures who is doing the experiment
+SubjectName = yann.renard
+# SubjectName = someone
+# SubjectName = noname
+
+ExperimentMotorImageryPath = /openvibe-data/motor-imagery
+ExperimentP300SpellerPath = /openvibe-data/p300-speller
+ExperimentNeurofeedbackPath = /openvibe-data/neurofeedback
+
+ExperimentPath = ${Experiment${ExperimentName}Path}
+
+ExperimentFilename = ${ExperimentPath}/record-${SubjectName}-$core{date}-$core{time}.gdf 
+\endcode
+* The interesting line here is ExperimentPath = ${Experiment${ExperimentName}Path} that 
+* allows you to quickly switch from an experiment environment to another, depending on 
+* a single token : ExperimentName.
+*
+*/

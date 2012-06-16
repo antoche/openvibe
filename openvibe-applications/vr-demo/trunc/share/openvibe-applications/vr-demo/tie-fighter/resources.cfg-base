@@ -1,0 +1,9 @@
+[General]
+FileSystem=.
+FileSystem=scene-hangar/
+FileSystem=scene-tie/
+FileSystem=scene-vador/
+FileSystem=scene-misc/
+FileSystem=../common/scene-plane/
+FileSystem=../common/GUI/
+

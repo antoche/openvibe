@@ -1,0 +1,105 @@
+material tie-surface01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.266667 0.14902 0.14902 
+			diffuse 0.266667 0.14902 0.14902 
+			specular 0.248043 0.248043 0.248043 33.4462
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material tie-surface02
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.372549 0.372549 0.372549 
+			diffuse 0.372549 0.372549 0.372549 
+			specular 0.248043 0.248043 0.248043 33.4462
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material tie-surface03
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.647059 0.427451 0.168627 
+			diffuse 0.647059 0.427451 0.168627 
+			specular 0.248043 0.248043 0.248043 33.4462
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material tie-surface04
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.647059 0.647059 0.647059 
+			diffuse 0.647059 0.647059 0.647059 
+			specular 0.248043 0.248043 0.248043 33.4462
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material tie-surface05
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.145098 0.145098 0.329412 
+			diffuse 0.145098 0.145098 0.329412 
+			specular 0.251965 0.251965 0.251965 33.4462
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material tie-surface06
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.647059 0.243137 0.243137 
+			diffuse 0.647059 0.243137 0.243137 
+			specular 0.248043 0.248043 0.248043 33.4462
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material tie-surface07
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.14902 0.14902 0.439216 
+			diffuse 0.14902 0.14902 0.439216 
+			specular 0.248043 0.248043 0.248043 33.4462
+			emissive 0 0 0 
+		}
+	}
+}
+
+

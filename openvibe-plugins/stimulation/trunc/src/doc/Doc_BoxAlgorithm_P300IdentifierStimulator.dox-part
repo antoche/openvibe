@@ -1,0 +1,179 @@
+/**
+ * \page BoxAlgorithm_P300IdentifierStimulator P300 Identifier Stimulator
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Description|
+ * This box is used to generate P300 stimulation timeline. Depending on its parameters,
+ * it generates all the necessary flagging stimulations for an P300 experiment, such as when
+ * a flash starts, when it stops, when the repetitions are finished etc.
+ *
+ * Imagine a list of image. All image of this list are display consecutively a number of time.
+ * Only the target image is less display than other (see the setting 4).
+ * Then a decision can be made and the user can relax.
+ * Then same process restarts and so on.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Input1|
+ * This input is used to start the generation of the pipeline. As soon as the start stimulation
+ * arrives here, the generation process starts. (see setting 1)
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Input1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Input2|
+ * A stream of stimulations corresponding to the P300 target.
+ * This stream of stimulation is the P300 target during the current trial time.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Output1|
+ *  This output contains the stimulations used for P300 based experiments.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting1|
+ * This first setting tells which stimulation to use to start the generation process. This stimulation
+ * can be received from a keyboard for example (see \ref Doc_BoxAlgorithm_KeyboardStimulator).
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting2|
+ * This setting tells what stimulation base to use when displaying the image of the list. When image one should
+ * be flashed, this exact stimulation will be sent. When image two should be flashed, this stimulation + 1
+ * will be sent, and so on.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting2|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting3|
+ * This setting tells how many images the list has.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting3|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting4|
+ * This setting tells the ratio of displaying the target(in percent).
+ * 100% are equivalent to the number of repetition and
+ * the setting value is approximately the pourcent of repetiton containing the target.
+ * Please note that the value must be between 0 and 100%.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting4|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting5|
+ * This setting tells how many times each non target images should be displayed in a trial.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting5|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting6|
+ * This setting tells how many trials should be generated.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting6|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting7|
+ * This setting tells how long an image is displaying.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting7|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting8|
+ * This setting tells how long this stimulator should wait after an image is displaying before sending a new image.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting8|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting9|
+ * This setting tells how long rest is left to the user between the repetitions.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting9|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting10|
+ * This setting tells how much rest is left to the user between the trials.
+ * Please note that the end of a trial is also the end of a repetition. So the rest duration includes both times.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting10|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Setting11|
+ * This setting is not used for now.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Setting11|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierStimulator_Miscellaneous|
+ * <b>Note:</b> this box has the same behavior as the box P300SpellerStimulator.
+ * Differents are the number of images are free and it's possible to define a display ratio of the target.
+ * The order display of images is randomly, like the display or not of the target in a repetiton.
+ *
+ * The sequence generated by this box is typically something like this :
+ * \verbatim
+ * OVTK_StimulationId_ExperimentStart
+ *
+ * 	OVTK_StimulationId_RestStart
+ * 	OVTK_StimulationId_RestStop
+ *
+ * 	OVTK_StimulationId_TrialStart
+ * 		OVTK_StimulationId_SegmentStart
+ *
+ * 			OVTK_StimulationId_Label_0B
+ * 			OVTK_StimulationId_VisualStimulationStart
+ * 			OVTK_StimulationId_VisualStimulationStop
+ *
+ * 			OVTK_StimulationId_Label_03
+ * 			OVTK_StimulationId_VisualStimulationStart
+ * 			OVTK_StimulationId_VisualStimulationStop
+ *
+ * 			...
+ * 			...
+ * 			...
+ *
+ * 			OVTK_StimulationId_Label_04
+ * 			OVTK_StimulationId_VisualStimulationStart
+ * 			OVTK_StimulationId_VisualStimulationStop
+ *
+ * 		OVTK_StimulationId_SegmentStop
+ * 		OVTK_StimulationId_SegmentStart
+ *
+ * 			...
+ * 			...
+ * 			...
+ *
+ * 		OVTK_StimulationId_SegmentStop
+ *
+ * 		...
+ * 		...
+ * 		...
+ *
+ * 	OVTK_StimulationId_TrialStop
+ *
+ * 	OVTK_StimulationId_RestStart
+ * 	OVTK_StimulationId_RestStop
+ *
+ * 	OVTK_StimulationId_TrialStart
+ *
+ * 		...
+ * 		...
+ * 		...
+ *
+ * 	OVTK_StimulationId_TrialStop
+ *
+ * 	...
+ * 	...
+ * 	...
+ *
+ * OVTK_StimulationId_ExperimentStop\endverbatim
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierStimulator_Miscellaneous|
+ */

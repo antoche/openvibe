@@ -1,0 +1,9 @@
+INCLUDE_DIRECTORIES(${PROJECT_SOURCE_DIR}/src)
+LINK_DIRECTORIES(${LIBRARY_OUTPUT_PATH})
+ADD_DEFINITIONS(-D_CRT_SECURE_NO_DEPRECATE)
+
+ADD_EXECUTABLE(test_endian-dynamic test_endian.cpp)
+TARGET_LINK_LIBRARIES(test_endian-dynamic ${PROJECT_NAME}-dynamic)
+
+ADD_EXECUTABLE(test_time-dynamic test_time.cpp)
+TARGET_LINK_LIBRARIES(test_time-dynamic ${PROJECT_NAME}-dynamic)

@@ -1,0 +1,157 @@
+/**
+ * \page BoxAlgorithm_P300IdentifierCardVisualisation P300 Identifier Card Visualisation
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Description|
+This box can be used with a P300 based paradigm to have a simple game. A target card is choose among a collection of cards and it display in the “Target” area. The application shows each card sequentially.
+After a number of repetitions, the card that the user was focusing on is automatically found.
+
+\image html Doc_BoxAlgorithm_P300IdentifierCardVisualisation_Snapshot.png "The P300 Identification Card Visualisation"
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Inputs|
+This box has three inputs. The most important one is the first one, sequencing the which card to show to the user.
+The two other inputs are optional and used for defining the target and the selected card.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Input1|
+This input is used for sequencing the card display. It uses specific stimulations to know which
+card should be shown (see \ref Doc_BoxAlgorithm_P300IdentifierCardVisualisation_Setting_5)
+The card display is switched off thanks to the \c OVTK_StimulationId_VisualStimulationStop stimultion
+(this is automatically triggered by the \ref Doc_BoxAlgorithm_P300SpellerStimulator box).
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Input2|
+This input is used in order to define the target card the user should focus on. See
+\ref Doc_BoxAlgorithm_P300IdentificationCardVisualisation_Setting_5 to know what stimulation should be used.
+The target card will be displayed in the "Target" area, with a specific color so the user quickly notices it.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Input2|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Input3|
+This input is used in order to define the selected card the user should focus on. See
+\ref Doc_BoxAlgorithm_P300IdentifierCardVisualisation_Setting_5 to know what stimulation should be used.
+The selected card will be displayed in the "Selected" area, with a specific color so the user quickly notices it.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Input3|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Output1|
+This output is used to translate incoming stimulations depending if they are target or not.
+The actual target is determined with the second input. As soon as the target is known, each display card
+can be considered as a target display or not. This can be later use for selecting evoked response
+potentials against other responses.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting1|
+This is the gtk builder interface to use for the GUI. 
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting2|
+This color defines the default background.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting3|
+This color defines the background color for target card.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting4|
+This color defines the background color for selected card.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting4|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting5|
+This stimulation is used as a basis for the flashes. For example, flashing the first card consists in sending this
+exact stimulation code to the first input. Flashing the second card needs this stimulation code + 1 and so on.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting5|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting6|
+This image correspond to the image display between 2 repetitions
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting6|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting7|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting7|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting8|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting8|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting9|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting9|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting10|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting10|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting11|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting11|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting12|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting12|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting13|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting13|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting14|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting14|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting15|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting15|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting16|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting16|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting17|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting17|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting18|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting18|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting19|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting19|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting20|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting20|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Setting21|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Setting21|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_OnlineVisualizationSettings|
+There are no online visualization settings for this box.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Examples|
+This box is used in the <em>P300 Identifier card</em> BCI. Please see this
+scenario in the sample <em>openvibe-scenarios</em>.
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300IdentifierCardVisualisation_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_P300IdentifierCardVisualisation_Miscellaneous|
+ */

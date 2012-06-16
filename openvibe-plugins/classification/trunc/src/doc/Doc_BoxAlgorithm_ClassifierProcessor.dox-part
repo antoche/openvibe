@@ -1,0 +1,101 @@
+/**
+ * \page BoxAlgorithm_ClassifierProcessor Classifier processor
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Description|
+The <em>Classifier Processor</em> box is a generic box for classification purpose. It works
+in cunjunction with the \ref Doc_BoxAlgorithm_ClassifierTrainer box.
+This box' role is to expose a generic interface to the rest of the BCI pipelines. The tasks
+specific to a given classifier are forwarded to one of the registered \c OVTK_TypeId_ClassifierAlgorithm
+algorithms. The behavior is simple, at initialization phase, the classification algorithm is initialized
+and its configuration is loaded from the configuration file. Then each time this box receives a new
+feature vector, it is forwarded to the classification algorithm that classifies it. The box gets the algorithm
+status and the actual class value and translates this information to its output. The class is sent in the form of
+a stimulation and the algorithm status is sent in the form a streamed matrix. The stimulation can be generically
+interpreted by the rest of the pipeline but it is important to understand that each classification algorithm is
+free to report whatever it wants in its "status matrix". Consequently, the use of this output stream will be
+depedendent on the choosen classification algorithm. For example, the LDA classifier sends the hyperplane distance
+value as its status.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Input1|
+This input should be connected to the feature vectors to classify. Each time a new feature vector arrives,
+a classification process will be triggered. Consequently, a classification stimulation will be sent on the
+first output of this box.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Output1|
+This output will contain the classification stimulations. Each time a new feature vector arrives to this box,
+a new classification process is triggered, resuling int the generation of the corresponding class stimulation.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Output2|
+This output reflects the classification algorithm status in the form of a matrix of value. The content of this
+matrix is dependent of the choosen classification algorithm. For example, the LDA classifier sends the hyperplane
+distance as its status. Given that this value is dependent of the choosen algorithm, you should be very carefull
+with the use of this output stream. Unexepected behavior may (will) occur when changing the classifier.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Output2|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Setting1|
+The first setting of this box is the classifier to use. You have to choose the same classifier as the one you used
+during the training phase with the \ref Doc_BoxAlgorithm_ClassifierTrainer box.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Setting2|
+This setting points to the configuration file of the algorithm. This configuration file is generally generated from the
+\ref Doc_BoxAlgorithm_ClassifierTrainer box. Its syntax depends on the selected algorithm.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Setting3|
+For classification algorithms that support rejection, you can choose a stimulation that reflects the feature vectore
+could not be classified.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Setting4|
+This is the stimulation to send when the classifier algorithm detects a class-1 feature vector
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Setting4|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Setting5|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Setting5|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Examples|
+This box is used in BCI pipelines in order to classify cerebral activity states. For a detailed scenario using this
+box and its associated \ref Doc_BoxAlgorithm_ClassifierTrainer, please see the <b>motor imagary</b>
+BCI scenario in the sample scenarios.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierProcessor_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierProcessor_Miscellaneous|
+ */

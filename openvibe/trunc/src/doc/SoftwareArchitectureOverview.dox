@@ -1,0 +1,291 @@
+/**
+ * \page Doc_SoftwareArchitectureOverview OpenViBE Architecture
+ *
+ * This section describes the software architecture of the
+ * platform. The design relies on the concept of box algorithm which ensures
+ * maximum flexibility and reusability. The platform is
+ * composed of a kernel and several plug-ins dedicated to specific tasks.
+ *
+ * \image html Doc_SoftwareArchitectureOverview_SoftwareComponents_2.png "Software architecture"
+ *
+ * \section Doc_SoftwareArchitectureOverview_BoxAlgorithms The box algorithm
+ *
+ * The box algorithm is a key component of the platform. It consists
+ * of a "black box" in charge of a fraction of the whole processing pipeline, which exposes inputs and outputs
+ * to other box algorithms.
+ * Boxes are notified on clock ticks and upon input data and message arrival. The behavior of a
+ * box can be adapted to the needs of each algorithm (for instance, acquisition algorithms typically
+ * react to clock signals whereas processing algorithms typically react to input arrival).
+ * The characteristics and constraints that are common to all box algorithms include reasonable granularity
+ * to allow quick software components rearrangement. Newly developed box algorithms are immediately available
+ * to the user thanks to the plugin system (see section \ref Doc_SoftwareArchitectureOverview_Plugins).
+ *
+ * \section Doc_SoftwareArchitectureOverview_Kerbel The kernel
+ *
+ * <b>The kernel</b> (see \ref OpenViBE::Kernel::IKernelContext)
+ * provides global services to applications through several managers, each of
+ * them providing a set of specialized services. Virtually any manager can be added
+ * to the kernel in order to extend its services. The most significant managers of
+ * the platform are:
+ *
+ * <b>The scenario manager</b> (see \ref OpenViBE::Kernel::IScenarioManager)
+ * helps creating and configuring scenarios. After a scenario is created,
+ * it can instantiate new box algorithms, change their settings and connect boxes together using
+ * communication links.
+ * The scenario manager is designed to edit any number of scenarios at once,
+ * allowing an application to handle multiple scenarios simultaneously.
+ * The designer authoring tool takes advantage of this.
+ *
+ * <b>The player manager</b> (see \ref OpenViBE::Kernel::IPlayerManager)
+ * provides an easy to use interface in order to
+ * build and configure a runtime session. For this, the manager handles a collection
+ * of players, each one managing several
+ * boxes, as described in the scenario it has to run.
+ * Each of these box rely on a plug-in box algorithm to perform its tasks.
+ *
+ * <b>The visualization manager</b> (see \ref OpenViBE::Kernel::IVisualisationManager)
+ * is responsible for displaying 2D or 3D graphical information and
+ * dispatching it in the correct place. Indeed, multiple visualization windows may be
+ * used.
+ * The windows arrangement in space is done by the visualization manager
+ * at editing time, thanks to the designer application, and saved to a file.
+ * Basic signal display windows are provided with a 2D rendering context
+ * (see Figure \ref fig-display-widgets), while more advanced
+ * rendering is performed thanks to the 3D library encapsulated in the player module
+ * (see section \ref openvibe-vr).
+ *
+ * <b>The type manager</b> (see \ref OpenViBE::Kernel::ITypeManager)
+ * ensures coherency of all data types.
+ * Two kinds of data are manipulated in the platform: simple parameters used
+ * to configure boxes, and streams used to connect boxes together and send
+ * buffers between boxes. The manager provides a list of
+ * registered types, handles conversions and provides information about type
+ * compatibility. Simple parameters include integer values, floating point values, strings and
+ * filenames. The manager also supports enumerations or bit masks.
+ * The stream type tells the scenario editor which box output can be connected
+ * to which box input. Stream types are organized hierarchically, allowing to easily
+ * downcast some of the streams. For example, an n-electrode raw record will most probably
+ * use the signal stream type. This stream type is a specialization of the basic matrix
+ * stream type. Thus, each box algorithm working on basic matrix streams will be
+ * able to work on raw signal streams.
+ *
+ * <b>The plug-in manager</b> (see \ref OpenViBE::Kernel::IPluginManager)
+ * makes the platform extensible. This manager is able to dynamically
+ * load plug-in modules (e.g., .DLL files under Windows, or .so files under Linux)
+ * and collect plug-in object descriptors from them.
+ * Then, using these plug-in object descriptors, it provides the service of building
+ * new specialized plug-in objects, acting as an object factory for the whole platform.
+ * Specialized plug-in objects include scenario serializers, algorithms and box algorithms (see
+ * section \ref Doc_SoftwareArchitectureOverview_Plugins).
+ *
+ * The plug-in system allows to quickly and efficiently expand functionalities.
+ * The communication interface between plug-in objects and the platform is
+ * defined so that these external objects can be shared, integrated
+ * to the platform and replaced when needed.
+ *
+ * \section Doc_SoftwareArchitectureOverview_Plugins The plug-ins
+ *
+ * Our platform includes three different plug-in families:
+ *
+ * <b>The algorithm plug-ins</b> (see \ref OpenViBE::Plugins::IAlgorithm and \ref OpenViBE::Plugins::IAlgorithmDesc)
+ * are a generic abstraction for any extension that could be added to the
+ * platform (e.g., add a new feature extraction or signal processing methods).
+ * Only developers can work with this kind of object. Algorithms are
+ * the developer's atomic objects. The developer may
+ * compose several algorithms in order
+ * to achieve a complex task. This kind of plugin allows to massively share and
+ * reuse software components, even in an offline context where time is managed differently
+ * (e.g., EEG file reading or signal visualisation widgets).
+ *
+ * <b>The box-algorithm plug-ins</b> (see \ref OpenViBE::Plugins::IBoxAlgorithm and \ref OpenViBE::Plugins::IBoxAlgorithmDesc)
+ * are the software components each box relies on. Box algorithms are
+ * the author's atomic objects. The developer describes them
+ * in a simple structure that notably contains the box prototype (its name, input/output connectors
+ * and settings). The box algorithm itself is responsible for the actual processing, i.e., it reads from
+ * inputs, computes data to produce a result and writes to outputs.
+ * However, the box algorithm generally combines several algorithm plug-ins together
+ * to perform this processing.
+ * This ensures fast development thanks to the re-usability of components (e.g.,
+ * most box algorithms use a specific algorithm in order to easily read from inputs
+ * and write to outputs).
+ * Thus, the box algorithm can be seen as a set of callbacks called periodically by the player. The most
+ * important callbacks are the three notification callbacks (clock tick, input arrival and
+ * message arrival) and the actual processing function which produces output data.
+ * Each phase of the processing callback can rely on one or more algorithms in order to reuse code.
+ *
+ * It shoud be noted that the box algorithm has a restricted access to kernel
+ * functionalities, and can not directly communicate with other box algorithms.
+ * A kernel accessor is provided at runtime whenever a callback is triggered, allowing for
+ * better flexibility in programming bridges to kernel objects and to other box algorithms.
+ *
+ * Currently, the player does not take advantage of computation distribution. However,
+ * the box algorithm concept makes such distribution possible and easier because
+ * the communication is done thanks to input and output connectors and because
+ * box algorithms do not share information directly.
+ *
+ * <b>The scenario loading and saving plug-ins</b> allow to keep and reuse created and configured scenarios in files.
+ * In addition to loading and saving scenarios, this plug-in can also be used to import scenarios from
+ * closely related softwares or to export scenarios to such softwares.
+ * The scenario saver basically writes each scenario component into a file.
+ * The scenario loader works the opposite way: it reads from a file
+ * and creates each box in turn, configuring and connecting boxes together as needed.
+ */
+
+/*
+\page Doc_SoftwareArchitectureOverview OpenViBE Architecture
+
+\section software_architecture_overview_introduction Introduction
+
+At a very high level, OpenViBE can be decomposed into the following components :
+
+- the kernel provides core services via a number of managers, such as the scenario, plugin and log managers
+- several modules encapsulate platform dependent functionalities (e.g. files and sockets management)
+- a plugin mechanism allows the platform to be easily and efficiently extended
+
+Applications and plugins communicate with the kernel via an interface layer. Plugins are only granted restricted access
+to the kernel thanks to a dedicated execution context. It provides subsets of interfaces to the kernel and the managers useful
+for plugins execution.
+
+\section software_architecture_kernel Kernel
+
+The kernel is the central component of OpenViBE, offering core functionalities to create and execute scenarios. At initialization time,
+it creates several managers that are each responsible for an aspect of the platform.
+
+ - The scenario manager handles the construction of scenarios. It maintains a list of boxes used in a given scenario, as well as
+the links connecting these boxes together.
+ - The plugin manager is responsible for listing all plugins found in the working directory of an OpenViBE application.
+ - The algorithm manager maintains a list of existing algorithms.
+ - The log manager handles log messages and redirects them to log listeners.
+ - The type manager ensures types standardization across the platform, including specialized types for flow input/output between boxes,
+and types for box parameters.
+ - The player manager takes care of scenario execution. It calls every module in turn at the required frequency.
+ - The visualisation manager registers visualisation boxes and their arrangement in space. It also manages a 3D context, and
+offers a restricted set of 2D and 3D functionalities to visualisation plugins for drawing purposes.
+
+In addition to these managers, the kernel also owns a kernel object factory responsible for creating kernel objects based on their
+identifiers, thus hiding implementation details to the outside world. All of these functionalities are gathered in a kernel context
+object created at startup, which provides access to the interface of each manager.
+
+\section software_architecture_scenariomanager The scenario manager
+
+OpenViBE scenarios are handled by the scenario manager, which allows for creating, releasing and going through existing scenarios.
+These objects describe the behavior of an OpenViBE application, and are made up of any number of box algorithms linked together by
+their inputs and/or outputs. In OpenViBE, data is streamed from a data source, sent down a processing chain and eventually
+stored in an altered way or displayed on screen.
+
+All processing is performed by a key component of the platform called the box algorithm. It comes as a black box provided with
+inputs, outputs and settings. Some boxes have no explicit inputs : they are data producers, getting input data
+from a file or an acquisition device. Other boxes have no explicit outputs : standing at the end of the signal processing chain,
+they may save results to a file or display data in a window. However, most boxes have connectable inputs and outputs, taking in
+data in some form, processing it and then outputting it for other boxes down the processing chain.
+
+In addition to this list of interconnected boxes, a scenario also owns a visualisation tree. This object holds a description of
+the layout of graphical plugins in the scenario. A great flexibility is possible in the arrangement of windows, including windows
+with multiple tabs, each tab containing a hierarchy of windows of varying sizes.
+
+\section software_architecture_plugin_manager The plugin manager
+
+The plugin manager looks for OpenViBE plugins in specific directories. Such plugins may be box algorithms or smaller processing
+components such as algorithms, which can be embedded in box algorithms to maximize code reuse between boxes. A list of all
+loaded plugins can be retrieved from this manager, and it handles plugin instantiation/release requests at player start/stop time.
+
+\section software_architecture_algorithm_manager The algorithm manager
+
+The algorithm manager works at a smaller scale than the plugin manager. It handles algorithm creation/destruction requests.
+
+\section software_architecture_log_manager The log manager
+
+The log manager handles log messages and dispatches them to log listeners.
+
+Log listeners include a console listener, which outputs messages to the console. Different log levels let the user hide irrelevant
+messages, depending on the context. A color scheme ensures easier reading by displaying headers of different colors in front of
+messages.
+
+\section software_architecture_type_manager The type manager
+
+The type manager registers types to be used by boxes to communicate together. Box inputs and outputs must use such 'standard' types,
+which ensures compatibility with other boxes across the platform.
+
+\section software_architecture_player_manager The player manager
+
+The player manager is used in 'online' mode when running an OpenViBE scenario. It goes through the box algorithms used in a scenario,
+instantiates and initializes each of them and then calls each box in turn. It can be configured to run in real-time, i.e. play a
+scenario in real-time, or it can be set in 'free run', meaning it will stream data as fast as possible. Additionally, it can jump
+by a single 'step' (the inverse of the frequency at which the player is run).
+
+\section software_architecture_visualisation_manager The visualisation manager
+
+\ref Doc_visualisation_manager
+
+\section software_architexture_sources OpenViBE sources structure
+
+The OpenViBE sources are stored in the following top level hierarchy :
+
+ - /openvibe (interface layer or SDK)
+ - /openvibe-applications (end-user applications should go here)
+ - /openvibe-kernel (core functionalities)
+ - /openvibe-modules (platform dependent functionalities are encapsulated in modules here)
+ - /openvibe-plugins (extensions of all kinds are stored here)
+ - /openvibe-toolkit (set of helper classes facilitating development)
+
+Additionally, two top level directories contain scripts useful for compilation :
+
+ - /cmake-modules (cmake files used for compiling the project)
+ - /scripts (set of scripts for installation, set up, compilation and execution of the platform)
+
+Finally, dependencies are stored under a top level /dependencies directory, and a script copies
+all binaries under a /dist directory.
+
+\subsection software_architecture_project_sources Typical structure of a project
+
+Each project follows the same pattern, where a /trunc directory holds the most up to date stable version of the sources.
+Work in progress should be done in development branches, which are stored under a /branches directory (e.g. /branches/wip-developerA
+for the Work In Progress of developer A).
+Switching from one branch to the other may be done by customizing a script setting up the environment found in the /script directory.
+Additionally, tagged versions of the project (corresponding to a certain set of functionalities or to the state of the application
+at a given date) may be stored in a /tags directory
+
+This sums up the typical organization of an OpenViBE project :
+
+ - /projectName
+ 	- /branches
+ 		- /wip-developerA
+ 		- /wip-developerB
+ 	- /tags
+ 		- /0.1.0
+ 		- /0.2.0
+ 	- /trunc
+
+\subsection software_architecture_branch_sources Typical structure of a branch
+
+The structure of any branch of any OpenViBE project is the same.
+
+Its sources are stored in a /src directory, which contains
+a /doc directory for doxygen documentation of the project, and another directory named after the project contains the actual
+sources.
+
+Header files are copied in a /include directory at compilation time for later collection by a script
+
+Project resources, such as GUI files and pictures, are stored under a /share directory.
+
+Library files are generated under /lib and binaries under /bin.
+
+A /doc directory stores doxygen compiled documentation.
+
+Finally, the /etc and /test directories store ??? and binaries used for testing purposes respectively.
+
+This is what a typical branch organization looks like :
+
+ - /wip-developerA
+ 	- /bin
+ 	- /doc
+ 	- /etc
+ 	- /include
+ 	- /lib
+ 	- /share
+ 	- /src
+ 		- /doc
+ 		- /projectFoo
+ 	- /test
+
+*/

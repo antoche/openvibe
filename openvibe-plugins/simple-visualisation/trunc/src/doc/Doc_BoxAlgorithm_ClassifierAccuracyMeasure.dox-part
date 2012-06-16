@@ -1,0 +1,55 @@
+/**
+ * \page BoxAlgorithm_ClassifierAccuracyMeasure Classifier accuracy measure
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierAccuracyMeasure_Description|
+ The real-time classifier accuracies are displayed on vertical progress bars. The accuracy is computed given the results from classifiers, compared to the targets received.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierAccuracyMeasure_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierAccuracyMeasure_Inputs|
+ This box must have at least 2 inputs: one for the targets, and another one for a classifier processor results. User can add more classifier inputs at will.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierAccuracyMeasure_Inputs|
+ 
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierAccuracyMeasure_Input1|
+ The targets the classifier aims at, using stimulation labels.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierAccuracyMeasure_Input1|
+ 
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierAccuracyMeasure_Input2|
+ The classifier results coming from a classifier processor, using stimulation labels.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierAccuracyMeasure_Input2|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierAccuracyMeasure_OnlineVisualizationSettings|
+ Online settings :
+
+ Setting1 : Reset scores
+
+ Setting2 : Show accuracies as percentages
+
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierAccuracyMeasure_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierAccuracyMeasure_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierAccuracyMeasure_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierAccuracyMeasure_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierAccuracyMeasure_Miscellaneous|
+ */

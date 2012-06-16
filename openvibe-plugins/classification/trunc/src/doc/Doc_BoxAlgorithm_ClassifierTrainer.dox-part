@@ -1,0 +1,157 @@
+/**
+ * \page BoxAlgorithm_ClassifierTrainer Classifier trainer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Description|
+The <em>Classifier Trainer</em> box is a generic box for classification training purpose. It works
+in cunjunction with the \ref Doc_BoxAlgorithm_ClassifierProcessor box.
+This box' role is to expose a generic interface to the rest of the BCI pipelines. The tasks
+specific to a given classifier are forwarded to one of the registered \c OVTK_TypeId_ClassifierAlgorithm
+algorithms. The behavior is simple, the box collects a number of feature vectors. Those feature vectors
+are labelled depending on the input they arrive on. When a specific stimulation arrives, a training
+process is triggered. This process can take some time so this box should be used offline. Depending on the
+settings you enter, you will be able to perform a k-fold test in order to train a better classifier. When
+this training stimulation is received, the box requests the selected classification algorithm to generate
+a configuration file that will be useable online by the \ref Doc_BoxAlgorithm_ClassifierProcessor box. Finally, the box releases a particular stimulation (OVTK_StimulationId_TrainCompleted) on its ouput, that can be used to trigger further treatments in the scenario.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Inputs|
+This box can have a variable number of inputs. If you need more than two classes, feel free to add more
+inputs and to use a classifier algorithm able to classify more than two classes.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Input1|
+The first input receives a stimulation stream. Only one stimulation of this stream is important, the one
+that triggers the training process. When this stimulation is received, all the feature vectors are labelled
+and sent to the classification algorithm. The training is triggered and executed. Then the classification
+algorithm generates a configuration file that will be used online by the \ref Doc_BoxAlgorithm_ClassifierProcessor box.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Input2|
+This input receives the feature vector for the first class.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Input2|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Input3|
+This input receives the feature vector for the second class.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Input3|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Output1|
+The stimulation OVTK_StimulationId_TrainCompleted is raised on this output when the classifier trainer has finished its job.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Output1|
+
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Settings|
+The number of settings of this box can vary depending on the classification algorithm you choose. Such algorithm
+could have specific input OpenViBE::Kernel::IParameter objects (see \ref OpenViBE::Kernel::IAlgorithmProxy for details). If
+the type of those parameters is simple enough to be handled in the GUI, then additional settings will be added to this box.
+For this to be applied, you will have to close & reopen the settings configuration dialog after the actual classification
+algorithm is choosen. Supported parameter types are : Integers, Floats, Enumeations, Booleans. The documentation for those
+parameters can not be done in this page because it is impossible to know at this time what classifier thus what hyper
+parameters you will have available. This will depend on the classification algorihtms that are be implemented in OpenViBE.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Setting1|
+The first setting of this box is the classifier to use. You can choose any registered \c OVTK_TypeId_ClassifierAlgorithm
+algorithm you want.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Setting2|
+This setting points to the configuration file where to save the result of the training for later online use. This
+configuration file is used by the \ref Doc_BoxAlgorithm_ClassifierProcessor box. Its syntax
+depends on the selected algorithm.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Setting3|
+This is the stimulation to consider to trigger the training process.	
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Setting4|
+If you want to perform a k-fold test, you should enter something else than 0 or 1 here. A k-fold test generally allows
+better classification rates. The idea is to divide the set of feature vectors in a number of partitions. The classification
+algorithm is trained on some of the partitions and its accuracy is tested on the others. The classifier with the best results
+is selected as the trained classifier. See the miscellaneous section for details on how the k-fold test is done in this box.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Setting4|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Examples|
+This box is used in BCI pipelines in order to classify cerebral activity states. For a detailed scenario using this
+box and its associated \ref Doc_BoxAlgorithm_ClassifierProcessor, please see the <b>motor imagary</b>
+BCI scenario in the sample scenarios.
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ClassifierTrainer_Miscellaneous|
+In this section, we will detail how the k-fold test is implemented in this box. For the k-fold test to be performed, you
+have to choose more than 1 partition in the related settings. Suppose you chose \c n partitions. Then when trigger stimulation
+is received, the feature vector set is splitted in \c n consecutive segments. The classification algorithm is trained on
+\c n-1 of those segments and tested on the last one. This is performed for each segment. Then the classifier with the
+best accuracy is choosen.
+
+For example, suppose you have 5 parititions of feature vectors (\c FVs)
+\verbatim
++------+ +------+ +------+ +------+ +------+
+| FVs1 | | FVs2 | | FVs3 | | FVs4 | | FVs5 |
++------+ +------+ +------+ +------+ +------+
+\endverbatim
+For the first training, a feature vector set is built form the \c FVs2, \c FVs3, \c FVs4, \c FVs5. The classifier algorithm
+is trained on this feature vector set. Then the classifier is tested on the \c FVs1 :
+\verbatim
++------+ +---------------------------------+
+| FVs1 | |  Training Feature Vector Set 1  |
++------+ +---------------------------------+
+\endverbatim
+Then, a feature vector set is built form the \c FVs1, \c FVs3, \c FVs4, \c FVs5. The classifier algorithm
+is trained on this feature vector set. Then the classifier is tested on the \c FVs2 :
+\verbatim
++------+ +------+ +------------------------+
+|Traini| | FVs2 | |ng Feature Vector Set 2 |
++------+ +------+ +------------------------+
+\endverbatim
+The same process if performed on all the partitions :
+\verbatim
++---------------+ +------+ +---------------+
+|Training Featur| | FVs3 | |e Vector Set 3 |
++---------------+ +------+ +---------------+
++------------------------+ +------+ +------+
+|Training Feature Vector | | FVs4 | |Set 4 |
++------------------------+ +------+ +------+
++---------------------------------+ +------+
+|  Training Feature Vector Set 5  | | FVs5 |
++---------------------------------+ +------+
+\endverbatim
+
+Important things to consider :
+- The more partitions you have, the more feature vector you have in your training sets... and the less examples you'll have to
+test on. This means that the result of the test will probably be less reliable. But you will be able to choose the best classifier
+among a more consequent list.
+- The less partitions you have, the less feature vector you have in your training sets... and the more examples you'll have to
+test on. This means that the online use of the trained classifier is more likely to be consistent with the trained classifier accuracy.
+
+In conclusion, be carefull when choosing this k-fold test setting. Typical value range from 4 partitions (train on 75% of the feature vectors and
+test on 25% - 4 times) to 10 partitions (train on 90% of the feature vectors and test on 10% - 10 times).
+ * |OVP_DocEnd_BoxAlgorithm_ClassifierTrainer_Miscellaneous|
+ */

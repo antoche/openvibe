@@ -1,0 +1,25 @@
+<scene formatVersion="1.0" upAxis="y" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <nodes>
+        <node name="tiePivot">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="0" z="0" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="ze-tie">
+                <scale x="1" y="1" z="1" />
+                <position x="0" y="0" z="0" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="tieNode" id="8" meshFile="tieNode.mesh" castShadows="true" receiveShadows="true">
+                    <subentities>
+                            <subentity index="0" materialName="tie-surface01" />
+                            <subentity index="1" materialName="tie-surface02" />
+                            <subentity index="2" materialName="tie-surface03" />
+                            <subentity index="3" materialName="tie-surface04" />
+                            <subentity index="4" materialName="tie-surface05" />
+                            <subentity index="5" materialName="tie-surface06" />
+                            <subentity index="6" materialName="tie-surface07" />
+                    </subentities>
+                </entity>
+            </node>
+        </node>
+    </nodes>
+</scene>

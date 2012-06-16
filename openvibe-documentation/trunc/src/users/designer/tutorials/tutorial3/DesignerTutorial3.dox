@@ -1,0 +1,106 @@
+/** 
+\page Doc_DesignerTutorial3 Designer Tutorial 3: Using the Window Manager
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/window-manager/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+- \b NB: Tutorial based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+
+\section designertutorial3_overview Overview
+
+This tutorial covers the role and usage of the designer's built-in window manager functionality. This module is dedicated to the handling of 2D and 3D graphical windows in an OpenViBE scenario. It relies on functionalities made available by the OpenViBE Kernel to provide the user with an intuitive tool to arrange windows in space in a very flexible manner. Window layouts designed with this
+tool are then saved to disk in scenario files along with other scenario data and settings.
+
+\subsection designertutorial3_why_use_the_window_manager Why is this tool needed?
+
+OpenViBE scenarios are essentially made up of one or several box algorithms linked together to forward data as it is processed. Some of these box algorithms, called visualisation boxes, are meant to display information. They will therefore open one or several windows at scenario playing time. Examples of such boxes include the \ref Doc_DataVisualisation_2DVisualisation_SignalDisplay "Signal Display", \ref Doc_DataVisualisation_2DVisualisation_PowerSpectrum "Power Spectrum" or \ref Doc_DataVisualisation_3DVisualisation_3DTopographicMap "3D Topographic Map" plugins.
+
+The default behaviour of the window manager consists in popping up as many toplevel, independent windows as required depending on 
+the number of visualisation boxes contained in the active scenario. While this may work fine for simpler cases, the screen can quickly become cluttered with windows when more complex scenarios are being run. 
+
+This is where more clever window layouts can help, by arranging graphical plugins in window hierarchies so that, e.g. all
+plugins fit in a single window, sparing the user the need to resize or place windows next to each other every time a scenario is played.
+
+Moreover, by designing a window layout offline, the user ensures graphical plugins will always appear at the same location. It also makes it possible to set relative sizes, so that windows requiring more screen space always do get more than their neighbours. All that is required is just a little extra time at scenario edition time.
+
+\section Doc_DesignerTutorial3_step1 Step 1: Opening the window manager
+
+Let's have a look at the window manager interface. 
+
+First, let's create a new scenario. The window manager is popped up by clicking onto the 'window manager' button in OpenViBE Designer's top toolbar. Alternate presseson this button will show/hide the window manager.
+
+The window manager graphical interface is divided in two sections. Left is a tree view containing a list of graphical plugins used in the active scenario and the current window layout.
+Right is a preview of the currently selected window, if any. By default, a single window is created and selected. Its preview should appear on the right hand side, with an 'Empty' placeholder widget filling its single tab.
+
+\image html designer_tutorial_3_window_manager.png "Window manager popup window"
+
+As graphical plugins are added to the scenario, they are automatically registered by the window manager, and will appear in its interface under 'Unaffected display plugins' in the 
+tree view. This means such plugins aren't included in any custom window, but will instead show up in their own top level window as the scenario is played.
+
+\section Doc_Designertutorial3_step2 Step 2: Testing the default window layout
+
+Let's add a few graphical plugins to our scenario to illustrate the default behaviour of the window manager.
+
+Let's drag and drop a Signal Display and a Power Spectrum (both can be found under 'Visualisation/basic').
+Add a 2D Topographic Map and a 3D Topographic Map (found in 'Visualisation/topography'). As each box is added to the scenario, it also appears in the window manager tree view.
+
+\image html designer_tutorial_3_unaffected_boxes_v2.png "Adding 4 graphical plugins to a scenario"
+
+If we play our scenario now, we get 4 equally sized top level windows that appear at random places on the screen (of course, they don't display any meaningful information
+since no data is being read or generated in this simple scenario, but that is not of concern here).
+
+\image html designer_tutorial_3_unaffected_boxes_online.png "Default window manager behaviour"
+
+\section Doc_DesignerTutorial3_step3 Step 3: Arranging boxes in a hierarchy
+
+Let's make things a bit more practical by arranging plugins in a layout. One way this can be done is by drag and dropping 'unaffected' plugins over the window
+created by default on the right hand side of the window manager.
+
+Let's select the Signal Display plugin and drop it over the 'Empty' placeholder widget. This widget gets automatically destroyed and replaced with the Signal Display
+plugin. Note how the tree view structured has changed, reflecting the modified layout. The signal display plugin is now listed under the default window/default tab node.
+
+\image html designer_tutorial_3_affect_plugin.png "Adding a plugin to a window"
+
+We can add more than one plugin to a single tab : let's drag the Power Spectrum plugin and move it over the areas surrounding the Signal Display plugin. Possible drop zones, or 'targets', become highlighted as the cursor is moved over them. Let's drop the plugin over the target situated to the right of the Signal Display. Following the same procedure, it 
+is possible to arrange all 4 plugins in custom hierarchies.
+
+\image html designer_tutorial_3_4boxes_1tab.png "One possible way of arranging 4 plugins in a single tab"
+
+\section Doc_DesignerTutorial3_step4 Step 4: Modifying a hierarchy
+
+It is possible to modify the plugins arrangement at any time, even as they have been placed in windows and tabs. 
+
+The size of a plugin relative to the others lying on the same tab are modifiable by dragging the handles separating one plugin from its neighbours. Handle positions are saved along with the tree structure. 
+
+Plugins can be removed from their hierarchy and placed back under the 'Unaffected' node by selecting them in the tree view and clicking 'Remove' in the context menu that pops up on a right click. The tree structure is then automatically updated and simplified. The
+same mechanism is applied on the tree whenever a graphical plugin is deleted from the scenario.
+
+Plugins may also be swapped by drag and dropping one from the tree view or window preview and dropping it over another plugin in the preview window.
+
+\section Doc_DesignerTutorial3_step5 Step 5: Custom windows and tabs
+
+For further flexibility, one can create custom windows and tabs. 
+
+Let's pop up the window contextual menu by <b> right clicking the 'Default window' </b> item in the tree view. This should pop up a menu containing three options : 
+
+ - <b> 'New tab' </b> to add tabs to the selected window
+ - <b> 'Rename' </b> to rename the selected window
+ - <b> 'Remove' </b> to remove this window and its hierarchy from the layout (any plugin it contains would then be listed again under the 'Unaffected' node)
+
+Let's create a new tab and name it "3D Tab". Now we want to move the 3D Topographic Map plugin to this tab, which can be done by selecting it in the tree view or the preview window, 
+moving the cursor over the desired tab until it becomes active and dropping the plugin on this tab.
+
+We should now rename the first tab by right clicking on it in the tree view, selecting 'Rename' and typing in a new name such as "2D Tab".
+
+\image html designer_tutorial_3_2tabs.png "Adding a tab to a window"
+
+More windows may also be created by right clicking the 'Unaffected display plugins' node in the tree view and selecting 'New window' (Note: window names should be unique within a given
+layout).
+
+Now it's up to you to arrange your plugins to best fit your needs!
+
+If you want to know more about the configuration of OpenViBE boxes, proceed to \ref Doc_DesignerTutorial4 "Tutorial 4".
+
+*/

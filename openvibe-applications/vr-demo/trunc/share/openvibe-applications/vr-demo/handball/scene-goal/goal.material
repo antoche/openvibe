@@ -1,0 +1,60 @@
+material goal-foregrou01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0 0 
+			diffuse 0 0 0 
+			specular 0 0 0 1
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material goal-frontcol01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.882353 0.882353 0.784314 
+			diffuse 0.882353 0.882353 0.784314 
+			specular 0 0 0 1
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material goal-surface01
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 0 0 
+			diffuse 1 0 0 
+			specular 0 0 0 1
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material goal-surface02
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 1 1 1 
+			specular 0 0 0 1
+			emissive 0 0 0 
+		}
+	}
+}
+
+

@@ -1,0 +1,15 @@
+material plane-red-plane-material
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.905882 0.196078 0.196078 
+			diffuse 0.905882 0.196078 0.196078 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+

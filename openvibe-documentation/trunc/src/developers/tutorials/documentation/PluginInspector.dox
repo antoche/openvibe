@@ -1,0 +1,25 @@
+/**
+\section Doc_PluginInspector The Plugin Inspector
+
+The plugin inspector is a tool that helps with the generation of OpenViBE documentation. 
+It goes through OpenViBE sources and detects box algorithms and algorithms, and automatically generates snapshots of what 
+those objects look like in the Designer, as well as documentation skeletons. 
+Generated files are saved in the active branch of the openvibe-documentation project. 
+It is up to the developer to retrieve those files, complete and move them where needed.
+
+This tool saves developers a lot of time, and leaves them the only part of the job that can not be generated : 
+the documentation of the role and features of each box and algorithm. 
+This way, box snapshots displayed in documentation pages may easily be updated to reflect the latest changes. 
+The same goes for the template used in boxes and algorithm documentation pages : 
+it may be updated at any time (e.g., the order of the different sections may be modified), 
+all that is needed to reflect such changes is to regenerate documentation pages skeletons and move them to the relevant directories.
+
+\subsection Doc_PluginInspector_BoxAlgorithms Box Algorithms
+
+For each box algorithm found in the source tree, the plugin inspector generates 3 files :
+
+ - a .png snapshot of the box as it would appear in the Designer, 
+ - a .dox-skeleton file tagged with tokens which will be replaced at documentation compilation time (when html pages are generated from doxygen files), 
+ - a .dox-part-skeleton file which is the only file that needs user input. Tagged sections of such files are inserted in .dox-skeleton files when documentation pages are compiled.
+
+*/

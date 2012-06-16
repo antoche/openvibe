@@ -1,0 +1,277 @@
+#!/bin/bash
+
+g_sed=`which sed`
+g_printf=`which printf`
+g_wizard_rc="./algorithm-wizard-rc"
+g_random_seed=$$
+
+echo "____________________________________________"
+echo ""
+echo "OpenViBE algorithm class generator wizard..."
+echo "____________________________________________"
+echo ""
+echo "using as rc          [$g_wizard_rc]"
+echo "using as random seed [$g_random_seed]"
+echo "using as sed         [$g_sed]"
+echo "using as printf      [$g_printf]"
+echo "____________________________________________"
+echo ""
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+RANDOM=$g_random_seed
+
+if [ -e "$g_wizard_rc" ]; then
+	source $g_wizard_rc
+fi;
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+while [ "$l_algorithm_name" == "" ]; do
+	echo -n "Please enter algorithm name ($g_wizard_rc_algorithm_name) : "
+	read l_algorithm_name
+	if [ "$l_algorithm_name" == "" ]; then
+		l_algorithm_name=$g_wizard_rc_algorithm_name
+	fi;
+done;
+
+while [ "$l_author_name" == "" ]; do
+	echo -n "Please enter author name ($g_wizard_rc_author_name) : "
+	read l_author_name
+	if [ "$l_author_name" == "" ]; then
+		l_author_name=$g_wizard_rc_author_name
+	fi;
+done;
+
+while [ "$l_author_company_name" == "" ]; do
+	echo -n "Please enter author company name ($g_wizard_rc_author_company_name) : "
+	read l_author_company_name
+	if [ "$l_author_company_name" == "" ]; then
+		l_author_company_name=$g_wizard_rc_author_company_name
+	fi;
+done;
+
+while [ "$l_category" == "" ]; do
+	echo -n "Please enter category ($g_wizard_rc_category) : "
+	read l_category
+	if [ "$l_category" == "" ]; then
+		l_category=$g_wizard_rc_category
+	fi;
+done;
+
+while [ "$l_project" == "" ]; do
+	echo -n "Please enter project name ($g_wizard_rc_project) : "
+	read l_project
+	if [ "$l_project" == "" ]; then
+		l_project=$g_wizard_rc_project
+	fi;
+done;
+
+while [ "$l_version" == "" ]; do
+	echo -n "Please enter version ($g_wizard_rc_version) : "
+	read l_version
+	if [ "$l_version" == "" ]; then
+		l_version=$g_wizard_rc_version
+	fi;
+done;
+
+# while [ "$l_short_description" == "" ]; do
+	echo -n "Please enter short description ($g_wizard_rc_short_description) : "
+	read l_short_description
+	if [ "$l_short_description" == "" ]; then
+		if [ "$g_wizard_rc_short_description" != "" ]; then
+			l_short_description=$g_wizard_rc_short_description
+		fi;
+	fi;
+# done;
+
+# while [ "$l_detailed_description" == "" ]; do
+	echo -n "Please enter detailed description ($g_wizard_rc_detailed_description) : "
+	read l_detailed_description
+	if [ "$l_detailed_description" == "" ]; then
+		if [ "$g_wizard_rc_detailed_description" != "" ]; then
+			l_detailed_description=$g_wizard_rc_detailed_description
+		fi;
+	fi;
+# done;
+
+while [ "$l_generated_id_count" == "" ]; do
+	echo -n "Please enter pre-generated identifier count ($g_wizard_rc_generated_id_count) : "
+	read l_generated_id_count
+	if [ "$l_generated_id_count" == "" ]; then
+		l_generated_id_count=$g_wizard_rc_generated_id_count
+	fi;
+done;
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+let id_1=$RANDOM*65536+$RANDOM
+let id_2=$RANDOM*65536+$RANDOM
+let id_3=$RANDOM*65536+$RANDOM
+let id_4=$RANDOM*65536+$RANDOM
+
+l_algorithm_name_final=`echo $l_algorithm_name | sed -e '
+	s/ \(.\)/\U\1/g
+	s/^\(.\)/\U\1/g
+'`
+l_algorithm_namespace_final=`echo $l_project | sed -e '
+	s/ \(.\)/\U\1/g
+	s/^\(.\)/\U\1/g
+'`
+l_algorithm_header_decoration="__OpenViBEPlugins_Algorithm_${l_algorithm_name_final}_H__"
+l_algorithm_class_name="CAlgorithm${l_algorithm_name_final}"
+l_algorithm_desc_class_name="CAlgorithm${l_algorithm_name_final}Desc"
+l_algorithm_class_identifier="OpenViBE::CIdentifier(`printf "0x%08X, 0x%08X" $id_1 $id_2`)"
+l_algorithm_desc_class_identifier="OpenViBE::CIdentifier(`printf "0x%08X, 0x%08X" $id_3 $id_4`)"
+l_algorithm_class_identifier_def="OVP_ClassId_Algorithm_${l_algorithm_name_final}"
+l_algorithm_desc_class_identifier_def="OVP_ClassId_Algorithm_${l_algorithm_name_final}Desc"
+
+l_header_file_filename="ovp${l_algorithm_class_name}.h"
+l_implementation_file_filename="ovp${l_algorithm_class_name}.cpp"
+
+l_algorithm_generated_ids=""
+for i in `seq 1 $l_generated_id_count`; do
+	let id_5=$RANDOM*65536+$RANDOM
+	let id_6=$RANDOM*65536+$RANDOM
+	l_algorithm_generated_ids="$l_algorithm_generated_ids
+#define OVP_Algorithm_${l_algorithm_name_final}_/*What*/_/*Name*/ OpenViBE::CIdentifier(`printf "0x%08X, 0x%08X" $id_5 $id_6`)"
+done;
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+l_header_file_content="#ifndef $l_algorithm_header_decoration
+#define $l_algorithm_header_decoration
+
+#include \"../../ovp_defines.h\"
+#include <openvibe/ov_all.h>
+#include <openvibe-toolkit/ovtk_all.h>
+
+// TODO:
+// - please include your desciptor in ovp_main.cpp
+
+#define $l_algorithm_class_identifier_def     $l_algorithm_class_identifier
+#define $l_algorithm_desc_class_identifier_def $l_algorithm_desc_class_identifier
+$l_algorithm_generated_ids
+
+namespace OpenViBEPlugins
+{
+	namespace $l_algorithm_namespace_final
+	{
+		class $l_algorithm_class_name : public OpenViBEToolkit::TAlgorithm < OpenViBE::Plugins::IAlgorithm >
+		{
+		public:
+
+			virtual void release(void) { delete this; }
+
+			virtual OpenViBE::boolean initialize(void);
+			virtual OpenViBE::boolean uninitialize(void);
+			virtual OpenViBE::boolean process(void);
+
+			_IsDerivedFromClass_Final_(OpenViBEToolkit::TAlgorithm < OpenViBE::Plugins::IAlgorithm >, $l_algorithm_class_identifier_def);
+
+		protected:
+
+			OpenViBE::Kernel::TParameterHandler < OpenViBE::/*type*/ > ip_/*parametername*/;
+			OpenViBE::Kernel::TParameterHandler < OpenViBE::/*type*/ > op_/*parametername*/;
+		};
+
+		class $l_algorithm_desc_class_name : public OpenViBE::Plugins::IAlgorithmDesc
+		{
+		public:
+
+			virtual void release(void) { }
+
+			virtual OpenViBE::CString getName(void) const                { return OpenViBE::CString(\"$l_algorithm_name\"); }
+			virtual OpenViBE::CString getAuthorName(void) const          { return OpenViBE::CString(\"$l_author_name\"); }
+			virtual OpenViBE::CString getAuthorCompanyName(void) const   { return OpenViBE::CString(\"$l_author_company_name\"); }
+			virtual OpenViBE::CString getShortDescription(void) const    { return OpenViBE::CString(\"$l_short_description\"); }
+			virtual OpenViBE::CString getDetailedDescription(void) const { return OpenViBE::CString(\"$l_detailed_description\"); }
+			virtual OpenViBE::CString getCategory(void) const            { return OpenViBE::CString(\"$l_category\"); }
+			virtual OpenViBE::CString getVersion(void) const             { return OpenViBE::CString(\"$l_version\"); }
+
+			virtual OpenViBE::CIdentifier getCreatedClass(void) const    { return $l_algorithm_class_identifier_def; }
+			virtual OpenViBE::Plugins::IPluginObject* create(void)       { return new OpenViBEPlugins::$l_algorithm_namespace_final::$l_algorithm_class_name; }
+
+			virtual OpenViBE::boolean getAlgorithmPrototype(
+				OpenViBE::Kernel::IAlgorithmProto& rAlgorithmPrototype) const
+			{
+				rAlgorithmPrototype.addInputParameter (OVP_Algorithm_${l_algorithm_name_final}_InputParameterId_/*Name*/, \"name\", OpenViBE::Kernel::ParameterType_/*type*/);
+				rAlgorithmPrototype.addOutputParameter(OVP_Algorithm_${l_algorithm_name_final}_OutputParameterId_/*Name*/, \"name\", OpenViBE::Kernel::ParameterType_/*type*/);
+				rAlgorithmPrototype.addInputTrigger   (OVP_Algorithm_${l_algorithm_name_final}_InputTriggerId_/*Name*/, \"name\");
+				rAlgorithmPrototype.addOutputTrigger  (OVP_Algorithm_${l_algorithm_name_final}_OutputTriggerId_/*Name*/, \"name\");
+				return true;
+			}
+
+			_IsDerivedFromClass_Final_(OpenViBE::Plugins::IAlgorithmDesc, $l_algorithm_desc_class_identifier_def);
+		};
+	};
+};
+
+#endif // $l_algorithm_header_decoration"
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+l_implementation_file_content="#include \"$l_header_file_filename\"
+
+using namespace OpenViBE;
+using namespace OpenViBE::Kernel;
+using namespace OpenViBE::Plugins;
+
+using namespace OpenViBEPlugins;
+using namespace OpenViBEPlugins::$l_algorithm_namespace_final;
+
+boolean $l_algorithm_class_name::initialize(void)
+{
+	ip_/*parametername*/.initialize(this->getInputParameter(OVP_Algorithm_${l_algorithm_name_final}_InputParameterId_/*Name*/));
+	op_/*parametername*/.initialize(this->getOutputParameter(OVP_Algorithm_${l_algorithm_name_final}_OutputParameterId_/*Name*/));
+	return true;
+}
+
+boolean $l_algorithm_class_name::uninitialize(void)
+{
+	op_/*parametername*/.uninitialize();
+	ip_/*parametername*/.uninitialize();
+	return true;
+}
+
+boolean $l_algorithm_class_name::process(void)
+{
+	if(this->isInputTriggerActive(OVP_Algorithm_${l_algorithm_name_final}_InputTriggerId_/*Name*/))
+	{
+		...
+		this->activateOutputTrigger(OVP_Algorithm_${l_algorithm_name_final}_OutputTriggerId_/*Name*/, /*satus*/);
+	}
+
+	return true;
+}"
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+echo "$l_header_file_content" > $l_header_file_filename
+echo "$l_implementation_file_content" > $l_implementation_file_filename
+
+rm $g_wizard_rc 2> /dev/null
+touch $g_wizard_rc
+echo "#!/bin/bash" >> $g_wizard_rc 2> /dev/null
+echo "" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_algorithm_name=\"$l_algorithm_name\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_author_name=\"$l_author_name\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_author_company_name=\"$l_author_company_name\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_category=\"$l_category\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_project=\"$l_project\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_version=\"$l_version\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_short_description=\"$l_short_description\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_detailed_description=\"$l_detailed_description\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_generated_id_count=\"$l_generated_id_count\"" >> $g_wizard_rc 2> /dev/null

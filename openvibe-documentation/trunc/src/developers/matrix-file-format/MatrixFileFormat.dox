@@ -1,0 +1,47 @@
+/**
+\page Doc_MatrixFileFormat OpenViBE matrix file format
+
+- \b NB: Document based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+
+In some cases, it is useful to be able to load OpenViBE matrices from disk. Examples include channel localization files, which store a list of electrode names and their coordinates, or color scales, which may be used by visualisation plugins to map potentials to colors. To that end, an 
+OpenViBE matrix file format was defined and OpenViBE matrix file reader/writer algorithms created.
+
+This format follows a very simple syntax.
+
+First off, comments may be inserted anywhere, start with a '#' character and extend to the end of the line.
+
+Also, trailing/leading whitespaces on a line are trimmed by the parser.
+
+The file should begin by the header section, delimited by opening and closing brackets. Each dimension of the matrix is listed in turn and delimited by its own opening and closing brackets. Dimension element labels should be declared within these brackets, each being delimited by quotation marks. Empty labels may be used, and the number of labels must match the dimension size. This is what a header might look like :
+
+\code 
+# header
+[
+	[ "color1" "color2" ]
+	[ "Red" "Green" "Blue" ]
+]
+\endcode
+
+The next section of the file is the buffer part of the matrix. Opening and closing brackets are used to identify dimensions. Elements are listed in the innermost dimension, and are separated by quotation marks. This is what an appropriate buffer could look like for a 2x3 matrix :
+
+\code 
+# header
+[
+	[ "color1" "color2" ]
+	[ "Red" "Green" "Blue" ]
+]
+
+#buffer
+
+[ #color1
+	[1 0 0] #red
+]
+
+[ #color2
+	[0 1 0] #blue
+]
+	
+#end of buffer
+\endcode
+
+*/

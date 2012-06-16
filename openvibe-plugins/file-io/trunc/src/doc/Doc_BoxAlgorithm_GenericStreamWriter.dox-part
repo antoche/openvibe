@@ -1,0 +1,60 @@
+/**
+ * \page BoxAlgorithm_GenericStreamWriter Generic stream writer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Description|
+This box is able to dump any OpenViBE stream into a binary file. In the cacse where this box
+would have multiple inputs, the streams would be multiplexed in the file. Such file can
+be read back with the \ref Doc_BoxAlgorithm_GenericStreamReader
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Inputs|
+You can add any input you want to this box depending on the number of streams you want to dump.
+In the cacse where this box would have multiple inputs, the streams would be multiplexed in the file.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Input1|
+The default input.
+
+<b>Note: it important to correctly configure the type of the inputs</b>. That information will be
+used by the \ref Doc_BoxAlgorithm_GenericStreamReader to map the contained streams to its outputs.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Setting1|
+This setting points to the file to write the streams to.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Setting2|
+Thanks to this setting, you can use compression on each input stream. This means that the basic
+structure of the file remains uncompressed but that each stream inside this structure is compressed.
+<b>Note: this is not implemented at the moment</b>.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamWriter_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamWriter_Miscellaneous|
+ */

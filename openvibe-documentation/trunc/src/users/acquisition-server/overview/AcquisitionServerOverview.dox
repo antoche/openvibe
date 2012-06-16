@@ -1,0 +1,98 @@
+/** 
+\page Doc_AcquisitionServerOverview OpenViBE Acquisition Server
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/acquisition-server/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+
+- \b NB: Document based on <b> OpenViBE 0.10.0 </b> (april-2010).
+
+\section Doc_AcquisitionServerOverview_Introduction Introduction
+
+OpenViBE Acquisition Server is a tool designed to communicate with hardware signal acquisition devices and forward acquired signals and other experiment information to OpenViBE applications in
+a way compliant with the OpenViBE format specification. 
+
+The acquisition server doesn't communicate directly with acquisition devices. Instead, it provides the user with a set of drivers to choose from, each one being 
+dedicated to a given device model. New devices can be supported by the server by developing new drivers. See \ref Doc_CreatingANewDriver for details on this.
+
+\section Doc_AcquisitionServerOverview_Configuration Configuration
+
+Let's have a look at the graphical interface of the acquisition server tool to present what parameters must be configured before it can be used to acquire and forward data. 
+The server GUI should look like the following :
+
+<img src="acquisition_server_gui.png"></img>
+<center><strong>Fig.1 Acquisition Server GUI.</strong></center>
+
+\subsection Doc_AcquisitionServerOverview_Drivers Acquisition Device Drivers
+
+A list of available drivers is accessible under 'drivers'. Depending on your distribution of OpenViBE, 
+a number of drivers may already be at hand. At least one driver should be available : the Generic Oscillator. Contrary to most drivers, this one doesn't connect to
+any hardware device, but generates sinusoidal signals. It is appropriate for testing purposes. 
+To change the default driver presented when launching the Acquisition Server, add the following token to your configuration file :
+\code
+# set the default driver :
+AcquisitionServer_DefaultDriver = Generic Raw Telnet Reader
+\endcode
+If you don't specify any driver that way, the driver presented upon startup is the latest used during previous execution.
+
+\subsection Doc_AcquisitionServerOverview_ConnectionSettings Connection Settings
+
+In order to use a driver, connection details should be set so that the server communicates with connected OpenViBE applications as desired. The port to which to send data can 
+be changed under 'Connection Port' (e.g. 1024 is a standard default setting). An OpenViBE application will then have to fetch data from this port once an experiment is started.
+Also, the size of the buffers sent to connected applications may be configured under 'Sample count per sent block'. This defines how many samples should be sent per 
+acquired channel in a single buffer. Valid values are powers-of-two and 32 is the default. The duration or 'epoch' a buffer corresponds to depends on the sampling frequency, which
+may be set in the Driver Properties dialog (see \ref Doc_AcquisitionServerOverview_DriverProperties) 
+
+\subsection Doc_AcquisitionServerOverview_DriverProperties Driver Properties
+
+Once a driver is selected from the drop-down list and before it can be used, its settings should be configured appropriately. Settings provide information about the experiment
+being conducted and the subject undergoing the experiment. The 'Driver Properties' button pops up the settings dialog of the currently selected driver. 
+It displays settings that can't be retrieved from the hardware and that have to be filled up by the user. They may vary between drivers. For example, the Generic Oscillator 
+settings include information about the subject (identifier, age, gender) and the experiment (number of channels to be acquired, sampling frequency, channel names).
+
+<img src="driver_settings.png"></img>
+<center><strong>Fig.2 Generic Oscillator settings.</strong></center>
+ 
+\subsection Doc_AcquisitionServerOverview_Drift Acquition Server Preferences
+
+Various global settings can be accessed through the 'Preferences' button.
+Most users will leave these parameters as default.
+
+<img src="acquisition_server_settings.png"></img>
+<center><strong>Fig.3 Global settings.</strong></center>
+
+The Acquisition Server monitors the behaviour of the driver in order to ensure that it actually sends the number of samples it should, regarding the theorical sampling 
+frequency of the device. When a drift is detected, you will see a progress bar going on the left or right (not enough or too much samples). When the drift reaches a 
+threshold, an automatic correction is done : the Acquisition Server removes or duplicates some samples, and sends stimulation(s) to any acquisition client connected, 
+so you can know in the signal that a correction just occured. The stimulations used are tagged \b OVTK_GDF_Correct and \b OVTK_GDF_Incorrect. 
+
+Here is the parameters you can set for the the Drift Correction:
+- \b Drift \b correction : either Forced, Disabled, or driver dependant.
+- \b Drift \b Tolerance (ms) : when reaching a drift duration of that value, a correction is triggered.
+- \b Jitter \b Estimation \b Count \b for \b Drift : the window in number of "block" used to compute the drift.
+
+The other settings are :
+- \b Oversampling \b Factor : multiply the sampling frequency of the acquired signal, using linear interpolation.
+- \b Impedance \b Check : some drivers make use of the Acquisition Server impedance checker, this functionnality can be turned on.
+
+\section Doc_AcquisitionServerOverview_Usage Usage
+
+Once a device driver has been selected and relevant settings configured, data acquisition can start. The server should first connect to the acquisition device, which
+is done by clicking the 'Connect' button. A label will inform the user whether the connection was successful.
+
+If the connection was established and the device(s) successfully connected, data sampling can be started/stopped by clicking 'Play'/'Stop'. 
+
+Once a driver is 'connected' and 'playing', the clients (e.g. acquisition client boxes in a Designer scenario) may be started : press 'play' in the designer. Data should be received, decoded and sent through the openvibe pipeline you deisgned.
+
+In the acquisition server window, you should see the number of client connected to your server (e.g. '2 hosts connected')
+
+If you don't receive any signal from the acquisition client (e.g. you don't manage to display any signal), look in the console. If you find the following message :
+\code
+[WARNING] At time 402653184 (0x18000000) <Box algorithm::Acquisition client> Could not receive memory buffer size
+[WARNING] Box algorithm <Acquisition client> has been deactivated because process phase returned bad status
+\endcode
+The acquisition server is connected, but stopped. Press 'Play' in the acquisition server then play your scenario again.
+
+*/

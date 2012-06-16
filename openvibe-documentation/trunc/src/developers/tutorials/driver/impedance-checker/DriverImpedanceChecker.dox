@@ -1,0 +1,121 @@
+/**
+\page Doc_DriverImpedanceChecker Tutorial: Using the built-in Impedance Checker
+  <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/tutorial-using-the-built-in-impedance-checker/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+
+- \b NB: Tutorial based on <b> OpenViBE 0.6.1 </b> (20-may-2010).
+
+\section Doc_DriverImpedanceChecker_Introduction Introduction
+
+The OpenViBE framework provides some mechanisms to improve your acquisition drivers. These services are given by the IDriverContext.
+One of them is the Impedance Checker : If your device is capable of giving impedance values you can give them to the impedance checker, 
+and in few lines of code you will have real-time feedback on the impedance of the electrodes when you connect the driver.
+
+This tutorial covers this optional mechanism, how it works and how to integrate it in your driver.
+
+\section Doc_DriverImpedanceChecker_Warning Warning
+ 
+In order to use properly the impedance checker, you have to be sure that :
+- Your acquisition device has an "Impedance" mode
+- The device and/or the electrodes <b>won't be damaged</b> by using the impedance acquisition mode
+
+Among the devices currently available in OpenViBE, the g.Tec gUSBAmp and the Micromed SD LTM can acquire impedance 
+values of each electrode connected. The MindMedia NeXus32B can't. 
+It has been reported that some models of active electrode do not support impedance mode or can be damaged if the impedance
+acquisition is used too long or too many times. We strongly recommend you to check the full documentation of your device, and/or ask
+the manufacturer if any questions remain.
+
+\section Doc_DriverImpedanceChecker_Implementation Implementation
+
+Let's take an example, with a dummy driver CDriverFooBarDevice. We assume that the FooBarDevice can handle impedance mode, 
+and that the API provides a function that gives the impedance value of a given channel.
+
+\subsection Doc_DriverImpedanceChecker_Implementation_1 Impedance or not impedance ?
+
+The basic configuration provides a dedicated token, that you can use to check if the user wants to use the impedance checker.
+The \subpage Doc_ConfigurationManager "Configuration manager" gives you access to that token.
+ \code
+ CDriverFooBarDevice::CDriverFooBarDevice(IDriverContext& rDriverContext)
+  :IDriver(rDriverContext)
+  ,m_pCallback(NULL)
+  ,m_ui32SampleCountPerSentBlock(0)
+  {
+  //... set sampling frequency, channel count, etc.
+
+  // We get the token "AcquisitionServer_CheckImpedance", 
+  // if not found it will be "false"
+  m_bImpedanceCheck =
+      m_rDriverContext
+       .getConfigurationManager()
+        .expandAsBoolean(
+                  "${AcquisitionServer_CheckImpedance}",
+                  false);
+  m_rDriverContext
+      .getLogManager() << LogLevel_Trace 
+                       << (m_bImpedanceCheck?
+                           "Impedance will be checked"
+                          :"Impedance won't be checked") 
+                       << "\n";
+  }
+ \endcode
+
+\subsection Doc_DriverImpedanceChecker_Implementation_2 Update the impedance values
+ 
+To enable the visual feedback of the impedance checker, you just need to give the IDriverContext the impedance values of a given channel. 
+You should call this function only when the driver is initialized and not started. Read the full documentation of IDriverContext for further details.
+\code
+OpenViBE::boolean updateImpedance(
+   const OpenViBE::uint32     ui32ChannelIndex, 
+   const OpenViBE::float64    f64Impedance)
+\endcode
+
+We will call this function in the driver main loop, at the right time.
+
+\code
+boolean CDriverGTecGUSBamp::loop(void)
+{
+  if(!m_rDriverContext.isConnected()) 
+    return false;
+
+  if(m_rDriverContext.isStarted())
+  {
+  	//... Get the data from hardware, 
+    // fill the buffer, maybe correct a jitter, etc.
+  }
+  else
+  {
+    //connected, but not started : let's check the impedance 
+    if(m_bImpedanceCheck)
+    {
+      for(uint32 i = 0; i < m_oHeader.getChannelCount(); i++)
+      {
+        // we get the impedance of each channel
+        double l_dImpedance = FooBarAPI::getImpedance(i);
+        // and update the driver context with it
+        m_rDriverContext.updateImpedance(i, l_dImpedance);
+      }
+    }
+  }
+}
+\endcode
+
+In this example we assumed that the call to the API \c FooBarAPI::getImpedance(i) returns a value in a nearly instantaneous time.
+If the device needs more time the program will hang for few seconds in the loop, maybe more. 
+For example, the g.Tec gUSBamp needs 1 second for each call. In this case, you can ask for the impedance value of only one channel, 
+and change the channel in every \c loop() call. Please look at \c ovasCDriverGTecGUSBamp.cpp for further details.
+*/
+
+\section Doc_DriverImpedanceChecker_Results Results
+
+The figure below shows the impedance checker at work with the g.Tec gUSBamp. 
+Note that the acquisition server is connected but not started.
+
+TODO : snapshot
+\image html impedance_check_gtec.png "Impedance checker"
+
+
+ 

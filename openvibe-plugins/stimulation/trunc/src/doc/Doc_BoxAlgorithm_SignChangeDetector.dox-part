@@ -1,0 +1,68 @@
+/**
+ * \page BoxAlgorithm_SignChangeDetector Sign Change Detector
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Description|
+
+This box detects the changes of the sign of the input. It will work on any matrix of exactly two dimensions, signal in particular. This box operates only on one channel. When the input values change sign a stimulation is sent. You can choose the stimulation to send when the value becomes positive or negative.
+
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Input1|
+Input values. Must be a streamed matrix of exactly two dimensions. This box works well with signal.
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Output1|
+Output stimulations.
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Setting1|
+Stimulation to send when the value becomes positive.
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Setting2|
+Stimulation to send when the value becomes negative.
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Setting3|
+Index of the channel to operate on.
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignChangeDetector_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SignChangeDetector_Miscellaneous|
+ */

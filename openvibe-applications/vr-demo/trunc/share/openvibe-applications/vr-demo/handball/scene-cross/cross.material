@@ -1,0 +1,15 @@
+material cross-cross-material
+{
+	technique
+	{
+		pass
+		{
+			ambient 0 0.75 0 
+			diffuse 0 0.75 0 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+

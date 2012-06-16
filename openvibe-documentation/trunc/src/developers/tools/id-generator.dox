@@ -1,0 +1,23 @@
+/**
+\page Doc_DeveloperTools_IdGenerator ID Generator
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/id-generator/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br> 
+
+\section Doc_DeveloperTools_IdGenerator_Introduction Introduction
+
+The <i> id-generator </i> is a simple command line tool that generate for you a set of random OpenViBE identifiers (see OpenViBE::CIdentifer).
+These objects identifies pretty much everything in the software, from input types to algorithm triggers.
+Each of these identifier must be \b unique.
+
+\section Doc_DeveloperTools_IdGenerator_HowTo How to use it ?
+
+Simply run the script \e openvibe-id-generator.cmd. (\e ov-id-generator.sh on Linux). Then copy-paste the identifier definition in your code.
+Please note that we provide only the prefix of the identifier and its code. You have to complete the name of the identifier.
+
+\image html id-generator.png "id-generator (Windows)"
+
+*/

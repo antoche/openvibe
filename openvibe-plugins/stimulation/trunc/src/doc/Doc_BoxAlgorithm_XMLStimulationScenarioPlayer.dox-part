@@ -1,0 +1,255 @@
+/**
+ * \page BoxAlgorithm_XMLStimulationScenarioPlayer XML stimulation scenario player
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Description|
+ * This plugin generates stimulations according to a scenario written in an XML file.
+ * This scenario's state can be perturbed by incoming stimulations.
+ *
+ * <b>Warning:</b> this box has been deprecated because it was not reliable and
+ * was not easily expandable. If you were using this box, we recommand that you move
+ * to the \ref Doc_BoxAlgorithm_LuaStimulator box. You will find a far better replacement
+ * for what you are trying to achieve.
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Input1|
+ * A stream of incoming stimulations.
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Output1|
+ * A stream of stimulations generated according to a pre-established scenario.
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Setting1|
+ * The XML file containing the scenario description.
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Examples|
+ *
+ * Here is an example of scenario file :
+ *
+ * \code
+ * <Automaton>
+ *   <Variable name="StartExperimentWait" value="500"></Variable>
+ *   <Variable name="CrossOnScreen" value="786"></Variable>
+ *   <Variable name="BeepWait" value="2000"></Variable>
+ *   <Variable name="Beep" value="785"></Variable>
+ *   <Variable name="WaitForCue" value="1000"></Variable>
+ *   <Variable name="LeftCue" value="769"></Variable>
+ *   <Variable name="RightCue" value="770"></Variable>
+ *   <Variable name="DisplayCueWait" value="1250"></Variable>
+ *   <Variable name="Idle" value="800"></Variable>
+ *   <Variable name="ContinuousFeedback" value="781"></Variable>
+ *   <Variable name="ContinuousFeedbackDuration" value="3000"></Variable>
+ *   <Node class="LoopFinite">
+ *     <Property class="Iteration">
+ *       <Parameter class="IValue">40</Parameter>
+ *     </Property>
+ *     <Child>
+ *       <Node class="ActionWaitTime">
+ *         <Property class="Duration">
+ *           <Parameter class="IVariable">StartExperimentWait</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="ActionSendEvent">
+ *         <Property class="Event">
+ *           <Parameter class="IVariable">CrossOnScreen</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="ActionWaitTime">
+ *         <Property class="Duration">
+ *           <Parameter class="IVariable">BeepWait</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="ActionSendEvent">
+ *         <Property class="Event">
+ *           <Parameter class="IVariable">Beep</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="ActionWaitTime">
+ *         <Property class="Duration">
+ *           <Parameter class="IVariable">WaitForCue</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="SwitchProbabilist">
+ *         <Child>
+ *           <Property class="Probability">
+ *             <Parameter class="IValue">5</Parameter>
+ *           </Property>
+ *           <Node class="ActionSendEvent">
+ *             <Property class="Event">
+ *               <Parameter class="IVariable">LeftCue</Parameter>
+ *             </Property>
+ *           </Node>
+ *         </Child>
+ *         <Child>
+ *           <Property class="Probability">
+ *             <Parameter class="IValue">5</Parameter>
+ *           </Property>
+ *           <Node class="ActionSendEvent">
+ *             <Property class="Event">
+ *               <Parameter class="IVariable">RightCue</Parameter>
+ *             </Property>
+ *           </Node>
+ *         </Child>
+ *       </Node>
+ *       <Node class="ActionWaitTime">
+ *         <Property class="Duration">
+ *           <Parameter class="IVariable">DisplayCueWait</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="ActionSendEvent">
+ *         <Property class="Event">
+ *           <Parameter class="IVariable">ContinuousFeedback</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="ActionWaitTime">
+ *         <Property class="Duration">
+ *           <Parameter class="IVariable">ContinuousFeedbackDuration</Parameter>
+ *         </Property>
+ *       </Node>
+ *       <Node class="ActionSendEvent">
+ *         <Property class="Event">
+ *           <Parameter class="IVariable">Idle</Parameter>
+ *         </Property>
+ *       </Node>
+ *     </Child>
+ *   </Node>
+ * </Automaton>
+ *
+ * \endcode
+ *
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_XMLStimulationScenarioPlayer_Miscellaneous|
+ *
+ * First of all, a scenario is enclosed between an \c Automaton and \c /Automaton tags.
+ * A scenario is made of different nodes. Each node can have properties, and properties can have parameters.
+ * When several nodes are on the same hierarchical level, they execute one after the other.
+ * The general structure of a node is has follow :
+ *
+ * \code
+ * <Node class="Class_of_the_node">
+ *   <Property class="Name_of_the_property">
+ *     <Parameter class="Type_of_the_parameter">Parameter_value</Parameter>
+ *   </Property>
+ * </Node>
+ * \endcode
+ *
+ * For now, the there are only two parameter types : integers and variables.
+ * We will describe the later in the next part. For integers, the type is \e IValue.
+ *
+ * \code
+ *   <Parameter class="IValue">123</Parameter>
+ * \endcode
+ *
+ * \subsection BoxAlgorithm_XMLStimulationScenarioPlayer_Miscellaneous_Variables Variables
+ *
+ * At the beginning of the description, just after the \c Automaton tag, it is possible to define variables
+ * (those are more constants than variables), that you will be able to use by their names later.
+ * A variable declaration looks like that :
+ *
+ * \code
+ * <Variable name="Variable_name" value="Variable_value"></Variable>
+ * \endcode
+ *
+ * As of now, all values are integers (that may change in the future).
+ * To use a variable in a parameter node, you just have to do like this :
+ *
+ * \code
+ *   <Parameter class="IVariable">Name_of_the_variable</Parameter>
+ * \endcode
+ *
+ * \subsection BoxAlgorithm_XMLStimulationScenarioPlayer_Miscellaneous_Nodes Nodes description
+ *
+ * There a two main categories of nodes : \c Action \c nodes and \c Control \c nodes.
+ *
+ *
+ * \subsubsection BoxAlgorithm_XMLStimulationScenarioPlayer_Miscellaneous_Nodes_Action Action nodes
+ *
+ * Existing action nodes are :
+ *  - \c SendEvent nodes : outputs the associated stimulation
+ *  - \c WaitEvent nodes : waits for the associated stimulation (from the input) before proceeding to the next node
+ *  - \c WaitTime nodes : waits for a certain duration before proceeding
+ *
+ * \c SendEvent and \c WaitEvent nodes must have an \e Event property, with one value (parameter).
+ * This value is the stimulation identifier.
+ *
+ * \c WaitTime must have a \e Duration property set with one value. This value is the duration (in ms) the scenario must wait in this state.
+ *
+ * \subsubsection BoxAlgorithm_XMLStimulationScenarioPlayer_Miscellaneous_Nodes_Control Control nodes
+ *
+ * Nodes between \c Child and \c /Child tags are child nodes of the control node.
+ *
+ * Existing control nodes are :
+ *  - \c LoopInfinite nodes : executes infinitely its child nodes
+ *  - \c LoopFinite nodes : executes a finite number of times its child nodes
+ *  - \c SwitchProbabilist nodes : executes one of its child branch depending on their probability to be executed
+ *  - \c RandomOrder nodes : executes a finite number of time each child branch, in a random order.
+ *
+ * \c LoopInfinite has property and must have one child.
+ *
+ * \c Loopfinite must have the \e Iteration property configured with one parameter, and have one child.
+ *
+ * SwitchProbabilist can have one or more \c Child ...\c /Child branches.
+ * Each branch must have a \e Probability property configured with one parameter.
+ * This parameter is the probability that this branch will be executed by the switch (the real probability depends on the sum on the probabilities of all the switch children).
+ *
+ * In the example below, each branch has the same probability.
+ * \code
+ * <Node class="SwitchProbabilist">
+ *   <Child>
+ *     <Property class="Probability">
+ *       <Parameter class="IValue">5</Parameter>
+ *     </Property>
+ *     Node1 ...
+ *     Node2 ...
+ *     Node3 ...
+ *   </Child>
+ *   <Child>
+ *     <Property class="Probability">
+ *       <Parameter class="IValue">5</Parameter>
+ *     </Property>
+ *     Node1'...
+ *     Node2'...
+ *   </Child>
+ * </Node>
+ * \endcode
+ *
+ * The \c RandomOrder looks like the \c SwitchProbabilist node, except that the child branches don't need to have a probability (since we go through each branch the same number of time).
+ * The \c RandomOrder node just needs an \e Iteration property (with one parameter) indicating how many times it must go trough each branch.
+ *
+ * |OVP_DocEnd_BoxAlgorithm_XMLStimulationScenarioPlayer_Miscellaneous|
+ */

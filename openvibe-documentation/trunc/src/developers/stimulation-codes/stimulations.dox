@@ -1,0 +1,25 @@
+/**
+
+\page Doc_Stimulations Stimulation codes
+<p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/stimulation-codes/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br> 
+
+- \b NB: Document based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+
+\section Doc_Stimulations_OpenViBE OpenViBE stimulation codes
+
+\dontinclude "openvibe-toolkit/ovtk_defines.h"
+\skip OVTK_StimulationId_ExperimentStart
+\until OVTK_StimulationId_NonTarget
+
+\section Doc_Stimulations_GDF GDF stimulation codes translated into OpenViBE
+
+\dontinclude "openvibe-toolkit/ovtk_defines.h"
+\skip OVTK_GDF_Artifact_EOG_Large
+\until OVTK_GDF_Non_Equidistant_Sampling_Value
+
+*/

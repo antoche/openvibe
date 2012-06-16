@@ -1,0 +1,15 @@
+material ov_unitcube
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+//			specular 0 0 0 10
+//			emissive 0 0 0 
+			scene_blend alpha_blend			
+			depth_write off
+		}
+	}
+}

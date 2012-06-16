@@ -1,0 +1,50 @@
+/**
+ * \defgroup Group_Base Base framework
+ */
+
+/**
+ * \defgroup Group_Kernel Kernel components
+ */
+
+/**
+ * \defgroup Group_Algorithm Algorithms management
+ * \ingroup Group_Kernel
+ */
+
+/**
+ * \defgroup Group_Configuration Configuration management
+ * \ingroup Group_Kernel
+ */
+
+/**
+ * \defgroup Group_Log Log and traces
+ * \ingroup Group_Kernel
+ */
+
+/**
+ * \defgroup Group_Player Scenario playback
+ * \ingroup Group_Kernel
+ */
+
+/**
+ * \defgroup Group_Plugins Plugins management
+ * \ingroup Group_Kernel
+ */
+
+/**
+ * \defgroup Group_Scenario Scenario management
+ * \ingroup Group_Kernel
+ */
+
+/**
+ * \defgroup Group_Visualisation Visuals and displays
+ * \ingroup Group_Kernel
+ */
+
+/**
+ * \defgroup Group_Extend Extension mechanism
+ */
+
+/**
+ * \defgroup Group_Helper Outside world helpers
+ */

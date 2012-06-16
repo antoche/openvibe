@@ -1,0 +1,120 @@
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+//
+// This documentation is D.E.P.R.E.C.A.T.E.D
+//
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+//---------------------------------------------------------------
+
+/*
+ * \page Doc_CreatingNewPlugins Creating new plugins
+ *
+ * \section Doc_CreatingNewPlugins_Introduction Introduction
+ *
+ * §OpenViBE§ is a very high level platform which relies heavily on
+ * a plugin mechanism, making it easy to extend. Its purpose is
+ * to be used for neurofeedback/BCI experiments, but its description level
+ * makes the platform suitable for use in other contexts; see §OpenViBE§
+ * overview to get an idea of the concepts behind §OpenViBE§.
+ *
+ * There are currently 4 ways to extend §OpenViBE§, which are by creating new
+ *  - algorithms
+ *  - box algorithms
+ *  - scenario importers
+ *  - scenario exporters
+ *
+ * Each extension a developer creates will come as a pair of
+ * concrete classes. The first is a description of the plugin object
+ * and the second is the plugin object itself. An extension can be seen as
+ * an implementation of the OpenViBE::Plugins::IPluginObjectDesc
+ * and OpenViBE::Plugins::IPluginObject interfaces. 
+ *
+ * Each extension 'family' has specialized interfaces deriving from these interfaces :
+ *  - for algorithms : OpenViBE::Plugins::IAlgorithmDesc and OpenViBE::Plugins::IAlgorithm
+ *  - for box algorithms : OpenViBE::Plugins::IBoxAlgorithmDesc and OpenViBE::Plugins::IBoxAlgorithm
+ *  - for scenario importers : OpenViBE::Plugins::IScenarioImporterDesc and OpenViBE::Plugins::IScenarioImporter
+ *  - for scenario exporters : OpenViBE::Plugins::IScenarioExporterDesc and OpenViBE::Plugins::IScenarioExporter
+ *
+ * Algorithms make up the finest granularity level of reusable components in $OpenViBE$. 
+ * These data processing entities are designed to be easily embedded in plugins code 
+ * and help to make the extension process fast and efficient. Powerful signal processing can
+ * be achieved by chaining several algorithms together.
+ *
+ * Box algorithms lie one level higher in the abstraction tree. They are the smallest reusable
+ * components available in authoring tools. These black boxes can use one or more
+ * algorithms in order to accomplish their task. Several boxes can also be linked together
+ * to constitute scenarios.
+ *
+ * Finally, scenario importers and exporters are responsible for serializing $OpenViBE$ scenarios.
+ * 
+ * \section Doc_CreatingNewPlugins_CreatingNewBoxAlgorithms Creating new box algorithms
+ *
+ * In order to create new box algorithms, the developer has to
+ * describe the interface of the box, namely its inputs, outputs and settings.
+ * Inputs and outputs describe the data flows
+ * consumed and produced by the box. They have a name and a type identifier. 
+ * Settings are parameters that can be modified outside the algorithm
+ * itself, usually in authoring tools. They have a name, a type identifier and a 
+ * default value. Each input, output and setting should have 
+ * an authoring tool understandable type. The box prototype provides information about
+ * the type of each parameter.
+ *
+ * \todo terminate this documentation
+ *
+ * Here is a sample of a box algorithm plugin :
+ *
+ * \code
+ *
+ * #define ConcreteBoxAlg_ClassID     OpenViBE::CIdentifier(0x12345678, 0x87654321)
+ * #define ConcreteBoxAlgDesc_ClassID OpenViBE::CIdentifier(0x01234567, 0x76543210)
+ *
+ * // Here comes the algorithm itself
+ * // It should overload a number of methods form the OpenViBE API
+ * class CBoxAlgorithm : public OpenViBE::Plugins::IBoxAlgorithm
+ * {
+ * public:
+ *   virtual void release(void)
+ *   {
+ *     delete this;
+ *   }
+ *   virtual OpenViBE::boolean process(OpenViBE::Plugins::IBoxAlgorithmContext& rBoxAlgorithmContext)
+ *   {
+ *     return false;
+ *   }
+ *   _IsDerivedFromClass_Final_(OpenViBE::Plugins::IBoxAlgorithm, ConcreteBoxAlg_ClassID)
+ * };
+ *
+ * class CBoxAlgorithmDesc : public OpenViBE::Plugins::IBoxAlgorithmDesc
+ * {
+ * public:
+ *   virtual std::string getName(void)                { return std::string("sample algorithm"); }
+ *   virtual std::string getAuthorName(void)          { return std::string("Yann Renard"); }
+ *   virtual std::string getAuthorCompanyName(void)   { return std::string("INRIA/IRISA"); }
+ *   virtual std::string getShortDescription(void)    { return std::string("sample algorithm"); }
+ *   virtual std::string getDetailedDescription(void) { return std::string("A sample openvibe algorithm in order to see how it should work"); }
+ *   virtual std::string getCategory(void)            { return std::string("Samples"); }
+ *   virtual std::string getVersion(void)             { return std::string("1.0"); }
+ *   virtual void release(void)
+ *   {
+ *   }
+ *   virtual OpenViBE::CIdentifier getCreatedClass(void)
+ *   {
+ *     return ConcreteBoxAlg_ClassID;
+ *   }
+ *   virtual OpenViBE::Plugins::IPluginObject* create(void)
+ *   {
+ *     return new OpenViBESamples::CBoxAlgorithm();
+ *   }
+ *   virtual OpenViBE::boolean getBoxPrototype(OpenViBE::Plugins::IBoxProto& rPrototype)
+ *   {
+ *     return true; // this is magic isn't it :o)
+ *   }
+ *   _IsDerivedFromClass_Final_(OpenViBE::Plugins::IBoxAlgorithmDesc, ConcreteBoxAlgDesc_ClassID)
+ * };
+ *
+ * \endcode
+ *
+ * \todo describe algorithms, scenario importers and exporters creation
+ */

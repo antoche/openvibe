@@ -1,0 +1,35 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+   <nodes>
+        <node name="goalPivot">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="0" z="0" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="goal">
+                <scale x="1" y="1" z="1" />
+                <position x="0" y="0" z="0" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <node name="goalNode">
+                    <scale x="1" y="1" z="1" />
+                    <position x="0" y="0" z="0" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                    <entity name="goalNode" id="27" meshFile="goalNode.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="goal-surface02" />
+                            <subentity index="1" materialName="goal-surface01" />
+                        </subentities>
+                    </entity>
+                    <entity name="goal-border" id="8" meshFile="goal-border.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="goal-frontcol01" />
+                        </subentities>
+                    </entity>
+                    <entity name="goal-net" id="80" meshFile="goal-net.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="goal-foregrou01" />
+                        </subentities>
+                    </entity>
+                </node>
+            </node>
+        </node>
+    </nodes>
+</scene>

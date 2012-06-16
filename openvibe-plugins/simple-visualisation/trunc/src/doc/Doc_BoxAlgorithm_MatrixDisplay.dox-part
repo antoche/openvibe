@@ -1,0 +1,80 @@
+/**
+ * \page BoxAlgorithm_MatrixDisplay Matrix display
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Description|
+ This box displays an input matrix in a table of gradient-colored squares. 
+ <b> WARNING : The color gradient is centered (50%) at the value 0. </b>
+ The limits of colors match the minimum and maximum values, ever received or in real time if the corresponding setting is set.
+ These values can evolve symetrically, using the maximum absolute value.
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Input1|
+ The matrix to display.
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Input1|
+ 
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Setting1|
+The color gradient used.
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Setting1|
+ 
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Setting2|
+ The number of color steps used in the gradient. The more you have steps, the smoother the gradient will be .
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Setting3|
+ This parameter determines if the minimum and maximum values, matching the 0% and 100% color in the gradient, 
+ should change symetrically using the maximum absolute value and its opposite.
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Setting3|
+ 
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Setting4|
+ This parameter determines if the minimum and maximum values, matching the 0% and 100% color in the gradient, 
+ should be recomputed for each matrix received. 
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Setting4|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_OnlineVisualizationSettings|
+ Online settings :
+ - Setting1 : Show/hide values
+ - Setting2 : Show/hide colors
+
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Examples|
+ Here is an example using a \ref BoxAlgorithm_ConfusionMatrix box that computes confusion matrix from classifier results.
+
+ \image html "matrix_display_online.png" "Confusion matrix displayed using the Matrix Display".
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixDisplay_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixDisplay_Miscellaneous|
+ */

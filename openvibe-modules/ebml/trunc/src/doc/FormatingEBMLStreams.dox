@@ -1,0 +1,104 @@
+/**
+ * \page Doc_FormatingEBMLStreams Formating EBML streams
+ *
+ * \section Doc_FormatingEBMLStreams_Introduction Introduction
+ *
+ * This page tries to teach how a user of this library should use
+ * the writing functions in order to build and format an EBML
+ * stream correctly. For those who don't know what EBML is,
+ * it is basically a binary XML created and used by the matroska
+ * developpers. The libmatroska is based on the libebml
+ * implementation of these guys. Fore more details, please read 
+ * the \ref Doc_WhatIsEBML page first and eventually visit the 
+ * EBML web page at http://ebml.sourceforge.net/
+ *
+ * \section Doc_FormatingEBMLStreams_Concept Concepts
+ *
+ * The idea of this formating library is to transform the data
+ * provided by the user application into EBML buffers. Those EBML
+ * buffers are then given to a user callback object which know
+ * what to do with the computed data (maybe write it to a file,
+ * send it on a socket, log it in a console, whatever...)
+ *
+ * The library is divided into three main components :
+ *  - The writer itself that does the formating stuff
+ *  - An implementation of the callback object (the implementation
+ *    is left to the user application developper)
+ *  - An optionnal helper object that knows more on the
+ *    content of the EBML stream.
+ *
+ * Here comes the organisation of the different modules and how
+ * data go from one to another. Note that the user application
+ * and the user callback object may share some information so the
+ * callback object communicates with the application itself.
+ *
+ * \image html ebml_formating_concept.png "Concept"
+ *
+ * Here comes the UML class diagram, presenting the main classes
+ * involved in the presented behavior.
+ *
+ * \image html ebml_formating_class.png "Class Diagram"
+ *
+ * See EBML::IWriter, EBML::IWriterCallback and EBML::IWriterHelper
+ * for more details on each of these classes.
+ *
+ * \section Doc_FormatingEBMLStreams_SampleCode Sample code
+ *
+ * In this section, a sample of user application code is presented
+ * that opens several child nodes and dumps the created stream
+ * into a file for later use. This file can be parsed using
+ * the sample code of the page named \ref Doc_ParsingEBMLStreams
+ *
+ * The callback object implementation looks something like this :
+ *
+ * \code
+ * class CWriterCallback : public EBML::IWriterCallback
+ * {
+ * public:
+ *   CWriterCallback(char* sFileName)
+ *   {
+ *     m_pFile=fopen(sFileName, "wb");
+ *   }
+ *   virtual ~CWriterCallback(void)
+ *   {
+ *     if(m_pFile) fclose(m_pFile);
+ *   }
+ *   virtual void write(const void* pBuffer, const EBML::uint64 ui64BufferSize)
+ *   {
+ *     if(m_pFile) fwrite(pBuffer, ui64BufferSize, 1, m_pFile);
+ *   }
+ *   FILE* m_pFile;
+ * };
+ * \endcode
+ *
+ * Then in the user application code, we can write the
+ * initialisation this way :
+ *
+ * \code
+ * CWriterCallback oCallback("test.ebml");
+ * EBML::IWriter* pWriter=EBML::createWriter(oCallback);
+ * EBML::IWriterHelper* pWriterHelper=EBML::createWriterHelper();
+ * pWriterHelper->connect(pWriter);
+ * \endcode
+ *
+ * The use of the EBML writer looks something like this :
+ *
+ * \code
+ * pWriterHelper->openChild(EBML_Identifier_Header);
+ *   pWriterHelper->openChild(EBML_Identifier_DocType);
+ *     pWriterHelper->setASCIIStringAsChildData("EBML basic sample");
+ *   pWriterHelper->closeChild();
+ *   pWriterHelper->openChild(EBML_Identifier_DocTypeVersion);
+ *     pWriterHelper->setUIntegerAsChildData(1);
+ *   pWriterHelper->closeChild();
+ * pWriterHelper->closeChild();
+ * \endcode
+ *
+ * Finally, we have to release the objects and to clean memory :
+ *
+ * \code
+ * pWriterHelper->disconnect();
+ * pWriterHelper->release();
+ * pWriter->release();
+ * \endcode
+ */

@@ -1,0 +1,88 @@
+/**
+ * \page BoxAlgorithm_DownsamplingGPL Downsampling - GPL
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Description|
+ *
+ * This plugin is used to downsample the input signal. First, a
+ * low-pass filter is applied to the input signal for anti-aliasing.
+ * Then, the input signal is downsampled at the new sampling rate.
+ * This plugin allows the selection of the kinf of filter (Butterworth,
+ * Chebychev, Yule-Walker), the new sampling rate and the frequency
+ * cutoff for the filter.
+ *
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Input1|
+ * The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Setting1|
+ * New sampling rate in Hz chosen to downsample the input signal.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Setting1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Setting2|
+ * Select the frequency cutoff of the low-pass filter as a ratio (1/2,
+ * 1/3 or 1/4) of the new sampling rate.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Setting2|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Setting3|
+ * Select the kind of filter between Butterworth, Chebychev and Yule-Walker.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Setting3|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Setting4|
+ * Order of the low-pass filter.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Setting4|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Setting5|
+ * If Chebychev filter is selected, PassBand Ripple is a necessary info.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Setting5|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Examples|
+ * Let's consider our input signal sampling rate is 1 kHz.
+ * If the new selected sampling rate is 200 Hz and the Frequency
+ * cutoff ratio is 1/4, then a low-pass filter (with freqeuncy
+ * cutoff equal to 200*1/4 = 50 Hz) is applied  before downsampling
+ * at 200 Hz.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DownsamplingGPL_Miscellaneous|
+ * This plugin downsamples the input signal and previously realizes
+ * an anti-aliasing filtering.
+ * |OVP_DocEnd_BoxAlgorithm_DownsamplingGPL_Miscellaneous|
+ */

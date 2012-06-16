@@ -1,0 +1,14 @@
+To use the gTec gMOBIlab+ device, it is necessary to connect it via Blutooth to the computer.
+First the computer has to recognize the new peripheral (the gTec gMOBIlab+) and then the computer has to be connected to it.
+
+The command on linux is :
+
+rfcomm connect # xx:xx:xx:xx:xx:xx 
+
+Where # has to be replaced by a port number (0 if you want to connect to /dev/rfcomm0) and xx:xx:xx:xx:xx:xx is the mac address of the gTec module.
+Once the device is connected, the OpenViBE-aquisition-server file can be run. A pop up appears with a menu containing "gTec gMOBIlab+", that has to be selected.
+After checking in the properties that the port name is the same as the one you are connected to (default name is /dev/rfcomm0), it is possible to try to connect.
+
+If the connection to the server fails, the state of the gMOBIlab+ should be checked : the diode of the gMOBIlab+ device should flash on and off.
+
+The frequency of the gTecMobiLab+ is 256 Hz.

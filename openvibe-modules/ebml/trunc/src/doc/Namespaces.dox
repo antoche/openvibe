@@ -1,0 +1,13 @@
+/**
+ * \namespace EBML
+ * \author Yann Renard
+ * \date 2006-08-07
+ * \brief Namespace for the EBML lib
+ *
+ * This namespace contains the classes, types and functions used
+ * and offered by the EBML parsing/formating library.
+ *
+ * Most important classes to look at are :
+ *  - EBML::IReader for EBML parsing
+ *  - EBML::IWriter for EBML formating
+ */

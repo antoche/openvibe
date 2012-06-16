@@ -1,0 +1,207 @@
+#!/bin/bash
+
+if [ ! -e linux-init_env_command ]; then
+	echo "You have to configure your \`linux-init_env_command\` file."
+	echo "\`linux-init_env_command-skeleton\` is a good file to start with... (I'll copy this file for you)"
+	cp linux-init_env_command-skeleton linux-init_env_command
+fi
+
+source linux-init_env_command
+
+ov_build_type=Release
+if [ "$1" == "--debug" ]; then
+	ov_build_type=Debug
+	shift
+fi
+
+echo ""
+echo "_______________________________________________________________________________"
+echo ""
+
+for project_directory in $OpenViBE_build_order; do
+	if [ -e "$project_directory/CMakeLists.txt" ]; then
+
+		temp_sub_directory=`echo $project_directory | sed '
+			s:'$OpenViBE_base'/::g
+			'`
+		mkdir -p "../local-tmp/$temp_sub_directory" 2> /dev/null
+		pushd "../local-tmp/$temp_sub_directory" 2> /dev/null
+
+		echo "Configuring and building $temp_sub_directory ..."
+		echo ""
+
+		cmake -DCMAKE_INSTALL_PREFIX="$project_directory" -DCMAKE_CXX_FLAGS=-Wall -DCMAKE_BUILD_TYPE=${ov_build_type} -DCMAKE_MODULE_PATH="$OpenViBE_base/cmake-modules" -Wno-dev "$project_directory"
+		if [ $? -eq 0 ]; then
+			echo CMake has been called successfully !
+		else
+			exit -1
+		fi;
+
+		make $1 -j 3 # VERBOSE=1
+		if [ $? -eq 0 ]; then
+			echo Make has been called successfully !
+		else
+			exit -1
+		fi;
+
+		#make OpenViBE-documentation
+		#if [ $? -eq 0 ]; then
+		#	echo Make OpenViBE-documentation has been called successfully !
+		#else
+		#	true # exit -1
+		#fi;
+
+		make install
+		if [ $? -eq 0 ]; then
+			echo Make install has been called successfully !
+		else
+			true # exit -1
+		fi;
+
+		popd 2> /dev/null
+
+		echo ""
+		echo "_______________________________________________________________________________"
+		echo ""
+	fi;
+done
+
+echo ""
+echo "Building process terminated successfully !"
+echo ""
+
+# rm -rf $target_dist           2> /dev/null
+
+echo ""
+echo "Installing files to 'dist' folder, this can take a few seconds - maybe a few minutes..."
+echo ""
+
+target_dist=../dist
+mkdir -p $target_dist/bin     2> /dev/null
+mkdir -p $target_dist/include 2> /dev/null
+mkdir -p $target_dist/lib     2> /dev/null
+mkdir -p $target_dist/share   2> /dev/null
+mkdir -p $target_dist/tmp     2> /dev/null
+mkdir -p $target_dist/log     2> /dev/null
+mkdir -p $target_dist/etc     2> /dev/null
+mkdir -p $target_dist/doc     2> /dev/null
+
+echo ""
+for project_directory in $OpenViBE_build_order; do
+	temp_sub_directory=`echo $project_directory | sed '
+		s:'$OpenViBE_base'/::g
+		'`
+	echo "## Installing $temp_sub_directory ..."
+	cp -rf $project_directory/bin/*     $target_dist/bin     2> /dev/null
+	cp -rf $project_directory/include/* $target_dist/include 2> /dev/null
+	cp -rf $project_directory/lib/*.a*  $target_dist/lib     2> /dev/null
+	cp -rf $project_directory/lib/*.so* $target_dist/lib     2> /dev/null
+	cp -rf $project_directory/share/*   $target_dist/share   2> /dev/null
+	cp -rf $project_directory/etc/*     $target_dist/etc     2> /dev/null
+	cp -rf $project_directory/doc/*     $target_dist/doc     2> /dev/null
+done
+echo ""
+
+echo ""
+echo "Creating launch scripts..."
+echo ""
+
+script_base='#!/bin/bash
+cd "'`pwd`'"
+source linux-init_env_command
+export LD_LIBRARY_PATH=$OpenViBE_base/dist/lib:$OpenViBE_dependencies/lib:$LD_LIBRARY_PATH
+export LC_ALL=C
+renice 19 $$
+cd "$OpenViBE_base/dist/bin"
+
+ov_debugger=
+if [ "$1" == "--debug" ]; then
+	ov_debugger="gdb --args"
+	shift
+fi
+'
+echo "$script_base exec \$ov_debugger ./OpenViBE-designer-dynamic \$*" > $target_dist/ov-designer.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-acquisition-server-dynamic \$*" > $target_dist/ov-acquisition-server.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-plugin-inspector-dynamic \$*" > $target_dist/ov-plugin-inspector.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-id-generator-dynamic \$*" > $target_dist/ov-id-generator.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-vr-demo \"tie-fighter\" \$*" > $target_dist/ov-vr-demo-tie-fighter.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-vr-demo \"handball\" \$*" > $target_dist/ov-vr-demo-handball.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-vrpn-simulator-dynamic \$*" > $target_dist/ov-vrpn-simulator.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-skeleton-generator-dynamic \$*" > $target_dist/ov-skeleton-generator.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-ssvep-demo-dynamic training\$* &" > $target_dist/ov-ssvep-demo-training.sh
+echo "$script_base exec \$ov_debugger ./OpenViBE-ssvep-demo-dynamic shooter\$* &" > $target_dist/ov-ssvep-demo-shooter.sh
+ln -sf $target_dist/ov-designer.sh
+ln -sf $target_dist/ov-acquisition-server.sh
+ln -sf $target_dist/ov-plugin-inspector.sh
+ln -sf $target_dist/ov-id-generator.sh
+ln -sf $target_dist/ov-vr-demo-tie-fighter.sh
+ln -sf $target_dist/ov-vr-demo-handball.sh
+ln -sf $target_dist/ov-vrpn-simulator.sh
+ln -sf $target_dist/ov-skeleton-generator.sh
+ln -sf $target_dist/ov-ssvep-demo-training.sh
+ln -sf $target_dist/ov-ssvep-demo-shooter.sh
+chmod 755 $target_dist/*.sh
+
+echo "#!/bin/bash
+cd ..
+./ov-\$1.sh \${*:2}
+" > $target_dist/bin/OpenViBE-external-application-launcher.sh
+chmod 755 $target_dist/bin/OpenViBE-external-application-launcher.sh
+
+
+
+echo ""
+echo "Patching documentation..."
+echo ""
+
+find $target_dist/doc -name *.html -exec sed -i -e "s/\xC2\?\xA7OpenViBE\xC2\?\xA7/OpenViBE/g" "{}" \; # \xC2\?\xA7 is the § character that has been put everywhere to clearly make the distinction between the project and the software
+
+if [[ "$OpenViBE_building_package" == "debian" ]]; then
+
+	echo ""
+	echo "_______________________________________________________________________________"
+	echo ""
+
+	echo ""
+	echo "Specific install for debian packaging purpose, this can take a few seconds - maybe a few minutes..."
+	echo ""
+
+	echo ""
+	for project_directory in $OpenViBE_build_order; do
+		temp_sub_directory=`echo $project_directory | sed '
+			s:'$OpenViBE_base'/::g
+			s:/trunc::g
+			s:/:-:g
+			s:-modules-:-module-:g
+			s:-plugins-:-plugin-:g
+			s:-applications-:-application-:g
+			s:-omk::g
+			'`
+
+		target_dist=../debian/$temp_sub_directory
+		mkdir -p $target_dist/usr/bin     2> /dev/null
+		# mkdir -p $target_dist/usr/include 2> /dev/null
+		mkdir -p $target_dist/usr/openvibe/lib     2> /dev/null
+		mkdir -p $target_dist/usr/share/openvibe   2> /dev/null
+		# mkdir -p $target_dist/tmp     2> /dev/null
+		# mkdir -p $target_dist/log     2> /dev/null
+		# mkdir -p $target_dist/etc     2> /dev/null
+		# mkdir -p $target_dist/doc     2> /dev/null
+
+		echo "## Installing $temp_sub_directory ..."
+		cp -rf $project_directory/bin/*     $target_dist/usr/bin     2> /dev/null
+		rm -f $target_dist/usr/bin/*.dll     $target_dist/usr/bin     2> /dev/null
+		# cp -rf $project_directory/include/* $target_dist-dev/usr/include 2> /dev/null
+		# cp -rf $project_directory/lib/*.a*  $target_dist-dev/usr/lib     2> /dev/null
+		cp -rf $project_directory/lib/*.so* $target_dist/usr/openvibe/lib     2> /dev/null
+		cp -rf $project_directory/share/*   $target_dist/usr/share/openvibe   2> /dev/null
+		# cp -rf $project_directory/doc/*     $target_dist/doc     2> /dev/null
+	done
+	echo ""
+fi
+
+echo ""
+echo "Install completed !"
+echo ""
+
+true

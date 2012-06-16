@@ -1,0 +1,100 @@
+material vador-surface01
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 
+			diffuse 0.8 0.8 0.8 
+			specular 0 0 0 53.8082
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture vador-vadr5.jpg
+			}
+		}
+	}
+}
+
+
+material vador-surface02
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 
+			diffuse 0.8 0.8 0.8 
+			specular 0 0 0 53.8082
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture vador-vadr1.jpg
+			}
+		}
+	}
+}
+
+
+material vador-surface03
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 
+			diffuse 0.8 0.8 0.8 
+			specular 0 0 0 53.8082
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture vador-vadr2.jpg
+			}
+		}
+	}
+}
+
+
+material vador-surface04
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 0.4 0.4 
+			diffuse 1 0.4 0.4 
+			specular 1 0.4 0.4 53.8082
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture vador-vadr4.jpg
+			}
+		}
+	}
+}
+
+
+material vador-surface05
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8 
+			diffuse 0.8 0.8 0.8 
+			specular 0 0 0 53.8082
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture vador-vadr3.jpg
+			}
+		}
+	}
+}
+
+

@@ -1,0 +1,93 @@
+/**
+ * \page Doc_CreatingNewPlugins Creating new plugins
+ *
+ * \section Doc_CreatingNewPlugins_Introduction Introduction
+ *
+ * The §OpenViBE§ is vey high level defined and heavily based on
+ * plugin mechanism so it can be extended a lot. It's purpose is
+ * to be used with neurofeedback/BCI but its description level
+ * allows it to be used for a lot of other things ; see §OpenViBE§
+ * overview to get an idea of the concepts behinde §OpenViBE§.
+ *
+ * There are 4 ways §OpenViBE§ can be extended nowadays :
+ *  - creating new algorithm
+ *  - creating new box algorithm
+ *  - creating new scenario importer
+ *  - creating new scenario exporter
+ *
+ * Each extension a developper creates will come with a pair of
+ * implemented classes : a description of the plugin object
+ * and the plugin object itself. Each extension can be viewed as
+ * a specialized extension of the OpenViBE::Plugins::IPluginObjectDesc
+ * and the OpenViBE::Plugins::IPluginObject interfaces. Each family
+ * already has a specialized interface :
+ *  - for algorithm : OpenViBE::Plugins::IAlgorithmDesc and OpenViBE::Plugins::IAlgorithm
+ *  - for box algorithm : OpenViBE::Plugins::IBoxAlgorithmDesc and OpenViBE::Plugins::IBoxAlgorithm
+ *  - for scenario importer : OpenViBE::Plugins::IScenarioImporterDesc and OpenViBE::Plugins::IScenarioImporter
+ *  - for scenario exporter : OpenViBE::Plugins::IScenarioExporterDesc and OpenViBE::Plugins::IScenarioExporter
+ *
+ * \section Doc_CreatingNewPlugins_CreatingNewAlgorithms Creating new algorithms
+ *
+ * In order to create new box algorithms, the developper has to
+ * describe the interface of its box : inputs, outputs and settings.
+ * Settings are parameters that can be modified outside the algorithm
+ * itself, usually in the authoring tool application. Each of this
+ * inputs, outputs and settings should have an authoring tool 
+ * understandable type. This type is returned in the protoype of
+ * the setting.
+ *
+ * \todo terminate this documentation
+ *
+ * Here comes a sample of algorithm plugin :
+ *
+ * \code
+ *
+ * #define ConcreteBoxAlg_ClassID     OpenViBE::CIdentifier(0x12345678, 0x87654321)
+ * #define ConcreteBoxAlgDesc_ClassID OpenViBE::CIdentifier(0x01234567, 0x76543210)
+ *
+ * // Here comes the algorithm itself
+ * // It should overload a number of methods form the OpenViBE API
+ * class CBoxAlgorithm : public OpenViBE::Plugins::IBoxAlgorithm
+ * {
+ * public:
+ *   virtual void release(void)
+ *   {
+ *     delete this;
+ *   }
+ *   virtual OpenViBE::boolean process(OpenViBE::Plugins::IBoxAlgorithmContext& rBoxAlgorithmContext)
+ *   {
+ *     return false;
+ *   }
+ *   _IsDerivedFromClass_Final_(OpenViBE::Plugins::IBoxAlgorithm, ConcreteBoxAlg_ClassID)
+ * };
+ *
+ * class CBoxAlgorithmDesc : public OpenViBE::Plugins::IBoxAlgorithmDesc
+ * {
+ * public:
+ *   virtual std::string getName(void)                { return std::string("sample algorithm"); }
+ *   virtual std::string getAuthorName(void)          { return std::string("Yann Renard"); }
+ *   virtual std::string getAuthorCompanyName(void)   { return std::string("INRIA/IRISA"); }
+ *   virtual std::string getShortDescription(void)    { return std::string("sample algorithm"); }
+ *   virtual std::string getDetailedDescription(void) { return std::string("A sample openvibe algorithm in order to see how it should work"); }
+ *   virtual std::string getCategory(void)            { return std::string("Samples"); }
+ *   virtual std::string getVersion(void)             { return std::string("1.0"); }
+ *   virtual void release(void)
+ *   {
+ *   }
+ *   virtual OpenViBE::CIdentifier getCreatedClass(void)
+ *   {
+ *     return ConcreteBoxAlg_ClassID;
+ *   }
+ *   virtual OpenViBE::Plugins::IPluginObject* create(void)
+ *   {
+ *     return new OpenViBESamples::CBoxAlgorithm();
+ *   }
+ *   virtual OpenViBE::boolean getBoxPrototype(OpenViBE::Plugins::IBoxProto& rPrototype)
+ *   {
+ *     return true; // this is magic isn't it :o)
+ *   }
+ *   _IsDerivedFromClass_Final_(OpenViBE::Plugins::IBoxAlgorithmDesc, ConcreteBoxAlgDesc_ClassID)
+ * };
+ *
+ * \endcode
+ */

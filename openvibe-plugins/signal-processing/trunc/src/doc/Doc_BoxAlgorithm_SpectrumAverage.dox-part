@@ -1,0 +1,68 @@
+/**
+ * \page BoxAlgorithm_SpectrumAverage Spectrum Average
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Description|
+ * This box can be used in conjunction with the \ref Doc_BoxAlgorithm_SpectralAnalysisGPL and
+ * the \ref Doc_BoxAlgorithm_FrequencyBandSelector boxes in order to compute a power in specific
+ * frequency bands of a spectrum. The output is a column matrix giving a single value for each
+ * channel : the actual average power of the spectrum. You can may want to use these values
+ * with the \ref Doc_BoxAlgorithm_SimpleDSP to get ratios.
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Input1|
+ * This input should connect to a spectrum stream, either filtered with the
+ * \ref Doc_BoxAlgorithm_FrequencyBandSelector box or not.
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Output1|
+ * The output is a column matrix giving a single value for each
+ * channel : the actual average power of the spectrum.
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Setting1|
+ * The \ref Doc_BoxAlgorithm_FrequencyBandSelector outputs a spectrum with
+ * all initial frequency band represented. The bands that were not selected
+ * just have a 0 instead of their value. Consequently, you can use this settings
+ * to tell the box if the 0s contained in the spectrum should be part of the
+ * mean or not.
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectrumAverage_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SpectrumAverage_Miscellaneous|
+ */

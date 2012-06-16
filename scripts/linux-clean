@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [ ! -e linux-init_env_command ]; then
+	echo "You have to configure your \`linux-init_env_command\` file."
+	echo "\`linux-init_env_command-skeleton\` is a good file to start with..."
+	exit
+fi
+
+source linux-init_env_command
+
+for project_directory in $OpenViBE_build_order; do
+	if [ -e "$project_directory/CMakeLists.txt" ]; then
+
+		temp_sub_directory=`echo $project_directory | sed '
+			s:'$OpenViBE_base'/::g
+			'`
+		mkdir -p "../local-tmp/$temp_sub_directory" 2> /dev/null
+		pushd "../local-tmp/$temp_sub_directory" 2> /dev/null
+
+		cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH="$OpenViBE_base/cmake-modules" -Wno-dev "$project_directory"
+		make clean
+
+		rmdir $project_directory/include/* 2> /dev/null
+
+		popd 2> /dev/null
+	fi;
+done
+rm -r ../local-tmp 2> /dev/null

@@ -1,0 +1,390 @@
+#!/bin/bash
+
+g_sed=`which sed`
+g_printf=`which printf`
+g_wizard_rc="./box-algorithm-wizard-rc"
+g_random_seed=$$
+
+echo "________________________________________________"
+echo ""
+echo "OpenViBE box algorithm class generator wizard..."
+echo "________________________________________________"
+echo ""
+echo "using as rc          [$g_wizard_rc]"
+echo "using as random seed [$g_random_seed]"
+echo "using as sed         [$g_sed]"
+echo "using as printf      [$g_printf]"
+echo "____________________________________________"
+echo ""
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+RANDOM=$g_random_seed
+
+if [ -e "$g_wizard_rc" ]; then
+	source $g_wizard_rc
+fi;
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+while [ "$l_box_algorithm_name" == "" ]; do
+	echo -n "Please enter box_algorithm name ($g_wizard_rc_box_algorithm_name) : "
+	read l_box_algorithm_name
+	if [ "$l_box_algorithm_name" == "" ]; then
+		l_box_algorithm_name=$g_wizard_rc_box_algorithm_name
+	fi;
+done;
+
+while [ "$l_author_name" == "" ]; do
+	echo -n "Please enter author name ($g_wizard_rc_author_name) : "
+	read l_author_name
+	if [ "$l_author_name" == "" ]; then
+		l_author_name=$g_wizard_rc_author_name
+	fi;
+done;
+
+while [ "$l_author_company_name" == "" ]; do
+	echo -n "Please enter author company name ($g_wizard_rc_author_company_name) : "
+	read l_author_company_name
+	if [ "$l_author_company_name" == "" ]; then
+		l_author_company_name=$g_wizard_rc_author_company_name
+	fi;
+done;
+
+while [ "$l_category" == "" ]; do
+	echo -n "Please enter category ($g_wizard_rc_category) : "
+	read l_category
+	if [ "$l_category" == "" ]; then
+		l_category=$g_wizard_rc_category
+	fi;
+done;
+
+while [ "$l_project" == "" ]; do
+	echo -n "Please enter project name ($g_wizard_rc_project) : "
+	read l_project
+	if [ "$l_project" == "" ]; then
+		l_project=$g_wizard_rc_project
+	fi;
+done;
+
+while [ "$l_version" == "" ]; do
+	echo -n "Please enter version ($g_wizard_rc_version) : "
+	read l_version
+	if [ "$l_version" == "" ]; then
+		l_version=$g_wizard_rc_version
+	fi;
+done;
+
+#while [ "$l_short_description" == "" ]; do
+	echo -n "Please enter short description ($g_wizard_rc_short_description) : "
+	read l_short_description
+	if [ "$l_short_description" == "" ]; then
+		if [ "$g_wizard_rc_short_description" != "" ]; then
+			l_short_description=$g_wizard_rc_short_description
+		fi;
+	fi;
+#done;
+
+#while [ "$l_detailed_description" == "" ]; do
+	echo -n "Please enter detailed description ($g_wizard_rc_detailed_description) : "
+	read l_detailed_description
+	if [ "$l_detailed_description" == "" ]; then
+		if [ "$g_wizard_rc_detailed_description" != "" ]; then
+			l_detailed_description=$g_wizard_rc_detailed_description
+		fi;
+	fi;
+#done;
+
+while [ "$l_generated_id_count" == "" ]; do
+	echo -n "Please enter pre-generated identifier count ($g_wizard_rc_generated_id_count) : "
+	read l_generated_id_count
+	if [ "$l_generated_id_count" == "" ]; then
+		l_generated_id_count=$g_wizard_rc_generated_id_count
+	fi;
+done;
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+let id_1=$RANDOM*65536+$RANDOM
+let id_2=$RANDOM*65536+$RANDOM
+let id_3=$RANDOM*65536+$RANDOM
+let id_4=$RANDOM*65536+$RANDOM
+
+l_box_algorithm_name_final=`echo $l_box_algorithm_name | sed -e '
+	s/ \(.\)/\U\1/g
+	s/^\(.\)/\U\1/g
+'`
+l_box_algorithm_namespace_final=`echo $l_project | sed -e '
+	s/ \(.\)/\U\1/g
+	s/^\(.\)/\U\1/g
+'`
+
+l_box_algorithm_header_decoration="__OpenViBEPlugins_BoxAlgorithm_${l_box_algorithm_name_final}_H__"
+l_box_algorithm_class_name="CBoxAlgorithm${l_box_algorithm_name_final}"
+l_box_algorithm_desc_class_name="CBoxAlgorithm${l_box_algorithm_name_final}Desc"
+l_box_algorithm_class_identifier="OpenViBE::CIdentifier(`printf "0x%08X, 0x%08X" $id_1 $id_2`)"
+l_box_algorithm_desc_class_identifier="OpenViBE::CIdentifier(`printf "0x%08X, 0x%08X" $id_3 $id_4`)"
+l_box_algorithm_class_identifier_def="OVP_ClassId_BoxAlgorithm_${l_box_algorithm_name_final}"
+l_box_algorithm_desc_class_identifier_def="OVP_ClassId_BoxAlgorithm_${l_box_algorithm_name_final}Desc"
+
+l_header_file_filename="ovp${l_box_algorithm_class_name}.h"
+l_implementation_file_filename="ovp${l_box_algorithm_class_name}.cpp"
+
+l_box_algorithm_generated_ids=""
+for i in `seq 1 $l_generated_id_count`; do
+	let id_5=$RANDOM*65536+$RANDOM
+	let id_6=$RANDOM*65536+$RANDOM
+	l_box_algorithm_generated_ids="$l_box_algorithm_generated_ids
+// #define OVP_/*TODO*/ OpenViBE::CIdentifier(`printf "0x%08X, 0x%08X" $id_5 $id_6`)"
+done;
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+l_header_file_content="#ifndef $l_box_algorithm_header_decoration
+#define $l_box_algorithm_header_decoration
+
+#include \"../../ovp_defines.h\"
+#include <openvibe/ov_all.h>
+#include <openvibe-toolkit/ovtk_all.h>
+
+// TODO:
+// - please include your desciptor in ovp_main.cpp
+
+#define $l_box_algorithm_class_identifier_def     $l_box_algorithm_class_identifier
+#define $l_box_algorithm_desc_class_identifier_def $l_box_algorithm_desc_class_identifier
+$l_box_algorithm_generated_ids
+
+namespace OpenViBEPlugins
+{
+	namespace $l_box_algorithm_namespace_final
+	{
+		class $l_box_algorithm_class_name : public OpenViBEToolkit::TBoxAlgorithm < OpenViBE::Plugins::IBoxAlgorithm >
+		{
+		public:
+
+			virtual void release(void) { delete this; }
+
+			// virtual OpenViBE::uint64 getClockFrequency(void);
+			virtual OpenViBE::boolean initialize(void);
+			virtual OpenViBE::boolean uninitialize(void);
+			// virtual OpenViBE::boolean processEvent(OpenViBE::CMessageEvent& rMessageEvent);
+			// virtual OpenViBE::boolean processSignal(OpenViBE::CMessageSignal& rMessageSignal);
+			// virtual OpenViBE::boolean processClock(OpenViBE::CMessageClock& rMessageClock);
+			// virtual OpenViBE::boolean processInput(OpenViBE::uint32 ui32InputIndex);
+			virtual OpenViBE::boolean process(void);
+
+			_IsDerivedFromClass_Final_(OpenViBEToolkit::TBoxAlgorithm < OpenViBE::Plugins::IBoxAlgorithm >, $l_box_algorithm_class_identifier_def);
+
+		protected:
+
+			// OpenViBEToolkit::TSignalDecoder < $l_box_algorithm_class_name > m_oDecoder;
+			// OpenViBEToolkit::TSignalEncoder < $l_box_algorithm_class_name > m_oEncoder;
+		};
+
+/*
+		class ${l_box_algorithm_class_name}Listener : public OpenViBEToolkit::TBoxListener < OpenViBE::Plugins::IBoxListener >
+		{
+		public:
+
+			virtual OpenViBE::boolean initialize(void) { return true; }
+			virtual OpenViBE::boolean uninitialize(void) { return true; }
+			virtual OpenViBE::boolean onInitialized(OpenViBE::Kernel::IBox& rBox) { return true; };
+			virtual OpenViBE::boolean onNameChanged(OpenViBE::Kernel::IBox& rBox) { return true; };
+			virtual OpenViBE::boolean onIdentifierChanged(OpenViBE::Kernel::IBox& rBox) { return true; };
+			virtual OpenViBE::boolean onAlgorithmClassIdentifierChanged(OpenViBE::Kernel::IBox& rBox) { return true; };
+			virtual OpenViBE::boolean onProcessingUnitChanged(OpenViBE::Kernel::IBox& rBox) { return true; };
+			virtual OpenViBE::boolean onInputConnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onInputDisconnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onInputAdded(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onInputRemoved(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onInputTypeChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onInputNameChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onOutputConnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onOutputDisconnected(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onOutputAdded(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onOutputRemoved(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onOutputTypeChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onOutputNameChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onSettingAdded(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onSettingRemoved(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onSettingTypeChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onSettingNameChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onSettingDefaultValueChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+			virtual OpenViBE::boolean onSettingValueChanged(OpenViBE::Kernel::IBox& rBox, const OpenViBE::uint32 ui32Index) { return true; };
+
+			_IsDerivedFromClass_Final_(OpenViBEToolkit::TBoxListener < OpenViBE::Plugins::IBoxListener >, OV_UndefinedIdentifier);
+		};
+*/
+
+		class $l_box_algorithm_desc_class_name : public OpenViBE::Plugins::IBoxAlgorithmDesc
+		{
+		public:
+
+			virtual void release(void) { }
+
+			virtual OpenViBE::CString getName(void) const                { return OpenViBE::CString(\"$l_box_algorithm_name\"); }
+			virtual OpenViBE::CString getAuthorName(void) const          { return OpenViBE::CString(\"$l_author_name\"); }
+			virtual OpenViBE::CString getAuthorCompanyName(void) const   { return OpenViBE::CString(\"$l_author_company_name\"); }
+			virtual OpenViBE::CString getShortDescription(void) const    { return OpenViBE::CString(\"$l_short_description\"); }
+			virtual OpenViBE::CString getDetailedDescription(void) const { return OpenViBE::CString(\"$l_detailed_description\"); }
+			virtual OpenViBE::CString getCategory(void) const            { return OpenViBE::CString(\"$l_category\"); }
+			virtual OpenViBE::CString getVersion(void) const             { return OpenViBE::CString(\"$l_version\"); }
+			virtual OpenViBE::CString getStockItemName(void) const       { return OpenViBE::CString(\"gtk-missing-image\"); }
+
+			virtual OpenViBE::CIdentifier getCreatedClass(void) const    { return $l_box_algorithm_class_identifier_def; }
+			virtual OpenViBE::Plugins::IPluginObject* create(void)       { return new OpenViBEPlugins::$l_box_algorithm_namespace_final::$l_box_algorithm_class_name; }
+			// virtual OpenViBE::Plugins::IBoxListener* createBoxListener(void) const               { return new ${l_box_algorithm_class_name}Listener; }
+			// virtual void releaseBoxListener(OpenViBE::Plugins::IBoxListener* pBoxListener) const { delete pBoxListener; }
+
+			virtual OpenViBE::boolean getBoxPrototype(
+				OpenViBE::Kernel::IBoxProto& rBoxAlgorithmPrototype) const
+			{
+				// rBoxAlgorithmPrototype.addInput  (\"input name\", /* input type (OV_TypeId_Signal) */);
+				// rBoxAlgorithmPrototype.addOutput (\"output name\", /* output type (OV_TypeId_Signal) */);
+				// rBoxAlgorithmPrototype.addSetting(\"setting name\", /* setting type (OV_TypeId_Integer), \"default value\" */);
+				// rBoxAlgorithmPrototype.addFlag   (/* flag name (OpenViBE::Kernel::BoxFlag_CanAddOutput) */);
+
+				return true;
+			}
+
+			_IsDerivedFromClass_Final_(OpenViBE::Plugins::IBoxAlgorithmDesc, $l_box_algorithm_desc_class_identifier_def);
+		};
+	};
+};
+
+#endif // $l_box_algorithm_header_decoration"
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+l_implementation_file_content="#include \"$l_header_file_filename\"
+
+using namespace OpenViBE;
+using namespace OpenViBE::Kernel;
+using namespace OpenViBE::Plugins;
+
+using namespace OpenViBEPlugins;
+using namespace OpenViBEPlugins::$l_box_algorithm_namespace_final;
+
+/*
+uint64 $l_box_algorithm_class_name::getClockFrequency(void)
+{
+	return 0; // the box clock frequency
+}
+*/
+
+boolean $l_box_algorithm_class_name::initialize(void)
+{
+	// CString   l_sSettingValue=FSettingValueAutoCast(*this->getBoxAlgorithmContext(), 0);
+	// uint64 l_ui64SettingValue=FSettingValueAutoCast(*this->getBoxAlgorithmContext(), 1);
+	// float64 l_f64SettingValue=FSettingValueAutoCast(*this->getBoxAlgorithmContext(), 2);
+	// ...
+	m_oDecoder.initialize(*this);
+	m_oEncoder.initialize(*this);
+	return true;
+}
+
+boolean $l_box_algorithm_class_name::uninitialize(void)
+{
+	m_oDecoder.uninitialize();
+	m_oEncoder.uninitialize();
+	return true;
+}
+
+/*
+boolean $l_box_algorithm_class_name::processEvent(IMessageEvent& rMessageEvent)
+{
+	// this->getBoxAlgorithmContext()->markAlgorithmAsReadyToProcess();
+	return true;
+}
+*/
+
+/*
+boolean $l_box_algorithm_class_name::processSignal(IMessageSignal& rMessageSignal)
+{
+	// this->getBoxAlgorithmContext()->markAlgorithmAsReadyToProcess();
+	return true;
+}
+*/
+
+/*
+boolean $l_box_algorithm_class_name::processClock(IMessageClock& rMessageClock)
+{
+	// this->getBoxAlgorithmContext()->markAlgorithmAsReadyToProcess();
+	return true;
+}
+*/
+
+/*
+boolean $l_box_algorithm_class_name::processInput(uint32 ui32InputIndex)
+{
+	// this->getBoxAlgorithmContext()->markAlgorithmAsReadyToProcess();
+	return true;
+}
+*/
+
+boolean $l_box_algorithm_class_name::process(void)
+{
+	IBox& l_rStaticBoxContext=this->getStaticBoxContext();
+	IBoxIO& l_rDynamicBoxContext=this->getDynamicBoxContext();
+
+	// ...
+
+	// l_rStaticBoxContext.getInputCount();
+	// l_rStaticBoxContext.getOutputCount();
+	// l_rStaticBoxContext.getSettingCount();
+
+	// l_rDynamicBoxContext.getInputChunkCount()
+	// l_rDynamicBoxContext.getInputChunk(i, )
+	// l_rDynamicBoxContext.getOutputChunk(i, )
+
+	for(uint32 i=0; i<l_rDynamicBoxContext.getInputChunkCount(0); i++)
+	{
+		m_oDecoder.decode(0, i);
+		if(m_oDecoder.isHeaderReceived())
+		{
+			m_oEncoder.encodeHeader(0);
+		}
+		if(m_oDecoder.isBufferReceived())
+		{
+			m_oEncoder.encodeBuffer(0);
+		}
+		if(m_oDecoder.isEndReceived())
+		{
+			m_oEncoder.encodeEnd(0);
+		}
+		l_rDynamicBoxContext.markOutputAsReadyToSend(0, l_rDynamicBoxContext.getInputChunkStartTime(0, i), l_rDynamicBoxContext.getInputChunkEndTime(0, i));
+	}
+
+	return true;
+}"
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+echo "$l_header_file_content" > $l_header_file_filename
+echo "$l_implementation_file_content" > $l_implementation_file_filename
+
+rm $g_wizard_rc 2> /dev/null
+touch $g_wizard_rc
+echo "#!/bin/bash" >> $g_wizard_rc 2> /dev/null
+echo "" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_box_algorithm_name=\"$l_box_algorithm_name\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_author_name=\"$l_author_name\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_author_company_name=\"$l_author_company_name\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_category=\"$l_category\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_project=\"$l_project\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_version=\"$l_version\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_short_description=\"$l_short_description\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_detailed_description=\"$l_detailed_description\"" >> $g_wizard_rc 2> /dev/null
+echo "g_wizard_rc_generated_id_count=\"$l_generated_id_count\"" >> $g_wizard_rc 2> /dev/null

@@ -1,0 +1,582 @@
+/* yellow base : #e6be61 */
+/* blue base : #5198e1 */
+
+BODY,H1,H2,H3,H4,H5,H6,P,CENTER,TD,TH,UL,DL,DIV
+{
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	border-color: #e6be61;
+}
+
+BODY,TD
+{
+	font-size: 90%;
+}
+
+H1
+{
+	text-align: center;
+	font-size: 160%;
+
+	width: 100%;
+	clear: both;
+	background-color: #fff7e2;
+	border : 1px solid #e6be61;
+	padding: 2px;
+	-moz-border-radius: 8px 8px 8px 8px;
+}
+
+H2
+{
+	font-size: 120%;
+
+	background-color: #fff7e2;
+	border : 1px solid #e6be61;
+	padding: 0.8em;
+	-moz-border-radius: 8px 8px 8px 8px;
+}
+
+H3
+{
+	font-size: 100%;
+}
+
+CAPTION
+{
+	font-weight: bold
+}
+
+DIV.qindex
+{
+	width: 100%;
+	/* background-color: #e8eef2; */
+	border: 1px solid; /* #84b0c7 */
+	border-color: #e6be61;
+	color: #e6be61;
+	text-align: center;
+	margin: 2px;
+	padding: 2px;
+	line-height: 140%;
+	-moz-border-radius: 8px 8px 8px 8px;
+}
+
+DIV.nav
+{
+	width: 100%;
+	/* background-color: #e8eef2; */
+	border: 1px solid; /* #84b0c7 */
+	text-align: center;
+	margin: 2px;
+	padding: 2px;
+	line-height: 140%;
+}
+
+DIV.navtab
+{
+	/* background-color: #e8eef2; */
+	border: 1px solid; /* #84b0c7 */
+	text-align: center;
+	margin: 2px;
+	margin-right: 15px;
+	padding: 2px;
+}
+
+TD.navtab
+{
+	font-size: 70%;
+}
+
+A.qindex
+{
+	text-decoration: none;
+	font-weight: bold;
+	/* color: #1A419D; */
+}
+
+A.qindex:visited
+{
+	text-decoration: none;
+	font-weight: bold;
+	/* color: #1A419D */
+}
+
+A.qindex:hover
+{
+	text-decoration: none;
+	/* background-color: #ddddff; */
+}
+
+A.qindexHL
+{
+	text-decoration: none;
+	font-weight: bold;
+	/* background-color: #6666cc; */
+	/* color: #ffffff; */
+	border: 1px double /* #9295C2 */;
+}
+
+A.qindexHL:hover
+{
+	text-decoration: none;
+	/* background-color: #6666cc; */
+	color: #ffffff;
+}
+
+A.qindexHL:visited
+{
+	text-decoration: none;
+	/* background-color: #6666cc; */
+	/* color: #ffffff; */
+}
+
+A.el
+{
+	text-decoration: none;
+	font-weight: bold;
+}
+
+A.elRef
+{
+	font-weight: bold
+}
+
+A.code:link
+{
+	text-decoration: none;
+	font-weight: normal;
+	/* color: #0000FF */
+}
+
+A.code:visited
+{
+	text-decoration: none;
+	font-weight: normal;
+	/* color: #0000FF */
+}
+
+A.codeRef:link
+{
+	font-weight: normal;
+	/* color: #0000FF; */
+}
+
+A.codeRef:visited
+{
+	font-weight: normal;
+	/* color: #0000FF; */
+}
+
+A:hover
+{
+	text-decoration: none;
+	background-color: #fff7e2;
+	/* background-color: #fff7e2 */
+}
+
+DL.el
+{
+	margin-left: -1cm
+}
+
+.fragment
+{
+	font-family: monospace, fixed;
+	font-size: 95%;
+}
+
+PRE.fragment
+{
+	border: 1px solid; /* #CCCCCC; */
+	/* background-color: #f5f5f5; */
+	background-color: #e6dcc4;
+	border-color: #e6be61;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	margin-left: 2px;
+	margin-right: 8px;
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+DIV.ah
+{
+	/* background-color: black; */
+	font-weight: bold;
+	/* color: #ffffff; */
+	margin-bottom: 3px;
+	margin-top: 3px
+}
+
+DIV.groupHeader
+{
+	margin-left: 16px;
+	margin-top: 12px;
+	margin-bottom: 6px;
+	font-weight: bold;
+}
+
+DIV.groupText
+{
+	margin-left: 16px;
+	font-style: italic;
+	font-size: 90%
+}
+
+BODY
+{
+	background: white;
+	color: black;
+	margin-right: 20px;
+	margin-left: 20px;
+}
+
+TD.indexkey
+{
+	background-color: #a9c4e1;
+	font-weight: bold;
+
+	padding-right : 10px;
+	padding-top : 2px;
+	padding-left : 10px;
+	padding-bottom : 2px;
+
+	margin-left : 0px;
+	margin-right : 0px;
+	margin-top : 2px;
+	margin-bottom : 2px;
+
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px solid;
+	border-bottom: 1px none;
+	border-color: #5198e1;
+
+	-moz-border-radius: 8px 0px 0px 8px;
+}
+
+TD.indexvalue
+{
+	background-color: #cfd8e1;
+	font-style: italic;
+
+	padding-right : 10px;
+	padding-top : 2px;
+	padding-left : 10px;
+	padding-bottom : 2px;
+
+	margin-left : 0px;
+	margin-right : 0px;
+	margin-top : 2px;
+	margin-bottom : 2px;
+
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px solid;
+	border-bottom: 1px none;
+	border-color: #5198e1;
+
+	-moz-border-radius: 0px 8px 8px 0px;
+}
+
+TR.memlist
+{
+	/* background-color: #f0f0f0; */
+}
+
+P.formulaDsp
+{
+	text-align: center;
+}
+
+IMG.formulaDsp
+{
+
+}
+
+IMG.formulaInl
+{
+	vertical-align: middle;
+}
+
+SPAN.keyword       { color: #008000 }
+SPAN.keywordtype   { color: #604020 }
+SPAN.keywordflow   { color: #e08000 }
+SPAN.comment       { color: #800000 }
+SPAN.preprocessor  { color: #806020 }
+SPAN.stringliteral { color: #002080 }
+SPAN.charliteral   { color: #008080 }
+
+.memItemLeft
+{
+	background-color: #a9c4e1;
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px solid;
+	border-bottom: 1px none;
+	border-color: #5198e1;
+	font-size: 80%;
+	margin: 4px;
+	padding: 1px 0px 0px 8px;
+	-moz-border-radius: 8px 0px 0px 0px;
+}
+
+.memItemRight
+{
+	background-color: #a9c4e1;
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px solid;
+	border-bottom: 1px none;
+	border-color: #5198e1;
+	font-size: 80%;
+	margin: 4px;
+	padding: 1px 8px 0px 8px;
+	-moz-border-radius: 0px 8px 0px 0px;
+}
+
+.mdescLeft
+{
+	background-color: #cfd8e1;
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px none;
+	border-bottom: 1px none;
+	border-color: #5198e1;
+	font-size: 80%;
+	font-style: italic;
+	margin: 0px;
+	padding: 0px 8px 4px 8px;
+	-moz-border-radius: 0px 0px 0px 8px;
+}
+
+.mdescRight
+{
+	background-color: #cfd8e1;
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px none;
+	border-bottom: 1px none;
+	border-color: #5198e1;
+	font-size: 80%;
+	font-style: italic;
+	margin: 0px;
+	padding: 0px 8px 4px 8px;
+	-moz-border-radius: 0px 0px 8px 0px;
+}
+
+.memTemplItemLeft
+{
+	/* background-color: #cfd8e1; */
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px none;
+	border-bottom: 1px none;
+	font-size: 80%;
+	margin: 4px;
+	padding: 1px 0px 0px 8px;
+}
+
+.memTemplItemRight
+{
+	/* background-color: #cfd8e1; */
+	border-left: 1px none;
+	border-right: 1px none;
+	border-top: 1px none;
+	border-bottom: 1px none;
+	font-size: 80%;
+	margin: 4px;
+	padding: 1px 8px 0px 8px;
+}
+
+.memTemplParams
+{
+	/* background-color: #cfd8e1; */
+	border-top: 1px solid;
+	border-right: 1px none;
+	border-bottom: 1px none;
+	border-left: 1px none;
+	font-size: 80%;
+	margin: 4px;
+	padding: 1px 0px 0px 8px;
+}
+
+.search
+{
+	/* color: #003399; */
+	font-weight: bold;
+}
+
+FORM.search
+{
+	margin-bottom: 0px;
+	margin-top: 0px;
+}
+
+INPUT.search
+{
+	font-size: 75%;
+	/* color: #000080; */
+	font-weight: normal;
+	/* background-color: #e8eef2; */
+}
+
+TD.tiny
+{
+	font-size: 75%;
+}
+
+a
+{
+	color: #07478a;
+}
+
+.dirtab
+{
+	padding: 4px;
+	border-collapse: collapse;
+	border: 1px solid; /* #84b0c7 */
+}
+
+TH.dirtab
+{
+	/* background: #e8eef2; */
+	font-weight: bold;
+}
+
+HR
+{
+	height: 1px;
+	border: none;
+	border-top: 1px solid; /* black; */
+	border-color: #e6be61;
+}
+
+/* Style for detailed member documentation */
+.memtemplate
+{
+	font-size: 80%;
+	/* color: #606060; */
+	font-weight: normal;
+	margin-left: 3px;
+}
+
+.memnav
+{
+
+	/* background-color: #e8eef2; */
+	/* border: 1px solid #84b0c7; */
+	text-align: center;
+	margin: 2px;
+	margin-right: 15px;
+	padding: 2px;
+}
+
+.memitem
+{
+	padding: 4px;
+	/* background-color: #eef3f5; */
+	background-color: #cfd8e1;
+	border-width: 1px;
+	border-style: solid;
+	/* border-color: #dedeee; */
+	border-color: #5198e1;
+	-moz-border-radius: 8px 8px 8px 8px;
+}
+
+.memname
+{
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+.memdoc
+{
+	padding-left: 10px;
+}
+
+.memproto
+{
+	/* background-color: #d5e1e8; */
+	background-color: #a9c4e1;
+	border-color: #5198e1;
+	width: 100%;
+	border-width: 1px;
+	border-style: solid;
+	/* border-color: #84b0c7; */
+	font-weight: bold;
+	-moz-border-radius: 8px 8px 8px 8px;
+}
+
+.paramkey
+{
+	text-align: right;
+}
+
+.paramtype
+{
+	white-space: nowrap;
+}
+
+.paramname
+{
+	/* color: #602020; */
+	font-style: italic;
+	white-space: nowrap;
+}
+
+/* End Styling for detailed member documentation */
+
+/* for the tree view */
+.ftvtree
+{
+	font-family: sans-serif;
+	margin:0.5em;
+}
+
+.directory
+{
+	font-size: 9pt;
+	font-weight: bold;
+}
+
+.directory h3
+{
+	margin: 0px;
+	margin-top: 1em;
+	font-size: 11pt;
+}
+
+.directory > h3
+{
+	margin-top: 0;
+}
+
+.directory p
+{
+	margin: 0px;
+	white-space: nowrap;
+}
+
+.directory div
+{
+	display: none;
+	margin: 0px;
+}
+
+.directory img
+{
+	vertical-align: -30%;
+}
+
+#footer_openvibe
+{
+	float: left;
+	height: 75px;
+}
+
+#footer_doxygen
+{
+	float: right;
+	height: 75px;
+}

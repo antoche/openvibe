@@ -1,0 +1,125 @@
+/**
+ * \page BoxAlgorithm_BCICompetitionIIIbReader BCI competition IIIb reader
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Description|
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Output1|
+ * This input contains the signal samples from the trials.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Output2|
+ * This input contains information about the stimulations that occured during the trials.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Output2|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting1|
+ * Name of the signal file from the dataset ("*_s.txt").
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting2|
+ * Name of the trigger file from the dataset ("*_HDR_TRIG.txt").
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting3|
+ * Name of the label file from the dataset ("*_HDR_Classlabel.txt").
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting4|
+ * Name of the artifact file from the dataset ("*_HDR_ArtifactSelection.txt").
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting4|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting5|
+ * Name of the true labels file from the dataset ("true_labels_*.txt").
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting5|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting6|
+ * Number of samples to send per sample buffer.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting6|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting7|
+ * Whether the plugin is used in offline mode or not.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting7|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting8|
+ * Keep the training set trials or not.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting8|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting9|
+ * Keep the test set trials or not.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting9|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting10|
+ * Keep the trials containing artifacts or not.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting10|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting11|
+ * The length of a trial in seconds.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting11|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting12|
+ * The time when the CUE is displayed in a trial.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting12|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Setting13|
+ * The time when the feedback starts in a trial.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Setting13|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCICompetitionIIIbReader_Miscellaneous|
+ *
+ * The stimulations sent are the following :
+ * - Trial start
+ *  - Time : 0
+ *  - Id : 0x300
+ *
+ * - Display cross
+ *  - Time : 0
+ *  - Id : 0x312
+ *
+ * - CUE
+ *  - Time : parameter(CUE display start)
+ *  - Id : 0x300 + class index (0x301 for first class, 0x302 for the second class, ...)
+ *
+ * - Feedback start
+ *  - Time : parameter(Feedback start)
+ *  - Id : 0x30D
+ *
+ * - Trial end
+ *  - Time : parameter(Trial length)
+ *  - Id : 0x320
+ *
+ * - End of session
+ *  - Time : when the end of the input file has been reached
+ *  - Id : 0x3FF
+ *
+ * See the \ref Doc_Stimulations page for more details about §OpenViBE§ stimulations.
+ * |OVP_DocEnd_BoxAlgorithm_BCICompetitionIIIbReader_Miscellaneous|
+ */

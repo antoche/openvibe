@@ -1,0 +1,106 @@
+/**
+ * \page BoxAlgorithm_CSVFileWriter CSV File Writer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Description|
+This box allows to output some of the OpenViBE streams in a text file that is
+easy to read by the machine and easy to read by the human. CSV files are text files
+with different values separated by a special character such as a colon, a semicolon
+or a tabulation. This basic syntax makes them very easy to read for both machine and
+human. The purpose of this box is to quicly export some data to other softwares.
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Input1|
+This is input is used to know what data to dump in the considered file. The type of
+this input can be modified by the user and the format of the output will be adapted
+depending on this type. Supported inputs are : Signal, Spectrum and Stimulations.
+Format specific to each of these stream types is detailed in section
+\ref Doc_BoxAlgorithm_CSVFileWriter_Miscellaneous.
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Setting1|
+This setting contains the file where to store the data.
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Setting2|
+This setting contains the special character to use as a separation for the different
+fields. Typical examples are colon, semi colon and tabulations.
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Setting3|
+Due to the fact that text files can grow very quickly, it is possible to compress the
+file using gzip format. If you want to use compression, just tick this setting.
+<b>Note: this is not implemented at the moment</b>.
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSVFileWriter_Miscellaneous|
+In this section, we detail the typical outputs that you will find in the output
+file depending on the type of the input connector.
+
+For the Signal stream, you will have something like this :
+\verbatim
+Time (s), Channel 1, Channel 2, ..., Channel n, Sampling Rate
+Time of mesure 1, Mesure 1 of channel 1, Mesure 1 of channel 2, ..., Mesure 1 of channel n, Value of the sampling rate
+Time of mesure 2, Mesure 2 of channel 1, Mesure 2 of channel 2, ..., Mesure 2 of channel n
+...
+Time of mesure t, Mesure t of channel 1, Mesure t of channel 2, ..., Mesure t of channel n
+\endverbatim
+
+For the Spectrum stream, you will have something like this :
+\verbatim
+Time (s), Channel 1, Channel 2, ..., Channel n, Min frequency band, Max frequency band
+Time of mesure 1, Freq band 1 of mes 1 of chan 1, Freq band 1 of mes 1 of chan 2, ..., Freq band 1 of mes 1 of chan n, Value Min Frequency Band of band 1, Value Max Frequency Band of band 1
+Time of mesure 1, Freq band 2 of mes 1 of chan 1, Freq band 2 of mes 1 of chan 2, ..., Freq band 2 of mes 1 of chan n, Value Min Frequency Band of band 2, Value Max Frequency Band of band 2
+...
+Time of mesure 1, Freq band f of mes 1 of chan 1, Freq band f of mes 1 of chan 2, ..., Freq band f of mes 1 of chan n, Value Min Frequency Band of band f, Value Max Frequency Band of band f
+Time of mesure 2, Freq band 1 of mes 2 of chan 1, Freq band 1 of mes 2 of chan 2, ..., Freq band 1 of mes 2 of chan n
+Time of mesure 2, Freq band 2 of mes 2 of chan 1, Freq band 2 of mes 2 of chan 2, ..., Freq band 2 of mes 2 of chan n
+...
+Time of mesure 2, Freq band f of mes 2 of chan 1, Freq band f of mes 2 of chan 2, ..., Freq band f of mes 2 of chan n
+...
+...
+...
+Time of mesure t, Freq band 1 of mes t of chan 1, Freq band 1 of mes t of chan 2, ..., Freq band 1 of mes t of chan n
+Time of mesure t, Freq band 2 of mes t of chan 1, Freq band 2 of mes t of chan 2, ..., Freq band 2 of mes t of chan n
+...
+Time of mesure t, Freq band f of mes t of chan 1, Freq band f of mes t of chan 2, ..., Freq band f of mes t of chan n
+\endverbatim
+
+For the Stimulation stream, you will have something like this :
+\verbatim
+Time (s), Identifier, Duration
+Time of stim 1, Idenfitifer of stim 1, Duration of stim 1
+Time of stim 2, Idenfitifer of stim 2, Duration of stim 2
+...
+Time of stim n, Idenfitifer of stim n, Duration of stim n
+\endverbatim
+ * |OVP_DocEnd_BoxAlgorithm_CSVFileWriter_Miscellaneous|
+ */

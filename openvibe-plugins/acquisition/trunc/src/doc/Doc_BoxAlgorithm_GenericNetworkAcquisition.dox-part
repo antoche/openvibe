@@ -1,0 +1,87 @@
+/**
+ * \page BoxAlgorithm_GenericNetworkAcquisition Generic network acquisition
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Description|
+Note : This box shouldn't be used in newly-written code. Use CBoxAlgorithmAcquisitionClient instead.
+
+This plugin is used to receive signal information from a socket. This way, an external device such as an EEG helmet may be connected to one computer performing the signal acquisition (using e.g. the OpenViBE Acquisition Server and the appropriate driver plugin), then the acquired signals can be sent across the network to a second computer dedicated to signal processing. Data transmission across the network is performed using the TCP/IP protocol.
+
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Output1|
+ * This stream contains information about the experiment and subject
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Output2|
+ * Contains the signal information for the different channels
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Output2|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Output3|
+ * Contains information about the stimulations that occured during the experiment
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Output3|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Setting1|
+ * The name of the server we want the plugin to connect to
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Setting2|
+ * The server's port the plugin will try to connect to
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Examples|
+*
+ * Let's consider that the server is running on the same computer as the designer, and is listening on port 1024.
+ *
+ * We have to setup the server's name :
+ * \code
+ * localhost
+ * \endcode
+ *
+ * And the server's port :
+ * \code
+ * 1024
+ * \endcode
+ *
+ Practical example : 
+ 
+ One can easily test this plugin using a single computer and without any external device. 
+ 
+ First, the Acquisition Server should be started (one can refer to \ref Doc_AcquisitionServerOverview for general information about this tool).  By choosing the 'Generic Oscillator' driver in the Driver drop-down list, one can send random sinusoidal signals across the network, very much like the Sinus Oscillator box algorithm generates similar data (see \ref Doc_ScenarioEdition_DataAcquisition_SignalGenerator). Default connection port (e.g. 1024) and sample count values may be left as is, as can experiment properties ('Properties' button) such as the number of channels and the sampling frequency. Click 'Connect' when you're done and then 'Play' to start sending random values over the network.
+ 
+ Next, some work needs to be done in the Designer to retrieve and display these signals. The 'Generic network acquisition' box found in the Acquisition category is dedicated to retrieving data from the network and forwarding it as 3 streams (experiment information, signal and stimulations). Its settings should be configured properly to ensure it listens to the right port. Again, one can leave default values here since they match the Acquisition Server default settings (server hostname : localhost and connection port : 1024).
+ 
+ Signals may be visualised using a Signal Display box by connecting its inputs to the 'Signal' and 'Stimulations' outputs of the Generic network acquisition box. Note that the Signal Display plugin will automatically adapt the number of displayed channels to what was configured in the Properties dialog of the Acquisition Server (4 channels by default).
+ 
+\image html genericnetworkacquisition.png "Retrieve data from the network."
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericNetworkAcquisition_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_GenericNetworkAcquisition_Miscellaneous|
+ */

@@ -1,0 +1,50 @@
+/**
+ * \page BoxAlgorithm_PythonScripting Python scripting
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_PythonScripting_Description|
+ This box can process data from and to OpenViBE using Python script.
+ Available IO types are Streamed Matrix, Signal and Stimulations.
+ 
+ The user Pyhton Script must define a new class that inherits from OVBox, 
+ and implements the initialize, process and uninitialize methods.
+ 
+ User script must end with : box = MyOVBox() where MyOVBox is the new class.
+ 
+ Please look at <a href="http://openvibe.inria.fr/tutorial-using-python-with-openvibe">the documentation page</a> for more details.
+ 
+ * |OVP_DocEnd_BoxAlgorithm_PythonScripting_Description|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_PythonScripting_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_PythonScripting_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_PythonScripting_Setting1|
+ The box clock frequency. The Python process function is called at each tick.
+ * |OVP_DocEnd_BoxAlgorithm_PythonScripting_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_PythonScripting_Setting2|
+ The Python script file.
+ * |OVP_DocEnd_BoxAlgorithm_PythonScripting_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_PythonScripting_Examples|
+ See <a href="http://openvibe.inria.fr/tutorial-using-python-with-openvibe">this page</a> for commented examples.
+ * |OVP_DocEnd_BoxAlgorithm_PythonScripting_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_PythonScripting_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_PythonScripting_Miscellaneous|
+ */

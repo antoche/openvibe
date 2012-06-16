@@ -1,0 +1,116 @@
+/**
+\page Doc_Contribution Contribution Rules
+
+<p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/contribute "> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br> 
+
+Developers wishing to contribute to OpenViBE should be aware that several coding
+rules have been fixed to ensure homogeneous source code. These rules are as follows :
+
+ - namings :
+   - English is used for all names (class, function, variable...)
+   - Abreviations are not tolerated anywhere in the code. All names must be as \b explicit as
+     possible (makes it a bit longer to write code when automatic completion is not
+     available, but in turn it is much easier to read for people who did not write this code!)
+   - class names start with \b C
+   - template names start with \b T
+   - interface names start with \b I (as with pure abstract classes of an API)
+   - members start with \b m_
+   - local variables start with \b l_
+   - global variables are prohibited (please contact the dev coordinator if this
+     is necessary in your case)
+   - function parameter names do not have a specific prefix
+   - variable names are prefixed with their type : \b b for boolean, \b s for string,
+     \b r for references, \b o for objects, \b i16 for signed \b 16 bits integers, \b uint64
+     for unsigned 64 bits integers or \b float80 for 80 bits floats...
+   - function names do not have a prefix, start with a lowercase character and
+     use upper case characters for each new word
+   - curly brackets always stand alone on new lines
+   - if / else blocks always have curly brackets, even if only one call is
+     to be done
+ - English is used in all code documentation
+ - Code documentation is done with doxygen (http://www.stack.nl/~dimitri/doxygen/)
+ - Implementation is documented for complex things with or without doxygen
+ - non portable libraries (should it be software or hardware compatibility)
+   are isolated in separate modules (such as EBML, XML, FS etc...)
+ - every class is constituted by a pair of files : header (definition) and source
+   (implementation)
+ - redundant includes should be avoided thanks to #ifndef #define #endif directives at the
+   begining and end of header files
+ - API header files should be stored in a folder named after the module name
+ - At least one namespace should be used per module so to avoid symbol name
+   collisions
+ - 'using namespace' directives must not be used in header files
+ - generalized use of basic types provided by modules (\b float32, \b uint32 and so on)
+   is strongly encouraged so that type sizes are explicit throughout the code
+   and thus at any time, a developer knows what can be done with the values being manipulated.
+
+This is a sample of OpenViBE-compliant code illustrating these rules :
+
+\verbatim
+/**
+  * \file SampleFile.h
+  * \author me
+  * \date today
+  * \erief a sample file containing TSample template
+  *
+  * This sample file contains the definition of the
+  * TSample template blah blah more details...
+  */
+namespace SampleNamespace
+{
+        /**
+         * \class Tsample
+         * \author me
+         * \date today
+         * \erief short-blah
+         *
+         * Detailed blah blah
+         */
+        template <class T>
+        class TSample : public T
+        {
+        public:
+                /**
+                 * \function sampleFunction
+                 * \param rInputValue[in] : blah
+                 * \param rOutputValue[out] : blah
+                 * \return blah blah
+                 * \erief short-blah
+                 *
+                 * Detailed blah blah
+                 */
+                virtual SampleNamespace::boolean sampleFunction(
+                        SampleNamespace::boolean bInputValue,
+                        SampleNamespace::boolean& rOutputValue)
+                {
+                        SampleNamespace::boolean l_bCondition=true;
+                        if(l_bCondition)
+                        {
+                                rOutputValue=bInputValue;
+                                return true;
+                        }
+                        return false;
+                }
+        };
+};
+\endverbatim
+
+\section Doc_ContributionHOWTO Access levels
+
+Contributions integration is done at several different levels.
+
+- First, <b>core developers</b> have full access to the forge. This means they can modify
+  any file, including trunc branches (unstable version of the software) and tags.
+- A second level includes <b>restricted</b> write access to the forge. People working
+  in this configuration work in their own branches. It is up to core developers
+  to decide whether or not a branch is ready for integration to the mainstream version.
+- A third and last level concerns people with <b>read-only</b> access to the forge. Such
+  users may produce patches and develop custom functionalities \e locally, which only developers
+  with write access will be able to integrate to the forge. Creating such patches may be done
+  easily by dumping the output of a \e svn \e diff.
+*/

@@ -1,0 +1,69 @@
+/**
+ * \page BoxAlgorithm_SinusOscillator Sinus oscillator
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Description|
+ The Sinus Oscillator generates sinusoidal signals on a configurable number of channels, and allows for configuring the sampling frequency and epoch size settings.
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Output1|
+ Sinusoidal signal generated.
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Setting1|
+Number of channels for which to generated sinusoidal signals.
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Setting2|
+ Sampling frequency of generated signals.
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Setting3|
+ Number of samples per epoch
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Examples|
+Practical example :
+
+ Let's create a simple signal processing scenario using the Signal Generator box and a display plugin to watch the generated signals. First, we add a Signal Generator box by drag and dropping it from the Samples category. A double click on it will display its configurable settings. Let's generate signals for 4 channels at a rate of 512 samples per second (sampling frequency) and send them down the processing line in blocks of 32 samples (epoch sample count). This means there will be 512/32 = 16 data blocks emitted by this box every second.
+ 
+ Now we want to visualise the generated signals. Let's add a Signal Display box. We can set its Time Scale(i.e. the time span that will be displayed) by double clicking on it. 
+ 
+ Finally, we forward signals from the Signal Oscillator to the Signal Display box by linking the output of the former to the first input of the latter.
+ 
+ The scenario may be launched by clicking the 'Play' button in the Player toolbar. Random combinations of sinusoidal signals should be displayed in a Signal Display window, along with default channel names. Press the Player 'Stop' button to go back to scenario edition mode.
+ 
+\image html sinussignalgenerator_scenario.png "A simple sinus oscillator scenario."
+ 
+\image html sinussignalgenerator_online.png "Visualising sinus oscillator signals."
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SinusOscillator_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SinusOscillator_Miscellaneous|
+ */

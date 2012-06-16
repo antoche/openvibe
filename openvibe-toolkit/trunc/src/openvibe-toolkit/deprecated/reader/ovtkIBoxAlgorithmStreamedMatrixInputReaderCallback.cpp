@@ -1,0 +1,21 @@
+#include "ovtkIBoxAlgorithmStreamedMatrixInputReaderCallback.h"
+#include "ovtkTBoxAlgorithmStreamedMatrixInputReaderCallback.inl"
+
+namespace OpenViBEToolkit
+{
+
+	typedef TBoxAlgorithmStreamedMatrixInputReaderCallback<IBoxAlgorithmStreamedMatrixInputReaderCallback> CBoxAlgorithmStreamedMatrixInputReaderCallback;
+
+	IBoxAlgorithmStreamedMatrixInputReaderCallback* createBoxAlgorithmStreamedMatrixInputReaderCallback(IBoxAlgorithmStreamedMatrixInputReaderCallback::ICallback& rCallback)
+	{
+		CBoxAlgorithmStreamedMatrixInputReaderCallback* l_pResult=new CBoxAlgorithmStreamedMatrixInputReaderCallback();
+		l_pResult->setStreamedMatrixCallback(&rCallback);
+		return l_pResult;
+	}
+
+	void releaseBoxAlgorithmStreamedMatrixInputReaderCallback(IBoxAlgorithmStreamedMatrixInputReaderCallback* pBoxAlgorithmStreamedMatrixInputReaderCallback)
+	{
+		delete pBoxAlgorithmStreamedMatrixInputReaderCallback;
+	}
+
+};

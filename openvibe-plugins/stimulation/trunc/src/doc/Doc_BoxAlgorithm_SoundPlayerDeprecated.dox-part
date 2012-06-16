@@ -1,0 +1,77 @@
+/**
+ * \page BoxAlgorithm_SoundPlayerDeprecated Sound Player (Deprecated)
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Description|
+ * Box deprecated since 31-march-2011, OpenViBE 0.10.0.
+ * See \ref BoxAlgorithm_SoundPlayer for a new version.
+ *
+ * This box plays a sound on stimulation reception. Please see
+ * \ref Doc_BoxAlgorithm_SoundPlayerDeprecated_Miscellaneous for important
+ * information on the box behavior and portability.
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Input1|
+ * This input receives a \ref Doc_Stream_Stimulation. The box will look
+ * at this stream in order to find the specified stimulation and play
+ * the sound each time this stimulation is received.
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Setting1|
+ * This setting is the stimulation to wait so to trigger the sound.
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Setting2|
+ * This setting is the sound file to play when the stimulation is
+ * received. Please see \ref Doc_BoxAlgorithm_SoundPlayerDeprecated_Miscellaneous
+ * for important information on the file format.
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Examples|
+ * To illustrate the box usage, please drag'n drop a
+ * \ref Doc_BoxAlgorithm_ClockStimulator box and change the emitted
+ * stimulation to \e OVTK_StimulationId_Beep. Be sure that you run
+ * Linux, have free /dev/dsp device (you should not have another sound
+ * player using this device). Now press 'start'. You should here a
+ * beep each second.
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SoundPlayerDeprecated_Miscellaneous|
+ * It is important to underline the fact that this box has really basic
+ * implementation for now and should be modified in order to meet real
+ * needs. First, it only works on Linux for now. Second, it does not use
+ * a sound file reading nor a sound card management API. It simply directly
+ * sends an uncompressed wave file to the dsp device. This results in a
+ * non audible articfact due to the header of the wave file. Also, the
+ * wave file sampling rate should be at the exact same value as the
+ * configuration of the dsp device.
+ *
+ * This was quickly developed and can be used for tests but should be
+ * enhanced a lot.
+ * |OVP_DocEnd_BoxAlgorithm_SoundPlayerDeprecated_Miscellaneous|
+ */

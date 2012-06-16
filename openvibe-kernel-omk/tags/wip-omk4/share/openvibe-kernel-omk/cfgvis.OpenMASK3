@@ -1,0 +1,34 @@
+# OpenMASK3
+
+root
+{
+	Class Controller
+	UserParams
+	{
+		TraceAll off
+		TraceFile "openvibe-omk.log"
+		Plugins [
+			["${OMK_HOME}/lib/libOMKInputs.so"]
+			["${OMK_HOME}/lib/libOMKAddOn.so"]
+		]
+	}
+
+	Sons
+	{
+		visuOgre
+		{
+			Class OgreVis
+			Scheduling
+			{
+				Frequency 60
+			}
+
+			UserParams
+			{
+				OgreHome "${OGRE_HOME}"
+				ResourcesFile "../share/openvibe-kernel-omk/resources.cfg"
+				CreateDefaultWindow off
+			}
+		}
+	}
+}

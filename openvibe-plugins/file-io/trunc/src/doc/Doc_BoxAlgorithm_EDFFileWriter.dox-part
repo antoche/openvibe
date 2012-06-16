@@ -1,0 +1,59 @@
+/**
+ * \page BoxAlgorithm_EDFFileWriter EDF File Writer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Description|
+ 
+ * Writes EEG data in European Data Format (EDF).
+
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Input1|
+ * Experiment Information stream, coming from an acquisition client/server.
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Input2|
+ * EEG signal.
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Input2|
+ 
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Input3|
+ * Stimulation stream.
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Input3|
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Setting1| 
+ * The file name to be written.
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Setting1|
+ 
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EDFFileWriter_Miscellaneous|
+ EDF format can be read by several programs, (e.g EDF browser).
+ This box is based on the free software EDFlib by Teunis van Beelen.
+ * |OVP_DocEnd_BoxAlgorithm_EDFFileWriter_Miscellaneous|
+ */

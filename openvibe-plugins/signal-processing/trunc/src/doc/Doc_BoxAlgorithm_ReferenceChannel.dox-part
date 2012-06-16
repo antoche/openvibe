@@ -1,0 +1,60 @@
+/**
+ * \page BoxAlgorithm_ReferenceChannel Reference channel
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Description|
+ * This plugin substracts the values of the samples from a reference
+ * channel from the other channels' samples.
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Input1|
+ * The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Output1|
+ * The resulting signal.
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Setting1|
+ * Index of the reference channel in the input stream.
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ReferenceChannel_Miscellaneous|
+ * The reference channel is kept in the resulting signal.
+ * |OVP_DocEnd_BoxAlgorithm_ReferenceChannel_Miscellaneous|
+ */

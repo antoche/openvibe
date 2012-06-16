@@ -1,0 +1,90 @@
+/**
+ * \page BoxAlgorithm_SpatialFilter Spatial filter
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Description|
+ * The spatial filter generates a number of output channels from another number of input
+ * channels, each output channel being a linear combination of the input channels.
+ * For example, lets say <em>ICj</em> is the <em>j</em>th input channel, <em>OCk</em> is the
+ * <em>k</em>th output channel, and <em>Sjk</em> is the coefficient for the <em>j</em>th input
+ * channel and <em>k</em>th output channel in the <em>Spatial filter</em> matrix.
+ *
+ * Then the output channels are computed this way :
+ * <em>OCk</em> <b>=</b> Sum on <em>j</em> ( <em>Sjk</em> * <em>ICj</em> )
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Input1|
+ * This input contains the input channels to mix.
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Output1|
+ * This output contains the generated channels, mixed from the input channels.
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Setting1|
+ * This setting contains a flat view of the spatial filter matrix. The coefficient orders is as follows :
+ * all the coefficients for the first output followed by all the coefficients for the second output and so on..
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Setting2|
+ * Number of output channels to generate
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Setting3|
+ * Number of input channels to compute from
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Examples|
+ * Let's consider the following example :
+ * - Input channels list: C3;C4;FC3;FC4;C5;C1;C2;C6;CP3;CP4 (10 channels)
+ * - Spatial filter coefficients: 4 0 -1 0 -1 -1 0 0 -1 0 0 4 0 -1 0 0 -1 -1 0 -1 (20 values)
+ * - Number of output channels: 2
+ * - Number of input channels: 10
+ *
+ * The output channels becomes :
+ * \code
+ * OC1 = 4 * C3 + 0 * C4 + (-1) * FC3 + 0 * FC4 + (-1) * C5 + (-1) * C1 + 0 * C2 + 0 * C6 + (-1) * CP3 + 0 * CP4
+ *     = 4 * C3 - FC3 - C5 - C1 - CP3
+ *
+ * OC2 = 0 * C3 + 4 * C4 + 0 * FC3 + (-1) * FC4 + 0 * C5 + 0 * C1 + (-1) * C2 + (-1) * C6 + 0 * CP3 + (-1) * CP4
+ *     = 4 * C4 - FC4 - C2 - C6 - CP4
+ * \endcode
+ *
+ * This is basically a Surface Laplacian around C4 and C5.
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpatialFilter_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SpatialFilter_Miscellaneous|
+ */

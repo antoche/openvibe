@@ -1,0 +1,40 @@
+/** 
+\page Doc_VisualisationManager The Visualisation Manager
+
+\section visualisation_manager_introduction Introduction
+
+The visualisation manager is responsible for managing graphical plugins and handling the 3D context (currently based on 
+<a href="http://www.ogre3d.org">Ogre3D</a>).
+
+In the Designer tool, graphical plugins may be arranged in space in a very flexible way. In a given scenario, each plugin 
+may be displayed in its own window, or several plugins may be fitted in a single window using tabs and horizontal/vertical 
+splits. This arrangement is stored in visualisation trees made up of visualisation widgets. The visualisation manager 
+owns a list of these visualisation trees.
+
+3D rendering is an important feature of the platform. It is handled by the visualisation manager, which initializes a 3d context at
+startup and then creates 3D widgets as required by scenarios when they are run. Resource management is also taken care of by this 
+manager, allowing for dynamic creation and destruction of groups of resources by applications and plugins.
+
+\section visualisation_manager_layout Layout management
+
+The arrangement in space of graphical plugins is handled by CVisualisationTree objects.
+
+\section visualisation_manager_context 3D API
+
+One of the key features of the platform is its range of visualisation paradigms, from simple 2D signal displays to 
+3D topographic mapping and more. The use of 3D may facilitate brain activity visualisation, and can also make BCI
+experiments more attractive to users. However, OpenViBE doesn't aim at handling very complex 3D scenes. Anyone wanting
+to test a BCI to e.g. navigate through a large 3D world should rather consider using OpenViBE as a peripheral to interact
+with an external 3D application dedicated to handling the 3d world.
+
+A simplified 3D API is available to plugins for 
+
+\section visualisation_manager_3D_objects
+
+Frame : Y up, looking down Z axis
+
+Objects : should be exported to Ogre's .mesh format. For objects which vertex colors will be modified, the vertex buffer should 
+have the "dynamic" property (the index buffer may be left with the default "static" property since it will probably only be read 
+once).
+
+*/

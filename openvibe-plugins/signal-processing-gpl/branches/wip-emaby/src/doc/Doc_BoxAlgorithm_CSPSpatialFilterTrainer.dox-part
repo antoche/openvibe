@@ -1,0 +1,78 @@
+/**
+ * \page BoxAlgorithm_CSPSpatialFilterTrainer CSP Spatial Filter Trainer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Description|
+ 
+ This box computes spatial filters according to the Common Spatial Pattern algorithm. The goal of the algorithm is to improve the discrimination of two types of signals.
+ The spatial filters are constructed in a way they maximize the variance for signals of the first condition while at the same time they minimize it for the second condition.
+ This can be used for discriminating the signals of two commonly used motor-imagery tasks (e.g. left versus right hand movement).
+ It can also be used for two-class SSVEP experiments or any other experiment where the disciminative information is contained in the variance (or power in a certain band) of the signal conditions.
+ 
+ Please note that this implementation computes a <b>trace normalization</b>. 
+ 
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Input1|
+ This stimulus input is needed to indicate the end of a recording session (or end of file). It then triggers the training/computation of the CSP filters.
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Input2|
+ This input expects epoched data for the first condition (e.g. epochs for left hand motor imagery).
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Input2|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Input3|
+ This input expects epoched data for the second condition (e.g. epochs for right hand motor imagery).
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Input3|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Settings|
+ 
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Setting1|
+ This should contain the stimulus identifier denoting the end of a recording session or end of file, e.g. OVTK_GDF_End_Of_Session
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Setting2|
+ This setting contains the path and filename of the configuration file in which the computed spatial filters are saved. 
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Setting3|
+ Here you need to determine how many spatial filters will be computed (default value is two).
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Examples|
+ Before training the spatial filter you should first filter the data with respect to the desired band (e.g. for motor imagery, certain people display good results in a narrow pass-band of 8-12Hz, others in 8-30Hz).
+ As in the example scenario below, one could also opt for different pass-bands and compute filters in each of them, finally letting the subsequently trained classifier decide which features are important.
+ 
+ \image html csp_training.png "Example scenario to compute CSP filters"
+ 
+ Once the spatial filters are computed and saved in the configuration file, you will need to load it into the \ref Doc_BoxAlgorithm_SpatialFilter "Spatial Filter" box.
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CSPSpatialFilterTrainer_Miscellaneous|
+ For the moment it is only implemented for two classes. Multiple classes can be supported in the future according to an all-versus-one scheme or through joint diagonalization.
+ * |OVP_DocEnd_BoxAlgorithm_CSPSpatialFilterTrainer_Miscellaneous|
+ */

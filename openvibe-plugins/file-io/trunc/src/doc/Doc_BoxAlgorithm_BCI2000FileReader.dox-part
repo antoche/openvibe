@@ -1,0 +1,56 @@
+/**
+ * \page BoxAlgorithm_BCI2000FileReader BCI2000 File Reader
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Description|
+ 
+ * Loads signals from BCI2000 .dat files.
+
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Output1|
+ * The signals for the different channels. If the file header contains channel names, they are used in the stream, otherwise "channel #" is used.
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Output2|
+ * The different state variables.
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Output2|
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Setting1| 
+ * The file name; should be a BCI2000 .dat file.
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Setting1|
+ 
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Setting2| 
+ * The number of sample per block sent by the box.
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_BCI2000FileReader_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_BCI2000FileReader_Miscellaneous|
+ */

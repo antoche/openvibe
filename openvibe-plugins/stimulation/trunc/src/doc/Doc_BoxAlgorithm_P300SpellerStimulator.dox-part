@@ -1,0 +1,180 @@
+/**
+ * \page BoxAlgorithm_P300SpellerStimulator P300 Speller Stimulator
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Description|
+This box is used to generate a 2D P300 stimulation timeline. Depending on its parameters,
+it generates all the necessary flagging stimulations for an P300 experiment, such as when
+a flash starts, when it stops, when the repetitions are finished etc.
+
+Imagine a P300 speller application. Such application is based on a matrix of letters / numbers.
+The lines and columns of this matrix are flashed consecutively a number of time. Then a decision
+can be made and the user can relax. Then same process restarts and so one. Such experiment can
+be driven by this box.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Input1|
+This input is used to start the generation of the pipeline. As soon as the start stimulation
+arrives here, the generation process starts. (see setting 1)
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Output1|
+This output contains the stimulations used for P300 based experiments.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting1|
+This first setting tells which stimulation to use to start the generation process. This stimulation
+can be received from a keyboard for example (see \ref Doc_BoxAlgorithm_KeyboardStimulator).
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting2|
+This setting tells what stimulation base to use when flashing rows of the matrix. When row one should
+be flashed, this exact stimulation will be sent. When row two should be flashed, this stimulation + 1
+will be sent, and so on.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting3|
+This setting tells what stimulation base to use when flashing columns of the matrix. When column one should
+be flashed, this exact stimulation will be sent. When column two should be flashed, this stimulation + 1
+will be sent, and so on.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting4|
+This setting tells how many row the matrix has.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting4|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting5|
+This setting tells how many columns the matrix has.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting5|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting6|
+This setting tells how many times each row / column should be flashed in a trial.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting6|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting7|
+This setting tells how many trials should be generated.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting7|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting8|
+This setting tells how long a flash longs.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting8|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting9|
+This setting tells how long this stimulator should wait after a flash is finished before sending a new flash.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting9|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting10|
+This setting tells how much rest is left to the user between the repetitions.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting10|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting11|
+This setting tells how much rest is left to the user between the trials.
+Please note that the end of a trial is also the end of a repetition. So the rest duration includes both times.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting11|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Setting12|
+This setting is not used for now.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Setting12|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Examples|
+This box is used in the <em>P300 speller</em> and the <em>P300 magic card</em> BCIs. Please see those
+scenarios in the sample <em>openvibe-scenarios</em>.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerStimulator_Miscellaneous|
+<b>Note:</b> Even if this box has been created for flashing matrices, it could be used for flashing 1D things. However, in order
+to have more efficient results on matrices, this box flashes one line, then one column, then one line etc. It never
+flashes a line and then another line. Thus in the 1D case, you have to know that the same behavior will occur, resulting
+on the flashing of the low-part of your 1D set, then high part, then low part etc...
+
+The sequence generated by this box is typically something like this :
+\verbatim
+OVTK_StimulationId_ExperimentStart
+
+	OVTK_StimulationId_RestStart
+	OVTK_StimulationId_RestStop
+
+	OVTK_StimulationId_TrialStart
+		OVTK_StimulationId_SegmentStart
+
+			OVTK_StimulationId_Label_0B
+			OVTK_StimulationId_VisualStimulationStart
+			OVTK_StimulationId_VisualStimulationStop
+
+			OVTK_StimulationId_Label_03
+			OVTK_StimulationId_VisualStimulationStart
+			OVTK_StimulationId_VisualStimulationStop
+
+			...
+			...
+			...
+
+			OVTK_StimulationId_Label_04
+			OVTK_StimulationId_VisualStimulationStart
+			OVTK_StimulationId_VisualStimulationStop
+
+		OVTK_StimulationId_SegmentStop
+		OVTK_StimulationId_SegmentStart
+
+			...
+			...
+			...
+
+		OVTK_StimulationId_SegmentStop
+
+		...
+		...
+		...
+
+	OVTK_StimulationId_TrialStop
+
+	OVTK_StimulationId_RestStart
+	OVTK_StimulationId_RestStop
+
+	OVTK_StimulationId_TrialStart
+
+		...
+		...
+		...
+
+	OVTK_StimulationId_TrialStop
+
+	...
+	...
+	...
+
+OVTK_StimulationId_ExperimentStop\endverbatim
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerStimulator_Miscellaneous|
+ */

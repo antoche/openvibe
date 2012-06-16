@@ -1,0 +1,108 @@
+/**
+ * \page BoxAlgorithm_VoxelDisplay Voxel display
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelDisplay_Description|
+This plugin uses a 3D grid of voxels to display brain activity sources in real time. The incoming matrix stream is assumed to contain the activation levels of each voxel in the form of value triplets. In addition, a semi-transparent face mesh can be displayed on top of the voxel grid to provide orientation cues to the viewer. Different settings allow to configure the way brain activity is depicted on screen.
+
+This plugin is still a work in progress, and there's room for improvement in execution speed as well as functionalities. Some of its current limitations are mentioned in this documentation.
+ * |OVP_DocEnd_BoxAlgorithm_VoxelDisplay_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelDisplay_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_VoxelDisplay_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelDisplay_Input1|
+ Voxel activity matrix. Its size should be 3 times the voxel count, for an [x,y,z] triplet is assumed to describe the dipole reconstructed at the location of each voxel. The vector provides the orientation of the dipole while its norm gives its activation level.
+ * |OVP_DocEnd_BoxAlgorithm_VoxelDisplay_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelDisplay_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_VoxelDisplay_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelDisplay_Setting1|
+Voxel grid filename. This file should be in "OpenViBE Matrix" file format.
+ * |OVP_DocEnd_BoxAlgorithm_VoxelDisplay_Setting1|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelDisplay_OnlineVisualizationSettings|
+Online options include :
+
+- Modify Color : voxel activation thresholds are mapped to voxel colors. A "standard" color scale (13 steps ranging from yellow to red) is used for now and cannot be modified.
+
+- Modify Transparency : voxel activation thresholds are mapped to voxel transparency factors. A unique transparency computation scheme is implemented for now, where transparency ranges from 1 (least activated voxels) to 0 (most activated voxels).
+
+- Modify Scale : voxel activation thresholds are mapped to voxel scale factors. A unique scale computation scheme is implemented for now, where the minimum scale factor is applied to the least activated voxels, the maximum scale factor is applied to the most activated voxels, and a linear interpolation is performed in between those levels.
+
+- Min Scale Factor : specifies the scale factor to apply to the least activated voxels
+
+- Max Scale Factor : specifies the scale factor to apply to the most activated voxels
+
+- Min Display Threshold Boundary : can be alternatively set to '<' or '>'
+
+- Min Display Threshold : defines the minimum activation threshold. This threshold is normalized
+
+- Max Display Threshold Boundary : can be alternatively set to '>' or '<'
+
+- Max Display Threshold : defines the maximum activation threshold. This threshold is normalized 
+
+The previous 4 settings allow to specify which voxels are to be displayed. 
+
+To see extrema values, i.e. the least and most activated voxels, set the minimum display threshold boundary to '<' (the other boundary automativally swtiches to '>'). This will display voxels whose level is either lower than the minimum display threshold, OR higher than the maximum display threshold.
+
+To see all other voxels, click the Min Display Threshold Boundary and set it to '>' (the other boundary automatically switches to '<'). This will display voxels whose level lies in [Min Display Threshold, Max Display Threshold].
+
+- Face Opacity : sets the opacity of the face mesh surrounding the voxels. This provides orientation cues
+
+- Animate Camera : this option triggers a slight movement of the camera and improves parallax
+
+- View All : resets the camera position so that it encompasses the whole 3D scene, facing the +Z side of its bounding box
+
+\image html voxeldisplay_toolbar.png "Voxel Display toolbar"
+ * |OVP_DocEnd_BoxAlgorithm_VoxelDisplay_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelVisualizer_Examples|
+Check the sample scenarios distributed with OpenViBE for an example of how to use this plugin ('voxel-display' scenario) : 
+
+Step 1 : signal data is loaded from a GDF recording of 60 EEG channels.
+
+Step 2 : a temporal filter is used to restrain data to the frequency band of interest
+
+Step 3 : a 'Time based epoching' box computes signal epochs
+
+Step 4 : the Graz band powers of signal epochs are computed using a combination of 'Simple DSP' and 'Signal average' boxes
+
+Step 5 : a spatial filter is applied to compute brain activity. Such a filter may be computed for a given sources domain (a grid of voxels) when its direct matrix is known, which allows to generate inverse solutions (e.g. sLoreta) to estimate brain activity from signal measures. This example is based on a grid of 2394 voxels generated from a probabilistic atlas, and represents a coarse discretization of the grey matter of the brain. The 'Spatial filter' box is used to estimate voxel activation levels for each voxel, based on incoming measures over 60 channels. It produces a 3D vector for each voxel, whose norm gives the activation level of the voxel considered. Thus, the ouput matrix contains 3*2394 values.
+
+Step 6 : a 'Voxel display' box displays brain activity in real-time.
+ * |OVP_DocEnd_BoxAlgorithm_VoxelVisualizer_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_VoxelVisualizer_Miscellaneous|
+Warning : this plugin may involve heavy computation and/or display loads and your system may not be able to run scenarios using this plugin in real time. 
+
+If the bottleneck lies on the display side, one easy way to improve performance is to limit the number of displayed voxels by adjusting the minimum and maximum threshold sliders. 
+
+If this doesn't improve performance, then the bottleneck probably lies in the signal processing part of the pipeline. Try computing voxel activation levels less frequently to lighten the computation load.
+ * |OVP_DocEnd_BoxAlgorithm_VoxelVisualizer_Miscellaneous|
+ */

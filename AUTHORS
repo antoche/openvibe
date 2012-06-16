@@ -1,0 +1,26 @@
+
+         *========================================*
+                      |OpenViBE| |AUTHORS|
+         *========================================*
+
+|Concepts|
+
+|Developers|
+
+Yann Renard (yann.renard@irisa.fr)
+Vincent Delannoy (vincent.delannoy@irisa.fr)
+Laurent Bonnet (laurent.bonnet@irisa.fr)
+Jozef Legeny (jozef.legeny@inria.fr)
+Baptiste Payan (bpayan@loria.fr)
+Guillaume Gibert (guillaume.gibert@inserm.fr)
+Fabien Lotte (fabien.lotte@irisa.fr)
+Bruno Renier (bruno.renier@irisa.fr)
+
+Chris Veigl from University of Applied Sciences Technikum Wien contributed the Modular EEG P2 driver
+Lucie Daubigney from Supelec Metz contributed the g.Mobilab+ driver
+Matthieu Goyat from INP Grenoble contributed the Univariate Statisctics box and proposed a windows port of the Sound Player box
+Guillaume Lio from INP Grenoble contributed the Signal Merger box
+
+|End.of.file|
+
+ vim:tw=78:ts=8:ft=help:norl:

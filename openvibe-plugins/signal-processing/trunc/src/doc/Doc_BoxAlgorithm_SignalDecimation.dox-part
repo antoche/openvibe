@@ -1,0 +1,73 @@
+/**
+ * \page BoxAlgorithm_SignalDecimation Signal Decimation
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Description|
+This box reduces the sampling frequency of an input signal <em>the easy way</em>.
+It is different of the existing \ref Doc_BoxAlgorithm_DownsamplingGPL box in the sense
+that there is no pre-filtering and that you can not choose an arbitrary sampling
+frequency. Thus you will have to pre-filter the input signal with the
+\ref Doc_BoxAlgorithm_TemporalFilterGPL box for example. The new sampling frequency
+will be an exact divider of the source signal sampling frequency. For instance, if your
+input sampling frequency is 1000Hz, you are allowed to divide that frequency by 2 or 4
+but you can't divide it by 3. See section \ref Doc_BoxAlgorithm_SignalDecimation_Examples
+for a detailed example of what can be done.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Input1|
+The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Output1|
+The decimated signal.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Setting1|
+The sampling rate divider. At each chunk reception, 1 sample among n of the input signal will be
+sent to the output signal.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Examples|
+Suppose you have a signal with a sampling rate of 1000Hz streamed with 32 samples per buffer
+that you want to downsample to 100Hz. Downsampling this signal to 100Hz will require that you
+low-pass filter the signal to at most 50Hz to avoid bad results. Additionnaly,
+Changing the epoch sizes using a the
+\ref Doc_BoxAlgorithm_TimeBasedEpoching box and configuring it e.g. for epochs of 0.1s every
+0.1s will cause this box to output 10 samples sized buffers.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDecimation_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDecimation_Miscellaneous|
+ */

@@ -1,0 +1,349 @@
+/**
+ * \page Doc_OpenViBEStreams Stream structures
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/stream-structures/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br> 
+ *
+ * - \b NB: Document based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+ *
+ * \section Doc_Streams_Hierarchy Hierarchy
+ *
+ * \code
+ * #define OVTK_TypeId_EBMLStream                                         OpenViBE::CIdentifier(0x434F6587, 0x2EFD2B7E)
+ * #define   OVTK_TypeId_ChannelLocalisation                              OpenViBE::CIdentifier(0x1E4C0D6E, 0x5204EEB2)
+ * #define   OVTK_TypeId_ExperimentationInformation                       OpenViBE::CIdentifier(0x403488E7, 0x565D70B6)
+ * #define   OVTK_TypeId_Stimulations                                     OpenViBE::CIdentifier(0x6F752DD0, 0x082A321E)
+ * #define   OVTK_TypeId_StreamedMatrix                                   OpenViBE::CIdentifier(0x544A003E, 0x6DCBA5F6)
+ * #define     OVTK_TypeId_FeatureVector                                  OpenViBE::CIdentifier(0x17341935, 0x152FF448)
+ * #define     OVTK_TypeId_Signal                                         OpenViBE::CIdentifier(0x5BA36127, 0x195FEAE1)
+ * #define     OVTK_TypeId_Spectrum                                       OpenViBE::CIdentifier(0x1F261C0A, 0x593BF6BD)
+ * \endcode
+ *
+ * \section Doc_Streams_EBMLStream Standard EBML stream node identifiers
+ *
+ * EBML stream description (fixed on november 6th 2006)
+ *
+ * version 1 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:)
+ * OVTK_NodeId_Buffer
+ * OVTK_NodeId_Buffer
+ * ...
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \code
+ * #define OVTK_NodeId_Header                                                     EBML::CIdentifier(0x002B395F, 0x108ADFAE)
+ * #define OVTK_NodeId_Header_StreamType                                          EBML::CIdentifier(0x00CDD0F7, 0x46B0278D)
+ * #define OVTK_NodeId_Header_StreamVersion                                       EBML::CIdentifier(0x006F5A08, 0x7796EBC5)
+ * #define OVTK_NodeId_Buffer                                                     EBML::CIdentifier(0x00CF2101, 0x02375310)
+ * #define OVTK_NodeId_End                                                        EBML::CIdentifier(0x00D9DDC3, 0x0B12873A)
+ * \endcode
+ *
+ * \section Doc_Streams_StreamedMatrix Streamed matrix stream node identifiers
+ *
+ * Streamed matrix stream description (fixed on november 6th 2006)
+ *
+ * version 1 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:)
+ *   OVTK_NodeId_Header_StreamedMatrix
+ *     OVTK_NodeId_Header_StreamedMatrix_DimensionCount (integer:)
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:)
+ *       ...
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * ...
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \code
+ * #define OVTK_NodeId_Header_StreamedMatrix                                      EBML::CIdentifier(0x0072F560, 0x7ED2CBED)
+ * #define OVTK_NodeId_Header_StreamedMatrix_DimensionCount                       EBML::CIdentifier(0x003FEBD4, 0x2725D428)
+ * #define OVTK_NodeId_Header_StreamedMatrix_Dimension                            EBML::CIdentifier(0x0000E3C0, 0x3A7D5141)
+ * #define OVTK_NodeId_Header_StreamedMatrix_Dimension_Size                       EBML::CIdentifier(0x001302F7, 0x36D8438A)
+ * #define OVTK_NodeId_Header_StreamedMatrix_Dimension_Label                      EBML::CIdentifier(0x00153E40, 0x190227E0)
+ * #define OVTK_NodeId_Buffer_StreamedMatrix                                      EBML::CIdentifier(0x00120663, 0x08FBC165)
+ * #define OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer                            EBML::CIdentifier(0x00B18C10, 0x427D098C)
+ * \endcode
+ *
+ *
+ * \section Doc_Streams_ChannelLocalisation Channel localisation stream node identifiers
+ *
+ * Channel localisation description (nov 04th 2008)
+ *
+ * version 1 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:2)
+ *   OVTK_NodeId_Header_ChannelLocalisation
+ *     OVTK_NodeId_Header_ChannelLocalisation_Dynamic (boolean)
+ *   OVTK_NodeId_Header_StreamedMatrix
+ *     OVTK_NodeId_Header_StreamedMatrix_DimensionCount (integer:2)
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:channel count)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:channel 1 name)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:channel 2 name)
+ *       ...
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:3)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:x)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:y)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:z)
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * ...
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \code
+ * #define OVTK_NodeId_Header_ChannelLocalisation                                 EBML::CIdentifier(0xF2CFE60B, 0xEFD63E3B)
+ * #define OVTK_NodeId_Header_ChannelLocalisation_Dynamic                         EBML::CIdentifier(0x5338AF5C, 0x07C469C3)
+ * \endcode
+ *
+ * \section Doc_Streams_FeatureVector Feature vector stream node identifiers
+ *
+ * Feature vector stream description (fixed on may 24th 2007)
+ *
+ * version 1 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:)
+ *   OVTK_NodeId_Header_StreamedMatrix
+ *     OVTK_NodeId_Header_StreamedMatrix_DimensionCount (integer:1)
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:feature count)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:feature 1 name)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:feature 2 name)
+ *       ...
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * ...
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \section Doc_Streams_Spectrum Spectrum stream node identifiers
+ *
+ * Spectrum stream description (fixed on june 4th 2007)
+ *
+ * version 1 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:)
+ *   OVTK_NodeId_Header_StreamedMatrix
+ *     OVTK_NodeId_Header_StreamedMatrix_DimensionCount (integer:2)
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:channel count)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:channel 1 name)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:channel 2 name)
+ *       ...
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:number of frequency band)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:frequency band 1 name)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:frequency band 2 name)
+ *       ...
+ *   OVTK_NodeId_Header_Spectrum
+ *     OVTK_NodeId_Header_Spectrum_FrequencyBand
+ *       OVTK_NodeId_Header_Spectrum_FrequencyBand_Start (float64)
+ *       OVTK_NodeId_Header_Spectrum_FrequencyBand_Stop (float64)
+ *     OVTK_NodeId_Header_Spectrum_FrequencyBand
+ *       OVTK_NodeId_Header_Spectrum_FrequencyBand_Start (float64)
+ *       OVTK_NodeId_Header_Spectrum_FrequencyBand_Stop (float64)
+ *     ...
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * ...
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \code
+ * #define OVTK_NodeId_Header_Spectrum                                     EBML::CIdentifier(0x00CCFA4B, 0x14F37D4D)
+ * #define OVTK_NodeId_Header_Spectrum_FrequencyBand                       EBML::CIdentifier(0x0010983C, 0x21F8BDE5)
+ * #define OVTK_NodeId_Header_Spectrum_FrequencyBand_Start                 EBML::CIdentifier(0x00AA5654, 0x2403A2CB)
+ * #define OVTK_NodeId_Header_Spectrum_FrequencyBand_Stop                  EBML::CIdentifier(0x00A44C82, 0x05BE50D5)
+ * \endcode
+ *
+ * \section Doc_Streams_Signal Signal stream node identifiers
+ *
+ * Signal stream description (based on v1 november 6th 2006, modified may 24th 2007)
+ *
+ * version 2 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:)
+ *   OVTK_NodeId_Header_Signal
+ *     OVTK_NodeId_Header_Signal_SamplingRate (integer)
+ *   OVTK_NodeId_Header_StreamedMatrix
+ *     OVTK_NodeId_Header_StreamedMatrix_DimensionCount (integer:2)
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:channel count)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:channel 1 name)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string:channel 2 name)
+ *       ...
+ *     OVTK_NodeId_Header_StreamedMatrix_Dimension
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Size (integer:number of samples per buffer)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string)
+ *       OVTK_NodeId_Header_StreamedMatrix_Dimension_Label (string)
+ *       ...
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_StreamedMatrix
+ *     OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer (array of float64)
+ * ...
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \code
+ * #define OVTK_NodeId_Header_Signal                                              EBML::CIdentifier(0x007855DE, 0x3748D375)
+ * #define OVTK_NodeId_Header_Signal_SamplingRate                                 EBML::CIdentifier(0x00141C43, 0x0C37006B)
+ * \endcode
+ *
+ * \section Doc_Streams_Acquisition Acquisition
+ *
+ * Acquisition stream description (fixed on march 2008)
+ * This is a multiplexed stream
+ *
+ * version 2 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Acquisition_Header_ExperimentInformation
+ *     ... some experiment information stream header
+ *   OVTK_NodeId_Acquisition_Header_Signal
+ *     ... some signal stream header
+ *   OVTK_NodeId_Acquisition_Header_Stimulation
+ *     ... some stimulation stream header
+ *   OVTK_NodeId_Acquisition_Header_ChannelLocalisation
+ *     ... some channel localisation stream header
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Acquisition_Buffer_ExperimentInformation
+ *     ... some experiment information stream buffer
+ *   OVTK_NodeId_Acquisition_Buffer_Signal
+ *     ... some signal stream buffer
+ *   OVTK_NodeId_Acquisition_Buffer_Stimulation
+ *     ... some stimulation stream buffer
+ *   OVTK_NodeId_Acquisition_Buffer_ChannelLocalisation
+ *     ... some channel localisation stream buffer
+ * OVTK_NodeId_Buffer
+ * OVTK_NodeId_Buffer
+ * ...
+ * \endverbatim
+ *
+ * \section Doc_Streams_Stimulation Stimulation stream node identifiers
+ *
+ * Stimulation stream description (based on v1 november 6th 2006, modified may 24th 2007)
+ *
+ * version 3 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:)
+ * OVTK_NodeId_Buffer
+ *   OVTK_NodeId_Buffer_Stimulation
+ *     OVTK_NodeId_Buffer_Stimulation_NumberOfStimulations (integer)
+ *     OVTK_NodeId_Buffer_Stimulation_Stimulation
+ *       OVTK_NodeId_Buffer_Stimulation_Stimulation_Identifier (integer)
+ *       OVTK_NodeId_Buffer_Stimulation_Stimulation_Date (integer)
+ *       OVTK_NodeId_Buffer_Stimulation_Stimulation_Duration (integer)
+ *     OVTK_NodeId_Stimulation_Stimulation
+ *     ...
+ * OVTK_NodeId_Buffer
+ * OVTK_NodeId_Buffer
+ * ...
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \code
+ * #define OVTK_NodeId_Buffer_Stimulation                                         EBML::CIdentifier(0x006DEABE, 0x7FC05A20)
+ * #define OVTK_NodeId_Buffer_Stimulation_NumberOfStimulations                    EBML::CIdentifier(0x00BB790B, 0x2B8574D8)
+ * #define OVTK_NodeId_Buffer_Stimulation_Stimulation                             EBML::CIdentifier(0x0016EAC6, 0x29FBCAA1)
+ * #define OVTK_NodeId_Buffer_Stimulation_Stimulation_Identifier                  EBML::CIdentifier(0x006FA5DB, 0x4BAC31E9)
+ * #define OVTK_NodeId_Buffer_Stimulation_Stimulation_Date                        EBML::CIdentifier(0x00B866D8, 0x14DA5374)
+ * #define OVTK_NodeId_Buffer_Stimulation_Stimulation_Duration                    EBML::CIdentifier(0x14EE055F, 0x87FBCC9C)
+ * \endcode
+ *
+ * \section Doc_Streams_ExperimentationInformation Experimentation information node identifiers
+ *
+ * Experimentation information stream description (fixed on november 6th 2006)
+ *
+ * version 1 :
+ *
+ * \verbatim
+ * OVTK_NodeId_Header
+ *   OVTK_NodeId_Header_StreamType (integer:)
+ *   OVTK_NodeId_Header_StreamVersion (integer:)
+ *   OVTK_NodeId_Header_ExperimentInformation
+ *     OVTK_NodeId_Header_ExperimentInformation_Experiment
+ *       OVTK_NodeId_Header_ExperimentInformation_Experiment_Identifier (integer)
+ *       OVTK_NodeId_Header_ExperimentInformation_Experiment_Date (date)
+ *     OVTK_NodeId_Header_ExperimentInformation_Subject
+ *       OVTK_NodeId_Header_ExperimentInformation_Subject_Identifier (integer)
+ *       OVTK_NodeId_Header_ExperimentInformation_Subject_Name (string)
+ *       OVTK_NodeId_Header_ExperimentInformation_Subject_Age (integer)
+ *       OVTK_NodeId_Header_ExperimentInformation_Subject_Gender (integer)
+ *     OVTK_NodeId_Header_ExperimentInformation_Context
+ *       OVTK_NodeId_Header_ExperimentInformation_Context_LaboratoryIdentifier (integer)
+ *       OVTK_NodeId_Header_ExperimentInformation_Context_LaboratoryName (string)
+ *       OVTK_NodeId_Header_ExperimentInformation_Context_TechnicianIdentifier (integer)
+ *       OVTK_NodeId_Header_ExperimentInformation_Context_TechnicianName (string)
+ * OVTK_NodeId_End
+ * \endverbatim
+ *
+ * \code
+ * #define OVTK_NodeId_Header_ExperimentInformation                               EBML::CIdentifier(0x00746BA0, 0x115AE04D)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Experiment                    EBML::CIdentifier(0x0011D6B7, 0x48F1AA39)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Experiment_Identifier         EBML::CIdentifier(0x006ACD74, 0x1C960C26)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Experiment_Date               EBML::CIdentifier(0x002F8FB7, 0x6DA7552D)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Subject                       EBML::CIdentifier(0x003EC620, 0x333E0A94)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Subject_Identifier            EBML::CIdentifier(0x00D62974, 0x473D4AA5)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Subject_Name                  EBML::CIdentifier(0x0041FD0A, 0x6BCD9A99)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Subject_Age                   EBML::CIdentifier(0x00DF7DD9, 0x33336C51)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Subject_Sex                   EBML::CIdentifier(0x0069BB84, 0x3FC8E149) /* for retro compat */
+ * #define OVTK_NodeId_Header_ExperimentInformation_Subject_Gender                EBML::CIdentifier(0x0069BB84, 0x3FC8E149)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Context                       EBML::CIdentifier(0x0018C291, 0x7985DFDD)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Context_LaboratoryIdentifier  EBML::CIdentifier(0x003F11B9, 0x26D76D9C)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Context_LaboratoryName        EBML::CIdentifier(0x00EB1F23, 0x51C23B83)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Context_TechnicianIdentifier  EBML::CIdentifier(0x00874A7F, 0x60DC34C2)
+ * #define OVTK_NodeId_Header_ExperimentInformation_Context_TechnicianName        EBML::CIdentifier(0x00C8C393, 0x31CE5B3E)
+ * \endcode
+ *
+ */

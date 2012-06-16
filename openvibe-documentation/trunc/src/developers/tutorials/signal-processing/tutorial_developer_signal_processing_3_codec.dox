@@ -1,0 +1,106 @@
+/**
+ * \page Doc_Tutorial_Developer_SignalProcessing_CodecToolkit The Codec Toolkit: decode and encode faster
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/tutorial-1-implementing-a-signal-processing-box/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+ *
+ * - \b NB: Document based on <b> OpenViBE 0.10.0 </b> (31-march-2011).
+ *
+ * In this tutorial you will learn how to use the OpenViBE Codec toolkit. 
+ * These template classes can be used to implement new boxes faster, as you will always 
+ * have to decode some input streams and encode output streams. No more identifiers 
+ * for input, output and triggers as you only have high level methods.
+ <br />
+ <p><div class="important"> 
+ It is recommended to do the \ref Doc_Tutorial_Developer_SignalProcessing_IntroductionPage "Previous tutorials" before this one. <br />
+ Writing new plugins requires to know how the algorithm mechanism works, and the Codec Toolkit 
+ masks a big part of this mechanism for the decoders and encoders algorithms. 
+ </div></p>
+ <br />
+ 
+Let's go on with a concrete use case : a simple box that reads any kind of inputs, extract some information from it, then outputs unmodified data. The code of this \ref BoxAlgorithm_CodecToolkitTestbox "Codec Toolkit testbox" is available on the SVN repository, under <i>openvibe-plugins/samples/trunc/src</i>. The box irself is available in the Designer in the category <i>Signal Processing/Samples</i>.
+ 
+ * \section Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_Header Box algorithm definition
+ *
+ * Here is the file containing the box algorithm definition, we will detail each line of the file later on.
+ *
+ * \include "ovpCTestCodecToolkit.h"
+ * \dontinclude "ovpCTestCodecToolkit.h"
+ *
+ * As you already know the basics, let's move on to the codec declarations:
+ * \skip TStreamedMatrixDecoder 
+ * \until vEncoders
+ *
+ * Every codec is a template class that needs the box class from which it will ask for the dynamic context (here, CTestCodecToolkit).
+ * We also declare two vectors, one will contain all encoders and the other all decoders. We will then be able to iterate over all codecs easily. All decoders inherits from the class \c OpenViBEToolkit::TDecoder, and all encoders from \c OpenViBEToolkit::TEncoder.
+ *
+ * In the box prototype we declare all possible input and output types:
+ * \skip getBoxPrototype
+ * \until }
+ * We will ensure that the i-th input is decoded by the i-th decoder in the vector (and same for outputs and encoders).
+ * Now let's move on to the implementation. 
+ *
+ * \section Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_Implementation Box algorithm implementation
+ *
+ * Here is the file containing the box algorithm implementation, we will detail each line of the file later on.
+ *
+ * \include "ovpCTestCodecToolkit.cpp"
+ * \dontinclude "ovpCTestCodecToolkit.cpp"
+ * 
+ * - The first step is initialization:
+ *
+ \skip initialize
+ \until }
+ *
+ * During box initialization, we need to call \c initialize() on every codec. The initialize method needs a \b reference of the current instance as parameter, in order to be able to create the codec algorithm through the box's algorithm manager. As we want to pass the chunks from the decoders directly to the corresponding encoders, we also set the reference targets.
+ * We fill the two vectors on the way.
+ *
+ * - Second step is uninitialization :
+ *
+ \skip uninitialize
+ \until return
+ \until }
+ * We iterate over all decoders and encoders and call \c uninitialize() on each codec.
+ *
+ * - Now let's take a look at the process loop:
+ * 
+ * We iterate over all input chunks.
+ *
+ \skip process(void)
+ \until manipulate
+ 
+ * With a simple call to \c decode, the input chunk is decoded. We can check its content.
+ \until decode
+ * If the incoming chunk contains a Header, we just ask the corresponding encoder to encode it's own header chunk.
+ \until isHeaderReceived
+ \until }
+ * If a buffer is received, we check its content in order to print some information in the console.
+ * Based on the input type, we know which decoder is involved. We can access its output(s) by calling the corresponding getOutputXXX methods (check the \ref Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_Ref "reference page" for a complete listing).
+ \until isBuffer
+ \until m_vEncoders[i]->encodeBuffer(i);
+ \until }
+ * If a End is received we just pass it to the corresponding encoder.
+ \until isEndReceived
+ \until }
+ * Finally, we mark the output has ready to send, with correct chunk timing.
+ \until markOutputAsReadyToSend
+ *
+ * \section Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_ConsDestr About Constructors and Destructors
+ * You can manipulate encoders and decoders easily, as long as you \b initialize and \b uninitialize it on the way. The safe practice has been described in this tutorial, as presented in the \c CTestCodecToolkit class, and should always be followed. If not possible, here is what you can expect from the codec classes :
+ - <b>Default constructor</b> : the codec is declared, but not initialized
+ - <b>TUsefulCodec(T& rBoxAlgorithm)</b> : the codec is declared <u>and initialized</u>
+ - \b Destructor : uninitializes the codec
+ - <b>initialize(T& rBoxAlgorithm)</b> : manually initializes the codec. Does nothing if already initialized.
+ - \b uninitialize() : manually uninitializes the codec. Does nothing if already uninitialized.
+ *
+ * \section Doc_Tutorial_Developer_SignalProcessing_Conclusion Conclusion
+ * The Codec Toolkit provides an easy and simple way to use the stream decoders and encoders in OpenViBE.
+ * These algorithms are by far the most used when it comes to plugin implementation, and we hope this toolkit will help
+ * any futur developement !
+ *
+ * For any further question, please refer to the \ref Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_Ref "Codec Toolkit Reference page", or visit us on the forum !
+ *
+ */

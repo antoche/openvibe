@@ -1,0 +1,21 @@
+#!/bin/bash
+
+wc=`which wc`
+common_base_search=..
+common_name_pattern=*/trunc/*
+
+echo collecting .dox files ...   && dox___files=`find $common_base_search -wholename $common_name_pattern.dox`
+echo collecting .cmake files ... && cmake_files=`find $common_base_search -wholename $common_name_pattern.cmake`
+echo collecting .glade files ... && glade_files=`find $common_base_search -wholename $common_name_pattern.glade`
+
+echo counting lines in .dox .cmake .glade ...
+$wc -l $dox___files $cmake_files $glade_files
+
+echo collecting .h files ...     && h_____files=`find $common_base_search -wholename $common_name_pattern.h`
+echo collecting .c files ...     && c_____files=`find $common_base_search -wholename $common_name_pattern.c`
+echo collecting .hpp files ...   && hpp___files=`find $common_base_search -wholename $common_name_pattern.hpp`
+echo collecting .cpp files ...   && cpp___files=`find $common_base_search -wholename $common_name_pattern.cpp`
+echo collecting .inl files ...   && inl___files=`find $common_base_search -wholename $common_name_pattern.inl`
+
+echo counting lines in .c .h .hpp .cpp .inl ...
+$wc -l $h_____files $c_____files $hpp___files $cpp___files $inl___files

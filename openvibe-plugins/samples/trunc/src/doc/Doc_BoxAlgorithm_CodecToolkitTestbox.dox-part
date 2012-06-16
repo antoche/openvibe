@@ -1,0 +1,87 @@
+/**
+ * \page BoxAlgorithm_CodecToolkitTestbox Codec Toolkit testbox
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Description|
+ The purpose of this box is to test the \ref Doc_Tutorial_Developer_SignalProcessing_CodecToolkit_Ref "Codec Toolkit".
+ This box is able to read data from any type of input. It extract some information from the incoming chunks and print it in the console.
+ An output chunk is then generated as a full copy on the corresponding output, as the \ref BoxAlgorithm_Identity Identity box does.
+ 
+ For more information on the Codec Toolkit, please read the \ref Doc_Tutorial_Developer_SignalProcessing_CodecToolkit "dedicated tutorial" that presents the implementatio of this box.
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Inputs|
+ All possible types of input are represented.
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Input1|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Input2|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Input2|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Input3|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Input3|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Input4|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Input4|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Input5|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Input5|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Input6|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Input6|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Input7|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Input7|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Outputs|
+ All possible types of output are represented.
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Output2|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Output2|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Output3|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Output3|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Output4|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Output4|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Output5|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Output5|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Output6|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Output6|
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Output7|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Output7|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CodecToolkitTestbox_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_CodecToolkitTestbox_Miscellaneous|
+ */

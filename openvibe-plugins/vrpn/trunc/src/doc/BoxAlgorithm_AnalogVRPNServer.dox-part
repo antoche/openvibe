@@ -1,0 +1,81 @@
+/**
+ * \page BoxAlgorithm_AnalogVRPNServer Analog VRPN server
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AnalogVRPNServer_Description|
+ *
+ * This plugin exposes several \ref Doc_Streams_StreamedMatrix streams
+ * to an external application thanks to the \e VRPN protocol. \e VRPN stands
+ * for Virtual Reality Peripheral Network (http://www.cs.unc.edu/Research/vrpn/).
+ * It consists in a library that abstracts most used VR peripherals as
+ * an aggregation of basic components such as \e analogic data, \e buttons
+ * or \e trackers (localisation and orientation in space).
+ *
+ * The way §OpenViBE§ exposes \ref Doc_Streams_StreamedMatrix streams to
+ * external applications consists in emulating an multi-channel analogic
+ * device. The number of elements contained in the buffers of the stream
+ * will fix the number of channels of the emulated device. Given this
+ * behavior, any \e VRPN ready application is able to get parameters
+ * from §OpenViBE§ and to provide feedback to the user as visual information
+ * or whatever way the feedback should be done.
+ *
+ * |OVP_DocEnd_BoxAlgorithm_AnalogVRPNServer_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AnalogVRPNServer_Inputs|
+ * This box accepts unlimited number of inputs. Initial box only
+ * has a single input but you can add as many \ref Doc_Streams_StreamedMatrix
+ * derived inputs as you want to the box.
+ *
+ * Note that in case you add inputs, the total number of channels
+ * of the emulated device will be the sum of the number of elements
+ * of each buffer.
+ * |OVP_DocEnd_BoxAlgorithm_AnalogVRPNServer_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_AnalogVRPNServer_Input1|
+ * This input will receive the matrices from preceding boxes and
+ * update the multi-analog device according to the matrix buffer.
+ * |OVP_DocEnd_BoxAlgorithm_AnalogVRPNServer_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AnalogVRPNServer_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_AnalogVRPNServer_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_AnalogVRPNServer_Setting1|
+ * This setting contains the name of the emulated peripheral. This will be used
+ * by the external application in order to connect to this peripheral. If this
+ * setting is \e openvibe-vrpn and the machine running §OpenViBE§ is
+ * \e openvibe-machine, then the complete \e VRPN peripheral name is
+ * \e openvibe-vrpn\@\e openvibe-machine.
+ * |OVP_DocEnd_BoxAlgorithm_AnalogVRPNServer_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AnalogVRPNServer_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_AnalogVRPNServer_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AnalogVRPNServer_Miscellaneous|
+ * This box lacks an additional setting to specify the connection port.
+ * Default \e VRPN connection port is \c 3883. But it may be possible that
+ * you want to expose §OpenViBE§ on another port. This is not currently possible.
+ *
+ * For \e buttons emulation, you way want to look at the
+ * \ref Doc_BoxAlgorithm_ButtonVRPNServer documentation that does almost
+ * the same as this box but transcoding stimulations to button states.
+ * |OVP_DocEnd_BoxAlgorithm_AnalogVRPNServer_Miscellaneous|
+ */

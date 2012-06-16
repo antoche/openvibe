@@ -1,0 +1,404 @@
+/**
+ * \page Doc_CreatingANewDriver Tutorial: creating a new driver for the acquisition server
+  <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/tutorial-creating-a-new-driver-for-the-acquisition-server/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br> 
+ *
+ * - \b NB: Document based on <b> OpenViBE 0.8.0 </b> (30-sept-2010).
+ *
+ * \section Doc_CreatingANewDriver_Introduction Introduction
+ *
+ * This page is intended to driver developers and shows how to create a new
+ * acquisition driver for the §OpenViBE§ acquisition server. The driver is a
+ * single object that interacts with the hardware acquisition peripheral and formats
+ * acquired measures and information in a way the acquisition server understands.
+ * Once the acquisition server receives measures and information, it is able to
+ * send them to the multiple connected clients.
+ *
+ * The connection between the hardware and the driver does not really matters
+ * to the acquisition server. Some hardware manufacturer will provide an API
+ * so that the driver has direct access to the peripheral through physical connection
+ * (maybe USB, serial port or so). Some will provide a proprietary acquisition
+ * server, which allows connections through TCP/IP to stream the measures in
+ * real time. Whatever your hardware manufacturer provides, the §OpenViBE§ driver
+ * is in charge of collecting a set of information / measures and to format all of
+ * them according to the format of §OpenViBE§.
+ *
+ * \section Doc_CreatingANewDriver_HowIsTheDriverUsed How is the driver used ?
+ *
+ * First, the driver has to give a name to the acquisition server. This will
+ * be used in the acquisition server GUI to easily identify the hardware
+ * the user is working with. This is why you should give a precise name
+ * to the driver, using for example, the hardware manufacturer name and the
+ * hardware model name.
+ *
+ * The driver essentially deals with two kinds of data :
+ *  - the header
+ *  - the buffer
+ *
+ * The header is the part of data that does not change along time, containing
+ * several identifiers about the experiment being done, information about
+ * the channels being acquired and so on. See OpenViBEAcquisitionServer::IHeader
+ * for more details about this header.
+ *
+ * The buffer is the part of data that changes along time. It contains the
+ * different samples for each channel on a given time period which depend on
+ * the number of samples per sent channel. This value is given to the driver
+ * during the initialization phase.
+ *
+ * To deal with these data, the driver is used by the acquisition server
+ * at different stages of the execution. The three most important are :
+ *  - configuration
+ *  - intialization / uninitialization
+ *  - acquisition
+ *
+ * The configuration stage can be used by the driver to request the
+ * header's information that won't be available from the hardware. Depending
+ * on the hardware, all the information for the header may be found
+ * in the streamed data, resulting in an non-configurable driver (may be
+ * easier for the acquisition server user). For example, a driver with
+ * physical connection may not provide subject age or sex. Such a driver
+ * will need a configuration phase before it can be used.
+ *
+ * In the intialization stage, the driver requests readyness status to the
+ * hardware. Once the driver is initialized (this means
+ * OpenViBEAcquisitionServer::IDriver::initialize returns), the driver
+ * should have a complete header ready to be sent to the acquisition server.
+ * The driver's OpenViBEAcquisitionServer::IDriver::loop is regularly called
+ * so that the driver may be able to keep the connection to the device alive,
+ * of can he drop some data if needed.
+ *
+ * The acquisition stage comes when OpenViBEAcquisitionServer::IDriver::start
+ * is called. From this stage, the driver is regularly requested to provide
+ * new data within the OpenViBEAcquisitionServer::IDriver::loop function.
+ *
+ * A schematic representation of the automate for a driver is here below :
+ *
+ * \image html driver_automate.png "The driver automate"
+ *
+ * Now that you know what a driver is, we shall start coding it.
+ * We provide a developer tool named <b>Skeleton-generator</b>, that generates for you all 
+ * the files you will need to build the driver. 
+ *
+ * \section Doc_CreatingANewDriver_SkeletonGenerator Using the Skeleton-Generator
+ * The Skeleton-generator needs the following information :
+ *  - Author name
+ *  - Company/Affiliation
+ *  - Driver name
+ *  - Class name
+ *  - Min & Max channel count
+ *  - Sampling frequencies
+ *  - Directory where the files will be generated
+ *
+ * And will generates the following files :
+ *  - the driver class code (.h and .cpp)
+ *  - the configuration class code (.h and .cpp)
+ *  - the GtkBuilder interface file (.ui)
+ *  - a readme.txt file that explains how to use the generated files.
+ * 
+ * \image html skeleton-generator.png "The skeleton generator GUI"
+ *
+ * Each field has its own conditions, use the "Help" buttons for detailed examples.
+ * Once all fields are filled, you must check it by pressing the dedicated button.
+ * A report will be displayed, asking you to modify the wrong fields if any.
+ * If everything is good, you can press the button "OK" to generate the files.
+ * Let's take a closer look at the skeletons now.
+ *
+ * \section Doc_CreatingANewDriver_CodingTheDriver Coding the driver
+ *
+ * Coding the driver consists in implementing an
+ * OpenViBEAcquisitionServer::IDriver object.
+ *
+ * Here comes the driver skeleton generated.
+ *
+ * \subsection Doc_CreatingANewDriver_CodingTheDriver_Header The header
+ * The header would look like this :
+ *
+ * \code
+#include "../ovasIDriver.h"
+#include "../ovasCHeader.h"
+#include <openvibe/ov_all.h>
+
+namespace OpenViBEAcquisitionServer
+{
+	/**
+	 * \class CDriverTestSkGenerator
+	 * \author Laurent (INRIA)
+	 * \date Thu Sep 30 09:54:08 2010
+	 * \erief The CDriverTestSkGenerator allows the acquisition server 
+	 * to acquire data from a Simple test driver (p1) device.
+	 *
+	 * TODO: details
+	 *
+	 * \sa CConfigurationTestSkGenerator
+	 */
+	class CDriverTestSkGenerator : public OpenViBEAcquisitionServer::IDriver
+	{
+	public:
+
+		CDriverTestSkGenerator(OpenViBEAcquisitionServer
+				::IDriverContext& rDriverContext);
+		virtual ~CDriverTestSkGenerator(void);
+		virtual const char* getName(void);
+
+		virtual OpenViBE::boolean initialize(
+			const OpenViBE::uint32 ui32SampleCountPerSentBlock,
+			OpenViBEAcquisitionServer::IDriverCallback& rCallback);
+		virtual OpenViBE::boolean uninitialize(void);
+
+		virtual OpenViBE::boolean start(void);
+		virtual OpenViBE::boolean stop(void);
+		virtual OpenViBE::boolean loop(void);
+
+		virtual OpenViBE::boolean isConfigurable(void);
+		virtual OpenViBE::boolean configure(void);
+		virtual const OpenViBEAcquisitionServer::IHeader* getHeader(void) 
+		{ 
+			return &m_oHeader; 
+		}
+		
+		virtual OpenViBE::boolean isFlagSet(
+			const OpenViBEAcquisitionServer::EDriverFlag eFlag) const
+		{
+			return eFlag==DriverFlag_IsUnstable;
+		}
+
+	protected:
+
+		OpenViBEAcquisitionServer::IDriverCallback* m_pCallback;
+
+		// Replace this generic Header with any specific 
+		// header you might have written
+		OpenViBEAcquisitionServer::CHeader m_oHeader;
+
+		OpenViBE::uint32 m_ui32SampleCountPerSentBlock;
+		OpenViBE::float32* m_pSample;
+	
+	private:
+
+		/*
+*		 * Insert here all specific attributes, such as USB port 
+*		 * number or device ID.
+*		 * Example :
+		 */
+		// OpenViBE::uint32 m_ui32USBPort;
+	};
+};
+ * \endcode
+ * 
+ * We will now describe in details the implementation of these functions.
+ * The implementation can be divided in 3 phases : the preliminary, the configuration, the acquisition.
+ *
+ * \subsection Doc_CreatingANewDriver_CodingTheDriver_Preliminary Preliminary
+ * The first part of the cpp file contains the constructor, the destructor and the getName function.
+ * The code is relatively simple and speaks for itself.
+ * \code
+CDriverTestSkGenerator::CDriverTestSkGenerator(IDriverContext& rDriverContext)
+	:IDriver(rDriverContext)
+	,m_pCallback(NULL)
+	,m_ui32SampleCountPerSentBlock(0)
+	,m_pSample(NULL)
+{
+	m_oHeader.setSamplingFrequency(128);
+	m_oHeader.setChannelCount(4);
+}
+
+CDriverTestSkGenerator::~CDriverTestSkGenerator(void)
+{
+}
+
+const char* CDriverTestSkGenerator::getName(void)
+{
+	return "Simple test driver (p1)";
+}
+ * \endcode
+ *
+ * \subsection Doc_CreatingANewDriver_CodingTheDriver_Configuration Configuration
+ * The configuration phase calls the dedicated GUI. The CConfiguration object fills 
+ * the header with information from the GUI : subject identifier, number of channel, 
+ * channel names, sampling frequency etc.
+ * \code
+ boolean CDriverTestSkGenerator::isConfigurable(void)
+{
+	return true; // change to false if your device is not configurable
+}
+
+boolean CDriverTestSkGenerator::configure(void)
+{
+	CConfigurationTestSkGenerator m_oConfiguration(m_rDriverContext,
+			"../share/openvibe-applications/acquisition-server/interface-TestSkGenerator.ui");
+	if(!m_oConfiguration.configure(m_oHeader))
+	{
+		return false;
+	}
+	return true;
+}
+ * \endcode
+ *
+ * \subsection Doc_CreatingANewDriver_CodingTheDriver_Acquisition Acquisition
+ * To acquire the data, we must firstly initialize the driver. The <em>initialize</em> function
+ * will be called by the acquisition server with a given callback, to be feeded with samples.
+ * If the hardware needs initialization, put the dedicated code in this function.
+ * The <em>uninitialize</em> function desallocate properly everything.
+ * \code
+ boolean CDriverTestSkGenerator::initialize(
+	const uint32 ui32SampleCountPerSentBlock,
+	IDriverCallback& rCallback)
+{
+	if(m_rDriverContext.isConnected()) return false;
+	if(!m_oHeader.isChannelCountSet()
+		||!m_oHeader.isSamplingFrequencySet()) return false;
+	
+	// Builds up a buffer to store
+	// acquired samples. This buffer
+	// will be sent to the acquisition
+	// server later...
+	m_pSample=new float32[m_oHeader.getChannelCount()
+			*ui32SampleCountPerSentBlock];
+	if(!m_pSample)
+	{
+		delete [] m_pSample;
+		m_pSample=NULL;
+		return false;
+	}
+	
+	// ...
+	// initialize hardware and get
+	// available header information
+	// from it
+	// ...
+
+	// Saves parameters
+	m_pCallback=&rCallback;
+	m_ui32SampleCountPerSentBlock=ui32SampleCountPerSentBlock;
+	return true;
+}
+
+boolean CDriverTestSkGenerator::uninitialize(void)
+{
+	if(!m_rDriverContext.isConnected()) return false;
+	if(m_rDriverContext.isStarted()) return false;
+
+	// ...
+	// uninitialize hardware here
+	// ...
+
+	delete [] m_pSample;
+	m_pSample=NULL;
+	m_pCallback=NULL;
+
+	return true;
+}
+
+ * \endcode
+ * 
+ * Once the driver is initialized, the acquisition can start. The \em start and \em stop functions 
+ * handle the connection and ask the hardware to start/stop sending the EEG data.
+ *
+ \code
+boolean CDriverTestSkGenerator::start(void)
+{
+	if(!m_rDriverContext.isConnected()) return false;
+	if(m_rDriverContext.isStarted()) return false;
+
+	// ...
+	// request hardware to start
+	// sending data
+	// ...
+
+	return true;
+}
+boolean CDriverTestSkGenerator::stop(void)
+{
+	if(!m_rDriverContext.isConnected()) return false;
+	if(!m_rDriverContext.isStarted()) return false;
+
+	// ...
+	// request the hardware to stop
+	// sending data
+	// ...
+
+	return true;
+}
+ \endcode
+ *
+ * Finally, the \em loop function reads the data and stores it in a buffer. 
+ * This function is called as fast as possible by the acquisition server once the driver is connected (intialized).
+ *
+ \code
+boolean CDriverTestSkGenerator::loop(void)
+{
+	if(!m_rDriverContext.isConnected()) return false;
+	if(!m_rDriverContext.isStarted()) return true;
+
+	OpenViBE::CStimulationSet l_oStimulationSet;
+
+	// ...
+	// receive samples from hardware
+	// put them the correct way in the sample array
+	// whether the buffer is full, send it to the acquisition server
+	//...
+	m_pCallback->setSamples(m_pSample);
+
+	// ...
+	// receive events from hardware
+	// and put them the correct way in a CStimulationSet object
+	//...
+	m_pCallback->setStimulationSet(l_oStimulationSet);
+
+	return true;
+}
+ \endcode
+ *
+ * For a simple working example of driver, please take a look to the generic
+ * oscillator. This driver does not connect to any hardware. Instead, it
+ * produces the samples itself using sinusoidal signal. This can easily
+ * be tuned to match your needs for any specific driver and also could be
+ * used to test your §OpenViBE§ platform.
+ *
+ *
+ * \section Doc_CreatingANewDriver_UsingTheNewDriver Using the driver
+ *
+ * When you have a working driver you probably want to test / use it. In order
+ * to achieve this task, you have to register the driver to the acquisition server.
+ * Put your .h / .cpp files in the acquisition server project :
+ * <em>openvibe-applications/acquisition-server/trunc/src/<b>your-driver-name</b></em>
+ * Then edit the main acquisition server file <em>ovasCAcquisitionServerGUI.cpp</em> and
+ * add your driver in the driver list.
+ *
+ * \code
+ * #include "your-driver-name/ovasCDriverYourDriverName.h"
+ *
+ * // ...
+ *
+ * CAcquisitionServer::CAcquisitionServer(const OpenViBE::Kernel::IKernelContext& rKernelContext)
+ * {
+ *   // ...
+ *
+ *   m_vDriver.push_back(new CDriverYourDriverName(*m_pDriverContext));
+ *
+ *   // ...
+ * }
+ * \endcode
+ *
+ * If you used the skeleton-generator, please look at the \b readme file for further details.
+ *
+ * \section Doc_CreatingANewDriver_More Advanced developments
+ * Your driver may be functionnal, but not complete. You should be able to connect it and start it in the 
+ * Acquisition Server, however more developments are possible to improve your driver.
+ * The following tutotials will help you with more advanced developments:
+ * - \ref Doc_ConfiguringANewDriver : how to set up a dedicated GUI so the user can configure the driver.
+ * - \ref Doc_DriverImpedanceChecker : how to use the given impedance checker mechanism, if your device is capable of.
+ * - \ref Doc_DriverJitterCorrection : the acquisition is somehow drifting from its theorical sampling rate ? Correct it with jitter monitoring and drift correction.
+ * \section Doc_CreatingANewDriver_Support Support
+ *
+ * In case you have problem in developing the driver, feel free to contact
+ * experienced §OpenViBE§ developers on the mailing lists, forums or
+ * IRC channels. Visit §OpenViBE§ homepage to get up to date places
+ * where you can ask for help...
+ *
+ * Enjoy §OpenViBE§ !
+ */

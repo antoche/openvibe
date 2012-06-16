@@ -1,0 +1,34 @@
+<scene formatVersion="1.0" upAxis="y" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+	<nodes>
+		<node name="spherePivot" id="2" isTarget="false">
+			<scale x="1" y="1" z="1" />
+			<position x="0" y="0" z="0" />
+			<rotation qx="0.707107" qy="0" qz="0" qw="0.707107" />
+			<node name="DCS_position" id="3" isTarget="false">
+				<scale x="1" y="1" z="1" />
+				<position x="0" y="0" z="0" />
+				<rotation qx="0" qy="0" qz="0" qw="1" />
+				<node name="DCS_rotation" id="98" isTarget="false">
+					<scale x="1" y="1" z="1" />
+					<position x="0" y="0" z="0" />
+					<rotation qx="0" qy="0" qz="0" qw="1" />
+					<node name="DCS_scale" id="99" isTarget="false">
+						<scale x="1" y="1" z="1" />
+						<position x="0" y="0" z="0" />
+						<rotation qx="0" qy="0" qz="0" qw="1" />
+						<node name="sphereNode" id="1" isTarget="false">
+							<scale x="0.01" y="0.01" z="0.01" />
+							<position x="0" y="0" z="0" />
+							<rotation qx="0" qy="0" qz="0" qw="1" />
+							<entity name="sphereNode" id="1" meshFile="sphere_ov.mesh" static="false">
+								<subentities>
+									<subentity index="0" materialName="sphere_ov_material" />
+								</subentities>
+							</entity>
+						</node>
+					</node>
+				</node>
+			</node>
+		</node>
+	</nodes>
+</scene>

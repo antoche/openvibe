@@ -1,0 +1,78 @@
+/**
+ * \page BoxAlgorithm_DisplayCueImage Display cue image
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Description|
+ Displays an image or another according to the input stimulations. User can define as many image as needed, with one stimulation associated to each image. A last stimulation clear the screen.
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Input1|
+ Stimulations used to display an image or clear the screen.
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Output1|
+ The input stimulations are outputed when the GTK rendering is actually finished (image is displayed or scren is cleared). These stimulations have precise timing, for the applications that need precise  synchronization.
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Setting1|
+ Uses or not the full widget window to display the image.
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Setting2|
+ The stimulation that clear the screen, leaving it black. 
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Setting3|
+ The first image to display.
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Setting4|
+ The stimulation used to display the first image. 
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Setting4|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_OnlineVisualizationSettings|
+ None.
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_DisplayCueImage_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_DisplayCueImage_Miscellaneous|
+ */

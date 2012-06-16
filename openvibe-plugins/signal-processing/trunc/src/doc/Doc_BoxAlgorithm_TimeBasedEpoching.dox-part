@@ -1,0 +1,84 @@
+/**
+ * \page BoxAlgorithm_TimeBasedEpoching Time based epoching
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Description|
+ * The time based epoching box generates 'epochs', i.e. signal 'slices' which length is configurable, as is the time offset between two consecutive epochs. This box has one input and one output connectors, both of which are of 'signal' type. This box is essential to other signal processing boxes when the size of data blocks being forwarded to them is not significant enough.
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Input1|
+ * Input signal #1.
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Output1|
+ * Epoched signal #1.
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Setting1|
+ * Length of epoched signal #1
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Setting2|
+ * Time interval between two consecutive epochs for signal #1
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Examples|
+Practical example : apply time based epoching to compute the power spectrum of a signal
+ 	
+ For the spectral analysis to work properly, signal data must come in chunks big enough for the analysis to be meaningful. Let's see how the time-based epoching box can help to improve the power spectrum computation of a signal. 
+ 
+ First, we add a Signal Oscillator box to a scenario, connect it to a Spectral Analysis box, and connect the Amplitude output connector to the 
+ input of a Power Spectrum Display box. Let's use default Sinus Oscillator settings (512Hz sampling frequency, data blocks size of 32 samples) and 
+ make sure the Amplitude setting is enabled in the Spectral Analysis box. Now we can launch the player : the power spectrum is very coarse. 
+ This is because the Sinus Oscillator generates small data blocks (32/512 = 1/16th of a second per block) compared to the periods of sinusoids making up the signal. The spectral analysis yields very coarse results when working on such blocks (see image below).
+ 
+ \image html timebasedepoching_1.png "Coarse power spectrum computation due to small data blocks."
+ 
+ One way to correct this problem is to increase the data blocks size. Let's send bigger blocks by setting their size to 512 samples. When launching the player again, the power spectrum should be much finer than before, since the spectral analysis works on blocks representing 1 second of signal. However, notice how the spectrum is only refreshed at 1Hz now. This solution is not satisfactory.
+ 
+ \image html timebasedepoching_2.png "Finer power spectrum computation by sending bigger chunks."
+ 
+ Now we insert a Time based epoching box before the Spectral Analysis. We reset the Sinus Oscillator settings to 512 samples a second and blocks of 32 samples. Let's now setup the epoching box : we are going to generate epochs of 1 second every 1/16th of a second. Now let's launch the player again : the power spectrum is refined and updated regularly.
+ 
+ \image html timebasedepoching_3.png "Epoching 1-second chunks to refine spectrum computations"
+ 
+ The stimulation based epoching box is similar to time based epoching, only it generates epochs when a given stimulation is received. Thus, the box has two input connectors : one for signals and another for stimulations. Settings include epoch size, epoch offset (delay when epoching should start after the target stimulation is received), and stimulation identifier.
+ 
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TimeBasedEpoching_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_TimeBasedEpoching_Miscellaneous|
+ */

@@ -1,0 +1,298 @@
+/**
+ * \page BoxAlgorithm_LuaStimulator Lua Stimulator
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_LuaStimulator_Description|
+This box gives a fast control over stimulation streams thanks to Lua scripts.
+
+Scripts are very simple programming languages. They are usually easy to understand,
+fast to write and reasonably fast to execute. They are used for high level operations
+and do not need compilation. There are a number of scripting languages around.
+Lua is one of those scripting languages. It is know for its execution speed and it's ease
+of use. It can be used on a large number of platforms. For all those reasons, Lua is widely
+used in the video game industry. If you want more information about Lua, feel free to visit
+their website at http://www.lua.org and on their documentation website http://www.lua.org/manual/5.1
+
+This box has a variable number of inputs and outputs. The author is able to add as many
+of them as necessary. The box automatically decodes the incoming streams and automatically
+encodes the outgoing streams, leaving the interesting part to the script : doing something with
+input stimulations and produce output stimulations.
+
+The script should be divided in three functions :
+- \ref LuaScriptAPI_initialize
+- \ref LuaScriptAPI_uninitialize
+- \ref LuaScriptAPI_process
+
+The whole script behavior should be executed in a single execution of the \c process function.
+Thanks to this, the script code is made a lot more easy to understand than the usual C++ boxes.
+Of course, in case it is necessary, the script can yield, letting the kernel perform a new step
+of execution.
+
+A simple API is proposed allowing the script to :
+- \ref LuaScriptAPI_get_input_count
+- \ref LuaScriptAPI_get_output_count
+- \ref LuaScriptAPI_get_setting_count
+- \ref LuaScriptAPI_get_setting
+- \ref LuaScriptAPI_get_config
+- \ref LuaScriptAPI_log
+
+During the process function, you can also :
+- \ref LuaScriptAPI_get_current_time
+- \ref LuaScriptAPI_get_stimulation_count
+- \ref LuaScriptAPI_get_stimulation
+- \ref LuaScriptAPI_remove_stimulation
+- \ref LuaScriptAPI_send_stimulation
+- \ref LuaScriptAPI_sleep
+
+\b NOTE: people using the deprecated \e unstable API would be interested in the \ref LuaScriptAPI_upgrading_from_unstable section.
+
+\subsection LuaScriptAPI_initialize initialize(box)
+This function is called by the box at IBox::initialize phase. It is up to the script developer to implement this function.
+In case you don't want to do anything at initialization phase, just ignore this function.
+- the \c box parameter enables the script developer to access the API described hereafter.
+
+\subsection LuaScriptAPI_uninitialize uninitialize(box)
+This function is called by the box at IBox::uninitialize phase. It is up to the script developer to implement this function.
+In case you don't want to do anything at uninitialization phase, just ignore this function.
+- the \c box parameter enables the script developer to access the API described hereafter.
+
+\subsection LuaScriptAPI_process process(box)
+This function is called by the box at the first IBox::process phase. It is up to the script developer to implement this function and
+this function is mandatory. It is executed only once, meaning that if that code must be run on a long duration, it must release some
+CPU cycles using the \ref box:sleep() function.
+- the \c box parameter enables the script developer to access the API described hereafter. Among others, it will let
+the script get some usefull information about the box topology (number of inputs, number of outputs, number of settings etc...)
+- the \c box parameter also enables the script developer to access all the runtime functions such as receiving stimulations,
+sending stimulations etc...
+
+\subsection LuaScriptAPI_get_input_count box:get_input_count()
+This function returns the number of inputs the box has.
+
+\subsection LuaScriptAPI_get_output_count box:get_output_count()
+This function returns the number of outputs the box has.
+
+\subsection LuaScriptAPI_get_setting_count box:get_setting_count()
+This function returns the number of settings the box has, including the script filename itself.
+
+\subsection LuaScriptAPI_get_setting box:get_setting(setting_index)
+This function returns a string containing the value of a given setting in the box. This
+setting value may be expanded using the configuration manager thanks to a \ref LuaScriptAPI_get_config call.
+- \c setting_index can range from 1 to \e n if the box has \e n settings.
+
+\subsection LuaScriptAPI_log box:log(log_level, line_of_text)
+This function sends a string to the log manager. This message may be printed in the console
+for the user or may be poped up to him if this is important enough. In any case, it will appear
+in the log file.
+- \c log_level the log level which you want to use to print this line of text ; this is represented in
+string and can take the following values : \c Debug, \c Trace, \c Info, \c Warning, \c ImportantWarning, \c Error and \c Fatal.
+If you use an invalid value, then \c Debug is used.
+- \c line_of_text can be any line of text you want to print
+
+\subsection LuaScriptAPI_get_config box:get_config(token)
+This function uses the configuration manager to expand a configuration token. The configuration token
+are listed in the \c openvibe.conf file and can contain valuable information about the OpenViBE
+environment.
+- \c token can be any string containing configuration variables (e.g. <em>${Path_Samples}/my-experiment</em>).
+
+\subsection LuaScriptAPI_get_current_time box:get_current_time()
+This function returns the elapsed time in seconds since the scneario started. The retuned value is a float.
+- \b WARNING: this function should only be called while in the \ref LuaScriptAPI_process callback.
+
+\subsection LuaScriptAPI_get_stimulation_count box:get_stimulation_count(input_index)
+This function returns the number of pending stimulation on a specific input given with \c input_index.
+- \c input_index can range from 1 to \e n if the box has \e n inputs.
+- \b NOTE: if you call this function on an unexisting input, it returns 0.
+- \b WARNING: this function should only be called while in the \ref LuaScriptAPI_process callback.
+
+\subsection LuaScriptAPI_get_stimulation box:get_stimulation(input_index, stimulation_index)
+This function returns the details of a specific pending stimulation for a specific input given with \c input_index.
+- \c input_index can range from 1 to \e n if the box has \e n inputs.
+- \c stimulation_index can range from 1 to \e m if the valid input \c input_index has \e m inputs.
+
+The result is in the form of a 3-tuple containing :
+- the stimulation code as an integer
+- the stimulation date as a float
+- the stimulation duration as a float
+
+If you call this function with an \c stimulation_index bigger than what \c get_stimulation_count would have returned for
+the \c input_index input, then the Lua script sleeps until enough stimulation arrived and this function can return.
+
+- \b WARNING: if you call this function on an unexisting input, the behavior is undefined
+- \b WARNING: this function should only be called while in the \ref LuaScriptAPI_process callback.
+
+\subsection LuaScriptAPI_remove_stimulation box:remove_stimulation(input_index, stimulation_index)
+Removes a pending stimulation on a specific input given with \c input_index.
+- \c input_index can range from 1 to \e n if the box has \e n inputs.
+- \c stimulation_index can range from 1 to \e m if the valid input \c input_index has \e m inputs.
+
+If you call this function with an \c stimulation_index bigger than what \c get_stimulation_count would have returned for
+the \c input_index input, then the Lua script sleeps until enough stimulation arrived and this function can return.
+
+After this call, the pending stimulations order is changed, stimulations \c stimulation_index+1, \c stimulation_index+2, ...
+being moved to \c stimulation_index, \c stimulation_index+1, ... respectively.
+
+- \b WARNING: this function should only be called while in the \ref LuaScriptAPI_process callback.
+
+\subsection LuaScriptAPI_send_stimulation box:send_stimulation(output_index, stimulation_identifier, stimulation_date, opt:stimulation_duration=0)
+Sends a stimulation with code \c stimulation_identifier, date \c stimulation_date and duration \c stimulation_duration on output
+- \c output_index.
+- \c output_index can range from 1 to \e n if the box has \e n outputs.
+- \c stimulation_identifier is an integer with the identifier of the stimulation to send. See \ref Doc_Stimulations for stimulation codes.
+- \c stimulation_date is a float (in seconds) with the date of the stimulation. The box will take care of buffering the stimulation if needed before
+actually sending it. However, you can't send a stimulation in "the past".
+- \c stimulation_duration is a float (in seconds) with the duration of the stimulation. It is usually unused so if you don't know what to
+put here, just ignore this parameter, or let it be 0.
+- \b WARNING: this function should only be called while in the \ref LuaScriptAPI_process callback.
+
+\subsection LuaScriptAPI_sleep box:sleep()
+
+Pauses the script execution. The box then continues its execution, so the kernel can perform an additional step. Next time the box
+is executed, it will restore the script execution so you can eventually continue or sleep again.
+
+- \b NOTE: The \e current \e time is affected by this call !
+- \b WARNING: this function should only be called while in the \ref LuaScriptAPI_process callback.
+
+If you want to wait until a fixed date, just use this simple Lua function :
+\code
+function wait_until(box, time)
+  while box:get_current_time() < time do
+    box:sleep()
+  end
+end
+\endcode
+
+If you want to wait for a fixed duration, just use this simple Lua function :
+\code
+function wait_for(box, duration)
+  wait_until(box, box:get_current_time() + duration)
+end
+\endcode
+
+ * |OVP_DocEnd_BoxAlgorithm_LuaStimulator_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_LuaStimulator_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_LuaStimulator_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_LuaStimulator_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_LuaStimulator_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_LuaStimulator_Settings|
+ * The box can have a varying number of settings. The first setting is
+ * a fixed but the author can add as many settings as he wants. Those
+ * settings can be retrieved in the Lua script thanks to the \ref LuaScriptAPI_get_setting function
+ * |OVP_DocEnd_BoxAlgorithm_LuaStimulator_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_LuaStimulator_Setting1|
+ * This setting defines what Lua script should be executed.
+ * |OVP_DocEnd_BoxAlgorithm_LuaStimulator_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_LuaStimulator_Examples|
+Here is a sample script
+\code
+dofile("../share/openvibe-plugins/stimulation/lua-stimulator-stim-codes.lua")
+
+-- this function is called when the box is initialized
+function initialize(box)
+	box:log("Trace", "initialize has been called");
+
+	-- inspects the box topology
+	box:log("Info", string.format("box has %i input(s)", box:get_input_count()))
+	box:log("Info", string.format("box has %i output(s)", box:get_output_count()))
+	box:log("Info", string.format("box has %i setting(s)", box:get_setting_count()))
+	for i = 1, box:get_setting_count() do
+		box:log("Info", string.format(" - setting %i has value [%s]", i, box:get_setting(i)))
+	end
+
+end
+
+-- this function is called when the box is uninitialized
+function uninitialize(box)
+	box:log("Trace", "uninitialize has been called")
+end
+
+-- this function is called once by the box
+function process(box)
+	box:log("Trace", "process has been called")
+
+	-- enters infinite loop
+	-- cpu will be released with a call to sleep
+	-- at the end of the loop
+	while true do
+
+		-- gets current simulated time
+		t = box:get_current_time()
+
+		-- loops on all inputs of the box
+		for input = 1, box:get_input_count() do
+
+			-- loops on every received stimulation for a given input
+			for stimulation = 1, box:get_stimulation_count(input) do
+
+				-- gets the received stimulation
+				identifier, date, duration = box:get_stimulation(input, 1)
+
+				-- logs the received stimulation
+				box:log("Trace", string.format("At time %f on input %i got stimulation id:%s date:%s duration:%s", t, input, identifier, date, duration))
+
+				-- discards it
+				box:remove_stimulation(input, 1)
+
+				-- triggers a new OVTK_StimulationId_Label_00 stimulation five seconds after
+				box:send_stimulation(1, OVTK_StimulationId_Label_00, t+5, 0)
+			end
+		end
+
+		-- releases cpu
+		box:sleep()
+	end
+end
+\endcode
+ * |OVP_DocEnd_BoxAlgorithm_LuaStimulator_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_LuaStimulator_Miscellaneous|
+ *
+ * \subsection LuaScriptAPI_upgrading_from_unstable Upgrading from the unstable API
+ * The Lua box has been flagged as unstable for months for several reasons :
+ * - The API was incomplete.
+ * - There were some potential issues in the chosen names for the API functions.
+ * - The box crashed in some circumstances.
+ *
+ * The box has been stabilized now and this results in some small changes in the API. Basically, the \ref LuaScriptAPI_initialize,
+ * \ref LuaScriptAPI_uninitialize and \ref LuaScriptAPI_process callbacks are passed a \e box parameter which should be used to call
+ * the API functions. Each API function is now prefixed with \e box: as described in the Object-Oriented Access documentation page - http://www.lua.org/pil/28.3.html
+ *
+ * In case you would not like to modify your already existing scripts in depth, I suggest you just include the \em lua-stimulator-legacy.lua script
+ * at the begining of your exising scripts using the following command
+ * \code
+ * dofile("../share/openvibe-plugins/stimulation/lua-stimulator-legacy.lua")
+ * \endcode
+ *
+ * \subsection LuaScriptAPI_using_stimulation_codes Using OpenViBE stimulation codes in Lua scripts
+ *
+ * It could be convenient to have the stimulation names available in a Lua script. For this purpose, I suggest you just include the \em lua-stimulator-stim-codes.lua script
+ * at the begining of your exising scripts using the following command
+ * \code
+ * dofile("../share/openvibe-plugins/stimulation/lua-stimulator-stim-codes.lua")
+ * \endcode
+ *
+ * |OVP_DocEnd_BoxAlgorithm_LuaStimulator_Miscellaneous|
+ */

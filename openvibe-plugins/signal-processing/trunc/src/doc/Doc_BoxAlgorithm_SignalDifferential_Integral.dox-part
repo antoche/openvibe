@@ -1,0 +1,72 @@
+/**
+ * \page BoxAlgorithm_SignalDifferential_Integral Signal Differential/Integral
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Description|
+
+This box can be used to calculate signal differential or integral of any order.
+
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Input1|
+
+The signal to be derivated/integrated
+
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Output1|
+
+Resulting derivated/integrated signal
+
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Setting1|
+
+Function to be used, either a derivation or an integral
+
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Setting2|
+
+The function order.
+
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDifferential_Integral_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDifferential_Integral_Miscellaneous|
+ */

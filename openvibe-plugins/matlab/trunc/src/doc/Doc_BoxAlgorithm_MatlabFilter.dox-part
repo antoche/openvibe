@@ -1,0 +1,146 @@
+/**
+ * \page BoxAlgorithm_MatlabFilter Matlab filter
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Description|
+ The Matlab Filter box forward the streamed matrices and stimulations received to the Matlab Engine.
+ The process defined in a Matlab script is performed, and the result is given back to the Matlab Filter box for output.
+ 
+ <b>Note:</b> this box can be used if you have Matlab installed on your computer. Otherwise, it will failed to start when running the scenario.
+ 
+ <b>Note2:</b> This box is currently not compatible with MATLAB 64 bits. Please use a 32 bits version.
+ 
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Input1|
+ The streamed matrix to be filtered by Matlab.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Input2|
+ Stimulations for the Matlab process.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Output1|
+ Matrix outputed by the Matlab process.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Output2|
+ Stimulations outputed by the Matlab process.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Output2|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Setting1|
+ On Windows please enter the path to the Matlab Engine DLLs (libeng.dll).
+ E.g. "C:\Program Files\Matlab\R2011a\bin\win32" .
+ 
+ <b>NB:</b> On Linux, this setting differs. It is named <i>Matlab Launch Command</i> and expects the command used to run matlab on your computer (e.g. "matlab").
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Setting2|
+ Please provide a valid working directory for the Matlab engine. 
+ This directory must contain at least two files for the initialization and the process functions.
+ Functions and file must have the same name (e.g. 'bci_Initialize.m' contains the function 'bci_Initialize').
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Setting3|
+ The initialize function (and filename where it is defined).
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Setting4|
+ The process function (and filename where it is defined)
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Setting4|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Examples|
+ Here is a complete example of Matlab filter use. 
+ 
+ \image html matlab_scenar_config.png "Basic scenario"
+ 
+ The signal outputed by the Sinus Oscillator is printed in Matlab and outputed by the box afterward.
+ The stimulations are also printed when received by Matlab, every second. 
+ As you can see this scenario is run on Windows, with Matlab R2011a installed in Program Files directory.
+ 
+ The working directory contains two files, one for the initialize function and one for the process.
+ \code
+ % bci_Initialize.m
+% -------------------------------
+% This file contains the function called once by the matlab box on its initialization (when playing the scenario).
+% - bci_context     : Time range covered (start time / end time)
+% - matrix          : the streamed matrix received on the box input.
+
+% Example: display a message and initialize the matrix with zeros.
+% Please note the semicolon at the end of the instructions. 
+% Doing so prevent matlab from printing the result of the instruction in the console.
+function [matrix_out] = bci_Initialize(bci_context, matrix_in)
+	msg = 'User-defined function bci_Initialize has been called.';
+	disp(msg)
+	
+	[sample_count,channel_count] = size(matrix_in);
+	matrix_out = zeros(sample_count, channel_count);
+	
+ \endcode
+ 
+ \code
+ % bci_Process.m
+% -------------------------------
+% This file contains the function called at each process() in the matlab box.
+% - bci_context     : Time range covered (start time / end time)
+% - stimulation_set : stims received on the box input, this set is empty most of the time
+% - matrix          : the streamed matrix received on the box input.
+
+% Example: plot the matrix, and print the stimulation set content if it is not empty
+% Please note the semicolon at the end of the instructions. 
+% Doing so prevent matlab from printing the result of the instruction in the console.
+function [matrix_out,stim_out]=bci_Process(bci_context,matrix_in,stim_in)
+	plot(matrix_in)
+	if numel(stim_in) ~= 0
+		stim_in
+		disp('Start and end time are:')
+		bci_context
+	end
+	[sample_count,channel_count] = size(matrix_in);
+	matrix_out = matrix_in;
+	stim_out = stim_in;
+		
+ \endcode
+ 
+ When running this scenario, you should obtain the following result:
+ 
+ \image html matlab_run_full.png "Playing the scenario"
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatlabFilter_Miscellaneous|
+ This box has not been hardly tested so far. Users are welcome to provide feedback, suggestion of improvement or even patch for it.
+ Please contact us on the regular channels (forum, IRC) to do so.
+ * |OVP_DocEnd_BoxAlgorithm_MatlabFilter_Miscellaneous|
+ */

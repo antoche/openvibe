@@ -1,0 +1,233 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <nodes>
+        <node name="DCS_transformationCamera"> 
+            <position x="0.0" y="0.9" z="-5.5"/>
+            <camera name="camera0" fov="100" projectionType="perspective">
+                <clipping near="1" far="50000.0"/>
+                <position x="0.0" y="0.9" z="0.0"/>
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+            </camera>
+        </node>
+        <node name="gymnasiumPivot">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="0" z="0" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="gymnasium">
+                <scale x="1" y="1" z="1" />
+                <position x="0" y="0" z="0" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <node name="gymnasiumNode">
+                    <scale x="1" y="1" z="1" />
+                    <position x="0" y="0" z="0" />
+                    <rotation qx="0" qy="0" qz="0" qw="1" />
+                    <entity name="gymnasiumNode" id="45" meshFile="gymnasiumNode.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface06" />
+                            <subentity index="1" materialName="gymnasium-surface10" />
+                            <subentity index="2" materialName="gymnasium-surface09" />
+                        </subentities>
+                    </entity>
+                    <entity name="gymnasium-publicity" id="397" meshFile="gymnasium-publicity.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface11" />
+                            <subentity index="1" materialName="gymnasium-surface12" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-01" id="29" meshFile="wall-publicity-01.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface14" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-02" id="30" meshFile="wall-publicity-02.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface15" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-03" id="33" meshFile="wall-publicity-03.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface02" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-04" id="34" meshFile="wall-publicity-04.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface03" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-06" id="35" meshFile="wall-publicity-06.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface04" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-07" id="36" meshFile="wall-publicity-07.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface05" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-08" id="31" meshFile="wall-publicity-08.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface16" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-09" id="32" meshFile="wall-publicity-09.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface17" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-10" id="37" meshFile="wall-publicity-10.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface04" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-11" id="38" meshFile="wall-publicity-11.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface05" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-12" id="39" meshFile="wall-publicity-12.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface02" />
+                        </subentities>
+                    </entity>
+                    <entity name="wall-publicity-13" id="40" meshFile="wall-publicity-13.mesh" castShadows="true" receiveShadows="true">
+                        <subentities>
+                            <subentity index="0" materialName="gymnasium-surface03" />
+                        </subentities>
+                    </entity>
+                    <node name="table">
+                        <scale x="1" y="1" z="1" />
+                        <position x="-2.475" y="0.36" z="-21.5" />
+                        <rotation qx="0" qy="0.707108" qz="0" qw="0.707105" />
+                        <entity name="table" id="116" meshFile="table.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsor01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsorBunrakuM2S01" />
+                                <subentity index="2" materialName="gymnasium-surface13" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="publicity-01">
+                        <scale x="1" y="1" z="1" />
+                        <position x="-22.5" y="0.01" z="-10" />
+                        <rotation qx="0" qy="1" qz="0" qw="-3.65178e-006" />
+                        <entity name="publicity-01" id="63" meshFile="publicity-01.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsorBunrakuM2S01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsor01" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="publicity-02">
+                        <scale x="1" y="1" z="1" />
+                        <position x="22.5" y="0.01" z="-10" />
+                        <rotation qx="0.707108" qy="0" qz="0" qw="0.707105" />
+                        <entity name="publicity-02" id="74" meshFile="publicity-02.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsor01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsorBunrakuM2S01" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="publicity-03">
+                        <scale x="1" y="1" z="1" />
+                        <position x="13.75" y="0.36" z="1.5" />
+                        <rotation qx="0" qy="-0.707108" qz="0" qw="0.707105" />
+                        <entity name="publicity-03" id="92" meshFile="publicity-03.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsor01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsorIrisa01" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="publicity-04">
+                        <scale x="1" y="1" z="1" />
+                        <position x="-13.75" y="0.36" z="1.5" />
+                        <rotation qx="0" qy="-0.707108" qz="0" qw="0.707105" />
+                        <entity name="publicity-04" id="104" meshFile="publicity-04.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsor01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsorIrisa01" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="publicity-05">
+                        <scale x="1" y="1" z="1" />
+                        <position x="13.75" y="0.36" z="-21.5" />
+                        <rotation qx="0" qy="0.707108" qz="0" qw="0.707105" />
+                        <entity name="publicity-05" id="133" meshFile="publicity-05.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsor01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsorIrisa01" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="publicity-06">
+                        <scale x="1" y="1" z="1" />
+                        <position x="-13.75" y="0.01" z="-21" />
+                        <rotation qx="0" qy="0.707108" qz="0" qw="0.707105" />
+                        <entity name="publicity-06" id="155" meshFile="publicity-06.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsorIrisa01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsor01" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="publicity-07">
+                        <scale x="1" y="1" z="1" />
+                        <position x="-1.96695e-006" y="0.71" z="1.5" />
+                        <rotation qx="0.5" qy="-0.5" qz="0.500002" qw="0.499998" />
+                        <entity name="publicity-07" id="88" meshFile="publicity-07.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-MaterialSponsor01" />
+                                <subentity index="1" materialName="gymnasium-MaterialSponsorBunrakuM2S01" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="door-01">
+                        <scale x="1" y="1" z="1" />
+                        <position x="26" y="1" z="-24" />
+                        <rotation qx="0" qy="-0.382684" qz="0" qw="0.923879" />
+                        <entity name="door-01" id="18" meshFile="door-01.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-surface07" />
+                                <subentity index="1" materialName="gymnasium-surface08" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="door-02">
+                        <scale x="1" y="1" z="1" />
+                        <position x="26" y="1" z="4" />
+                        <rotation qx="0" qy="0.382684" qz="0" qw="0.923879" />
+                        <entity name="door-02" id="20" meshFile="door-02.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-surface07" />
+                                <subentity index="1" materialName="gymnasium-surface08" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="door-03">
+                        <scale x="1" y="1" z="1" />
+                        <position x="-26" y="2.5" z="4" />
+                        <rotation qx="0" qy="-0.382684" qz="0" qw="0.923879" />
+                        <entity name="door-03" id="23" meshFile="door-03.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-surface08" />
+                                <subentity index="1" materialName="gymnasium-surface07" />
+                            </subentities>
+                        </entity>
+                    </node>
+                    <node name="door-04">
+                        <scale x="1" y="1" z="1" />
+                        <position x="-26" y="1" z="-24" />
+                        <rotation qx="0" qy="0.382684" qz="0" qw="0.923879" />
+                        <entity name="door-04" id="24" meshFile="door-04.mesh" castShadows="true" receiveShadows="true">
+                            <subentities>
+                                <subentity index="0" materialName="gymnasium-surface07" />
+                                <subentity index="1" materialName="gymnasium-surface08" />
+                            </subentities>
+                        </entity>
+                    </node>
+                </node>
+            </node>
+        </node>
+    </nodes>
+</scene>

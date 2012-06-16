@@ -1,0 +1,79 @@
+/**
+ * \page BoxAlgorithm_3DTopographicMap 3D topographic map
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Description|
+ The 3D topographic map uses the same visualisation paradigm as its 2D version, which consists in interpolating potentials (or current densities) at the surface of the scalp, converting them to colors using a color scale and mapping them over the surface of the scalp. The 3D version offers the possibility to freeky move around the head to observe brain activity from a custom point of view.
+
+ It requires a head model to be available. This model is divided in two : the lower part, which includes the face and the neck, is static (meaning once it's loaded, it doesn't get modified). The other part, the 'scalp', is the area where potentials are mapped. Its size and shape determine where brain activity mapping will occur once the plugin is running. This second mesh is a set of vertices whose colors will be modified depending on the value of the potential interpolated there.
+
+ Potentials interpolation works using a spherical spline algorithm. The coordinates of the electrodes used in the experiment are sent to the algorithm in an initialization step. Then as the experiment is conducted, the values of the potentials measured at the electrodes location are sent to the algorithm.
+
+ Potentials at scalp vertices locations can be retrieved by converting each vertex location (expressed in model frame) to a cartesian orthonormal frame.
+
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Input1|
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Setting1|
+ Choice of spline or laplacian interpolation.
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Setting2|
+ Delay to apply to displayed data, in seconds.
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Setting2|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_OnlineVisualizationSettings|
+ Online settings include :
+
+ - Map Potentials/Currents : these settings control the nature of mapped values. While potentials are computed from spline values, currents computation uses the spline laplacian.
+ - Toggle Electrodes : toggle electrodes on/off.
+ - Toggle Sampling Points : toggle sampling points on/off. Sampling points lie at the vertices of the skull mesh.
+
+ \image html topographicmap3ddisplay_toolbar.png "3D Topographic Map toolbar"
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Examples|
+This example is based on the following scenario file : <i>box-tutorials/topographic_map.xml</i>
+
+ In this example an EEG recording is read using a GDF file reader, and data is processed and filtered before being mapped onto the scalp surface. For details on this data processing step, see the example in \ref Doc_BoxAlgorithm_2DTopographicMap.
+
+ A 2D topographic map is displayed next to the 3D version for comparison purposes.
+
+ \image html topographicmap3ddisplay_2d_vs_3d_online.png "Mapping brain activity in 2D and 3D"
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_3DTopographicMap_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_3DTopographicMap_Miscellaneous|
+ */

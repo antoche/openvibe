@@ -1,0 +1,71 @@
+/**
+ * \page BoxAlgorithm_Min_MaxDetectionGPL Min/Max detection - GPL
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Description|
+ * This plugin is used to detect the minimum or the maximum value between
+ * 2 dates. This plugin allows the selection of the minimum or the maximum
+ * value to detect and the time start and time stop in between you are looking at.
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Input1|
+ * The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Setting1|
+ * Select if you want to detect the Min or the Max.
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Setting1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Setting2|
+ * Starting time the algorithm will search the Min/Max value.
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Setting2|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Setting3|
+ * Ending time the algorithm will search the Min/Max value.
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Examples|
+ * Let's consider our input signal is an ERP.
+ * To detect the P300 ERP, select Max value and a Time Window Start equal
+ * to 250 ms and a Time Window End equal to 450 ms.
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Min_MaxDetectionGPL_Miscellaneous|
+ * This plugin detects the minimum or the maximum value in a time window interval.
+ * |OVP_DocEnd_BoxAlgorithm_Min_MaxDetectionGPL_Miscellaneous|
+ */

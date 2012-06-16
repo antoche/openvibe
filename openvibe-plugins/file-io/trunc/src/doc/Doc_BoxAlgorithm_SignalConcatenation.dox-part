@@ -1,0 +1,96 @@
+/**
+ * \page BoxAlgorithm_SignalConcatenation Signal Stream Concatenation
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Description|
+ The input streams must share the same characteristics : sampling frequency, number of channels, sample count per block.
+ User can specify a time-out value beyond which a stream is considered as finished if no samples are received.
+ If user wants a specific part of a given stream, he can specify a stimulation used as end-of-stream trigger.
+ 
+ The status stimulation output deliver the stimulation OVTK_StimulationId_EndOfFile when the concatenation is finished. You can connect this output to a \subpage BoxAlgorithm_PlayerController to script your concatenation easily. 
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Inputs|
+ The box has a pair of input (signal, stimulation) per source.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Input1|
+ Signal stream from source #1.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Input2|
+ Stimulation stream from source #1.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Input2|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Input3|
+ Signal stream from source #2.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Input3|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Input4|
+ Stimulation stream from source #2.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Input4|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Output1|
+ Concatenated signal stream.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Output2|
+ Concatenated stimulation stream.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Output2|
+ 
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Output3|
+ Status stimulation stream (sends OVTK_StimulationId_EndOfFile on success).
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Output3|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Settings|
+ A stimulation setting is added for each input pair.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Setting1|
+ If no samples are received beyond this time-out value, a stream is considered as finished.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Setting2|
+ Stimulation that triggers the end-of-stream for source #1.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Setting3|
+ Stimulation that triggers the end-of-stream for source #2.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Examples|
+ This box is mainly designed to concatenate multiple signal files.
+ For example, you have 10 sessions of training and you want to train a classifier on the whole set of data.
+ You can use the Signal Stream Concatenation to produce one EEG file containing the 10 sessions, 
+ and then feed a \ref Doc_BoxAlgorithm_ClassifierTrainer box with it.
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalConcatenation_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SignalConcatenation_Miscellaneous|
+ */

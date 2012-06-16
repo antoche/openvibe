@@ -1,0 +1,43 @@
+material sphere_ov_material
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1
+//			specular 0 0 0 10
+//			emissive 0 0 0
+			scene_blend alpha_blend
+		}
+	}
+}
+
+//the following cg/diffuse shader allows controlling the diffuse component from code using parameter 1
+
+//fragment_program set_color_fp cg
+//{
+//	source diffuse.cg
+//	entry_point main_ps
+//	profiles ps_2_0 arbfp1
+//	default_params
+//	{	
+//		param_named myColour float4 1 1 1 1
+//	}	
+//}
+
+//material cg/diffuse
+//{
+//	technique
+//	{
+//		pass
+//		{
+////			lighting off
+//			scene_blend alpha_blend
+//			fragment_program_ref set_color_fp
+//			{
+//				param_named_auto myColour custom 1
+//			}			
+//		}
+//	}
+//}

@@ -1,0 +1,126 @@
+/**
+\page Doc_ConfigurationManager The Configuration Manager
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/the-configuration-manager/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+- \b NB: Document based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+
+OpenViBE Configuration Manager is a software component in charge of configuring OpenViBE applications and modules according to the user's wishes. Configuration settings are saved in a configuration file, which is loaded upon application startup. This file uses a simple syntax, where configuration tokens are listed in turn and attributed a value. 
+
+\section Doc_ConfigurationManager_Syntax Syntax
+
+A configuration file basically looks like successive token = value statements.
+
+For example, the application can retrieve its root path (OpenViBE installation path) from the Path_Root variable (the path is expressed relative to the execution directory) :
+
+\code
+Path_Root = ..
+\endcode
+
+Leading and trailing spaces are authorized, and are removed automatically :
+
+\code
+	Path_Root = ..
+\endcode
+
+Comments may be stored on their own lines. They begin after the '#' character :
+
+\code
+#this is a valid comment
+Path_Root = ..
+\endcode
+
+Lines ending with a '\' character continue to the next line (the last '\' character of a line is automatically removed by the parser) :
+
+\code
+#this is a line that extends\
+to the next line
+Path_Root = ..
+\endcode
+
+Tokens declared anywhere in the configuration file may be used as values for other tokens. The syntax to be used is : ${token}
+
+For example, the binaries path may be declared as such :
+
+\code
+Path_Root = ..
+Path_Bin = ${Path_Root}/bin
+\endcode
+
+Environment variables may also be used as values. The syntax is : $Environment{environement variable}
+
+For example, the 3D library used in OpenViBE is Ogre. It sets the OGRE_HOME environment variable upon installation. The path to Ogre can thus be retrieved in the following way :
+
+\code
+Path_Ogre = $Environment{OGRE_HOME}
+\endcode
+
+\section Doc_ConfigurationManager_Tokens Valid tokens
+
+The following subsections list all recognized tokens, grouped by category.
+
+	\subsection Doc_ConfigurationManager_Tokens_Paths OpenViBE Paths
+
+These tokens tell applications about OpenViBE installation directories.
+
+ - \b Path_Root is the root installation directory of OpenViBE relative to the execution directory.
+ - \b Path_Bin is the binaries directory
+ - \b Path_Lib is the libraries directory
+ - \b Path_Log is the directory where the application should save its log file. 
+ - \b Path_Tmp is the application temporary directory
+ - \b Path_Data is the data directory. By default it is equals to Path_Root, but it can be set to a specific directory.
+
+	\subsection Doc_ConfigurationManager_Tokens_Kernel OpenViBE Kernel
+
+This section lists tokens that may be used to configure the OpenViBE kernel.
+
+ - \b Kernel_PluginsPatternLinux is the regular expression to which file names are compared under Linux to know whether they should be considered as plugins. For example : libOpenViBE-plugins-*.so
+ - \b Kernel_PluginsPatternWindows is the equivalent token used under Windows. It can look like OpenViBE-plugins-*.dll
+ - \b Kernel_Plugins is a regular expression that is used by the kernel to know where to look for plugins and what a plugin name should look like. It is automatically set to the appropriate value using the OperatingSystem environment variable like so : ${Path_Lib}/${Kernel_PluginsPattern${OperatingSystem}}
+ - \b Kernel_MainLogLevel specifies the log level threshold below which all messages should be ignored.
+ - \b Kernel_ConsoleLogLevel specifies the console log level. It should be equal or greater than the main log level.
+ - \b Kernel_FileLogLevel specifies the application file log level. It should be equal or greater than the main log level.
+ - \b Kernel_PlayerFrequency specifies the frequency at which to run the player. For example, it can be set to 128.
+
+The following tokens are related to the 3D visualisation :
+
+ - \b Kernel_3DVisualisationEnabled specifies whether to enable 3D visualisation. If set to false, 3D plugins will be disabled.
+ - \b Kernel_3DVisualisationOgreConfiguration is a path to the Ogre configuration file. Example : ${Path_Root}/share/openvibe-kernel-omk/ogre.cfg
+ - \b Kernel_3DVisualisationOgreResources is a path to Ogre resources file. Example: ${Path_Root}/share/openvibe-kernel-omk/resources.cfg
+ - \b Kernel_3DVisualisationOgrePluginsLinux is a path to Ogre plugins file under Linux. Example :  $Environment{OGRE_HOME}/lib/OGRE/Plugins.cfg
+ - \b Kernel_3DVisualisationOgrePluginsWindows is a path to Ogre plugins file under Windows. Note that it differs depending on the OpenViBE compilation mode. If OpenViBE was compiled in release mode, this path could look like : $Environment{OGRE_HOME}/bin/release/Plugins.cfg. If OpenViBE was compiled in debug mode, it could look like : $Environment{OGRE_HOME}/bin/debug/Plugins.cfg
+ - \b Kernel_3DVisualisationOgrePlugins is a token that specifies where to look for Ogre plugins while abstracting the operating system OpenViBE is being run on. It can look like : 3D${Kernel_3DVisualisationOgrePlugins${OperatingSystem}}
+ - \b Kernel_3DVisualisationOgreLogLevel specifies the log level to use when forwarding Ogre messages to OpenViBE log manager.
+
+	\subsection Doc_ConfigurationManager_Tokens_Designer OpenViBE Designer
+
+One can configure several OpenViBE Designer parameters using the following tokens : 
+
+ - \b Designer_ShowAlgorithms specifies whether to display the 'Algorithms' tab in the Designer. The value can be TRUE or FALSE.
+ - \b Designer_ShowUnstable specifies whether to display the 'unstable' boxes in the Designer. Unstable boxes are work-in-progress and have not been fully tested.
+ - \b Designer_FullscreenEditor specifies whether to start the Designer in fullscreen or windowed mode
+ - \b Designer_DefaultWorkingDirectory is a path to the default directory where to load and save scenario files, relative from the execution directory.
+
+	\subsection Doc_ConfigurationManager_Tokens_Acquisition_Server OpenViBE Acquisition Server
+
+A few acquisition server parameters may be initialized in the configuration file :
+
+ - \b AcquisitionServer_DefaultSampleCountPerBuffer is the default number of samples to send per buffer (example : 32)
+ - \b AcquisitionServer_DefaultDriver is the default driver to be used (example : Generic oscillator)
+ - \b AcquisitionServer_DefaultConnectionPort is the default port to use to send data (example : 1024)
+ - \b AcquisitionServer_ShowUnstable specifies if 'unstable' drivers should be available in the acquisition server.
+
+	\subsection Doc_ConfigurationManager_Tokens_Plugin_Inspector OpenViBE Plugin Inspector
+
+Default plugin inspector output directories may be specified here :
+
+ - \b PluginInspector_DumpGlobalDefinesDirectory is the directory where to output the global defines file (example : ${Path_Tmp}/)
+ - \b PluginInspector_DumpAlgorithmSnapshotDirectory is the directory where to output algorithm snapshots (example : ${Path_Tmp}/)
+ - \b PluginInspector_DumpAlgorithmDocTemplateDirectory is the directory where to output algorithm documentation skeleton files (example ${Path_Tmp}/)
+ - \b PluginInspector_DumpBoxAlgorithmSnapshotDirectory is the directory where to output box algorithm snapshots (example : ${Path_Tmp}/)
+ - \b PluginInspector_DumpBoxAlgorithmDocTemplateDirectory is the directory where to output box algorithm documentation skeleton files (example : ${Path_Tmp}/)
+
+*/

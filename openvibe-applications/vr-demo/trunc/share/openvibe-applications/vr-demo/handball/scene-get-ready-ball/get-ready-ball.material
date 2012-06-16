@@ -1,0 +1,20 @@
+material get-ready-ball-get-ready-ball-material
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 1 1 1 
+			specular 0 0 0 90.1005
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture get-ready-ball-texture.png
+			}
+		}
+	}
+}
+
+

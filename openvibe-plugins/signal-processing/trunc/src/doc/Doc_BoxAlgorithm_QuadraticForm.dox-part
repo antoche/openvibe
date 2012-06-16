@@ -1,0 +1,88 @@
+/**
+ * \page BoxAlgorithm_QuadraticForm Quadratic Form
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Description|
+
+a square matrix A (which can be seen as a spatial filter) is applied to the input signals m (a vector). Then the transpose m^T of the input signals is multiplied to the resulting vector. In other words the output o is such as: o = m^T * A * m.
+
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Input1|
+
+The input signal to be used in the computation of the quadratic form
+
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Output1|
+
+the results of the computation of the quadratic form, perform with the input signals and the matrix defined in the settings
+
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Setting1|
+
+The values of the matrix coefficients. These values are entered as a single line of values,
+which line should correspond to the concatenation of each matrix row.
+For instance the setting "1 2 3 4" corresponds to the matrix:
+
+[1 2]
+[3 4]
+
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Setting2|
+
+The number of rows/columns of the matrix (the number of rows is equal to the number of columns as the matrix is square.
+For the matrix given as example above, this setting should be equal to "2".
+
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_QuadraticForm_Miscellaneous|
+
+this box could typically be used to compute the current density in a given brain region,
+for instance using the inverse solution sLORETA. In such a case the matrix using as parameter should be a
+matrix obtained thanks to this sLORETA inverse solution.
+see the following paper for details:
+
+Congedo M. (2006), Subspace Projection Filters for Real-Time Brain Electromagnetic Imaging, IEEE Transactions on Biomedical Engineering, 53(8), 1624-34
+
+
+
+ * |OVP_DocEnd_BoxAlgorithm_QuadraticForm_Miscellaneous|
+ */

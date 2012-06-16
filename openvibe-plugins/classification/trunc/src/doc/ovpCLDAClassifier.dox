@@ -1,0 +1,59 @@
+/*
+ \page Doc_ovpCLDAClassifier LDA classifier documentation
+
+- Plugin name : LDA classifier
+- Version :	0.5
+- Author : 	Bruno Renier
+- Date :	04-13-2007
+
+<br>
+Summary :
+
+\ref Doc_ovpCLDAClassifier_description
+
+\ref Doc_ovpCLDAClassifier_inputs
+
+\ref Doc_ovpCLDAClassifier_outputs
+
+\ref Doc_ovpCLDAClassifier_settings
+
+\ref Doc_ovpCLDAClassifier_examples
+
+\ref Doc_ovpCLDAClassifier_misc
+
+<hr>
+<br>
+<br>
+ \section Doc_ovpCLDAClassifier_description Description
+Classify incoming feature vectors by using the linear discriminant analysis method.
+Outputs the class found and the degree of membership of the element.
+
+ \section Doc_ovpCLDAClassifier_inputs Inputs
+ Number of inputs : 1
+
+-# Feature vector
+ - OV_TypeId_FeatureVector
+ - The incoming feature vectors.
+
+ \section Doc_ovpCLDAClassifier_outputs Outputs
+Number of outputs : 2
+
+-# Feature class
+ - OV_TypeId_StreamedMatrix
+ - A single element matrix containing the class found for the feature vector.
+
+-# Amplitude
+ - OV_TypeId_StreamedMatrix
+ - A single element matrix containing the degree of membership of the feature vector in the class found.
+
+ \section Doc_ovpCLDAClassifier_settings Settings
+Number of settings : 1
+
+-# LDA parameters
+ - String
+ - Whitespace separated list of the classifier's hyperplan parameters (as real values).
+
+\section Doc_ovpCLDAClassifier_examples Examples
+
+ \section Doc_ovpCLDAClassifier_misc Miscellaneous
+*/

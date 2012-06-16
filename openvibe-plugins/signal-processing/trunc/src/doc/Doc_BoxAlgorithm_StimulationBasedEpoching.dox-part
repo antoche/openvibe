@@ -1,0 +1,207 @@
+/**
+ * \page BoxAlgorithm_StimulationBasedEpoching Stimulation based epoching
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Description|
+ The aim of this box it to select some signal near a specific event. The event
+ is sent to the box in the form of an OpenViBE Stimulation. The author can
+ configure the duration of the selected signal and the offset of this selection
+ as regarding to the stimulation. For instance, it is possible to start the selection
+ a few hundreds of milliseconds <em>after</em> the event, or even a few hundreds of
+ milliseconds <em>before</em> the event.
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Input1|
+ This input should receive the signal that contains the epoch to extract.
+ It is possible to pass either continuous signal or discontinuous signal.
+ However, it is good to know how it is expected to work before trying to
+ connect discontinuous signal.
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Input2|
+ This input should receive the stimulation that triggers a new
+ epoching. Any stimulation other than the one specified in the settings
+ will be silently ignored.
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Output1|
+ This output will send the selected epochs of signal. This output
+ stream is discontinuous by design meaning that successive epochs are
+ not connected in time. It is possible to later re-epoch the output
+ signals if needed.
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Output2|
+ This output sends a stimulation at the begining of the selected epoch.
+ <em><b>This output is deprecated and should not be used anymore.</b></em>
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Output2|
+
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Setting1|
+ This setting defines the duration of the selected epoch (in seconds). For instance,
+ if you want to select 600ms of signal, you should enter 0.6
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Setting2|
+ This setting defines the offset of the epoch as against the stimulation date.
+ This is where the selection starts. If this offset is greater than 0, then
+ the signal selection starts <em>after</em> the actual stimulation. If this
+ offset is less than 0, then the signal selection starts <em>before</em> the actual
+ stimulation. Refer to \ref Doc_BoxAlgorithm_StimulationBasedEpoching_Miscellaneous for
+ more detailed examples
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Setting3|
+ This setting defines the stimulation identifier which should trigger
+ a new epoching. Each time this stimulation is received, a new epocher
+ starts and a new epoch should be sent.
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Examples|
+ In the case of motor imagery, the user is usually instructed to imagine
+ either left or right hand movement. This mental task typically runs for
+ 5 seconds. So selecting the signal block related to the imagination
+ of left hand movement can be done with this box using the following
+ parameters :
+  - duration : 5 seconds
+  - offset : 0 second
+  - stimulation : OVTK_GDF_Left
+
+ In case you'd want to avoid the first half second (because it could
+ reflect a phase where the user is <em>starting</em> to perform the task)
+ and wand to avoir the last half second (because it could reflect a phase
+ where the user is exhausted and does not perform the taks optimally), then
+ you could use the following parameters :
+  - duration : 4 seconds
+  - offset : 0.5 seconds
+  - stimulation : OVTK_GDF_Left
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StimulationBasedEpoching_Miscellaneous|
+<b>1. Continuous signal</b>
+
+Suppose that we want to grab 1 second of signal following a specific stimulation code.
+Suppose that the actual stimulation happens at <em>t=3.5</em> and <em>t=6</em>. Then the following figure
+illustrate how epochs will be built. (<em>Ix</em> represents the x<em>th</em> input epoch and
+<em>Ox</em> represents the x<em>th</em> output epoch)
+
+\verbatim
+         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+input  = | I1 | | I2 | | I3 | | I4 | | I5 | | I6 | | I7 | | I7 | | I9 | ...
+         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+                                +----+           +----+
+output =                        | O1 |           | O2 |                 ...
+                                +----+           +----+
+
+time   =      1      2      3      4      5      6      7      8      9
+stim   =                        ^                ^
+\endverbatim
+
+Suppose that we want to grab 3 seconds of signal begining 1 second before a specific stimulation code.
+Suppose that the actual stimulation happens at <em>t=1.5</em> and <em>t=6</em>. Then the following figure
+illustrate how epochs will be built. (<em>Ix</em> represents the x<em>th</em> input epoch and
+<em>Ox</em> represents the x<em>th</em> output epoch)
+
+\verbatim
+         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+input  = | I1 | | I2 | | I3 | | I4 | | I5 | | I6 | | I7 | | I7 | | I9 | ...
+         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+           +------------------+           +------------------+
+output =   |        O1        |           |        O2        |          ...
+           +------------------+           +------------------+
+
+time   =      1      2      3      4      5      6      7      8      9
+stim   =          ^                              ^
+\endverbatim
+
+Overlapping epochs would also work as defined on the following example...
+Suppose that we want to grab 3 seconds of signal begining 1 second before a specific stimulation code.
+Suppose that the actual stimulation happens at <em>t=1.5</em>, <em>t=2</em> and <em>t=6</em>. Then the following figure
+illustrate how epochs will be built. (<em>Ix</em> represents the x<em>th</em> input epoch and
+<em>Ox</em> represents the x<em>th</em> output epoch)
+
+\verbatim
+         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+input  = | I1 | | I2 | | I3 | | I4 | | I5 | | I6 | | I7 | | I7 | | I9 | ...
+         +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+           +------------------+           +------------------+
+           |        O1        |           |        O3        |
+output =   +------------------+           +------------------+          ....
+              +------------------+
+              |        O2        |
+              +------------------+
+
+time   =      1      2      3      4      5      6      7      8      9
+stim   =          ^  ^                           ^
+\endverbatim
+
+<b>2. Discontinuous signal</b>
+
+The case where input signal is not continuous (for instance, the signal has already been epoched with
+either a \ref Doc_BoxAlgorithm_StimulationBasedEpoching or a \ref Doc_BoxAlgorithm_TimeBasedEpoching box)
+can be tricky... Indeed, it is not possible to join input epochs correctly. The epoching only consists
+in signal extraction from an individual input chunk.
+
+For instance, suppose the following input signal (<em>Ix</em> represents the x<em>th</em> input epoch) :
+
+\verbatim
+         +------------------+        +------------------+        +-----
+input  = |        I1        |        |        I2        |        |      ...
+         +------------------+        +------------------+        +-----
+time   =      1      2      3      4      5      6      7      8      9
+\endverbatim
+
+Suppose that we want to grab 1 second of signal following a specific stimulation code.
+Suppose that the actual stimulation happens at <em>t=1</em>, <em>t=2</em>, <em>t=4.5</em> and <em>t=6.5</em>. Then the following figure
+illustrate how epochs will be built. (<em>Ix</em> represents the x<em>th</em> input epoch and
+<em>Ox</em> represents the x<em>th</em> output epoch)
+
+\verbatim
+         +------------------+        +------------------+        +-----
+input  = |        I1        |        |        I2        |        |      ...
+         +------------------+        +------------------+        +-----
+              +----+ +----+            +----+
+output =      | O1 | | O2 |            | O3 |                           ...
+              +----+ +----+            +----+
+
+time   =      1      2      3      4      5      6      7      8      9
+stim   =      ^      ^                 ^             ^
+\endverbatim
+
+In this case, note that the last stimulation at <em>t=6.5</em> can not generate a valid epoch. Indeed, the input
+signal does not cover the time period from <em>t=6.5</em> to <em>t=7.5</em> so no epoch should be generated.
+ * |OVP_DocEnd_BoxAlgorithm_StimulationBasedEpoching_Miscellaneous|
+ */

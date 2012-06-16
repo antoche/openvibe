@@ -1,0 +1,28 @@
+/**
+\page Doc_BoxAlgorithmConnectorTypes Connector Types
+
+OpenViBE box algorithms may be connected together by their inputs and outputs. The number of these connectors varies between boxes. To make 
+scenario execution safer, these connectors are typed, and are an indication of what kind of data a box expects and outputs. Thus, each connector 
+type is associated to a corresponding flow type.
+
+Here is a list of existing flow/connector types :
+
+- Channel localisation : contains the list of channels from which input signals are retrieved, along with their characteristics (name, localisation).
+- EBML stream : EBML is an XML like syntax used in OpenViBE to send data between boxes.
+- Experiment information : provides details about the experiment regarding the subject (name, age, gender and so on) and the device/peripheral used
+to acquire signals (name, number of channels...)
+- Feature vector : a feature vector contains remarkable characteristics identified in an input signal and is typically sent to a classifier to 
+identify the class of the signal.
+- Producer/consumer : this type of stream was developed for the similarly named sample boxes, in order to demonstrate the use of algorithms in plugins.
+- Signal : this type contains sample values measured at the input channels.
+- Spectrum : processed version of the signal type, where sample values are Fourier-transformed over a period of time in order to determine the power 
+spectrum of the signal, i.e. its power in a number of frequency bands.
+- Stimulations : some experiments involve stimulations to trigger responses from the subject. This type stores stimulation dates and IDs.
+- Streamed matrix : similar to the signal type, only it is reformatted into matrix form where the first dimension is mapped to channels and 
+the second to sample values.
+
+Casting one type into another / Type inheritance :
+
+//TODO!
+
+*/

@@ -1,0 +1,144 @@
+/**
+ * \page Doc_Tutorial_Developer_SignalProcessing_IntroductionPage OpenViBE algorithms and boxes
+   <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/introduction-algo-boxes/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+ *
+ * - \b NB: Document based on <b> OpenViBE 0.8.0 </b> (30-sep-2010).
+ *
+ * \section Doc_Tutorial_Developer_SignalProcessing_ExtendingOpenViBE Extending OpenViBE
+ * There are two ways
+ * §OpenViBE§ can be extended. One is to write new algorithms,
+ * that are only used by programmers in order to perform a
+ * specific operation. The second is
+ * to create new boxes (also named Box Algorithms) that can be used by authors in scenarios.
+ *
+ * Depending on the task at hand, one might have to implement new
+ * algorithms and/or boxes. While it is possible to write a box
+ * which doesn't make use of any algorithm (in the sense of
+ * §OpenViBE§, meaning all signal processing code is written 
+ * directly in the box), it is usually desirable
+ * to encapsulate signal processing operations in algorithms. The 
+ * gain is not necessarily obvious at first, but it becomes evident
+ * in the long term, allowing box developers to reuse existing
+ * algorithms and build new boxes faster. In any case, it's up to the 
+ * programmer to determine what operations are generic enough to 
+ * justify their encapsulation in an algorithm.
+ * 
+ * This tutorial demonstrates how to add a new signal processing algorithm
+ * to §OpenViBE§, and how to create a new box which makes use of it. It 
+ * comprises the following three sections :
+ * - \ref Doc_Tutorial_Developer_SignalProcessing_Introduction
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_Algorithm
+ * - \subpage Doc_Tutorial_Developer_SignalProcessing_Box
+ *
+ * After reading this tutorial, you should be able to start building your own plugins.
+ * If you have any trouble when developing with openvibe, feel free to contact experienced developers on the Forum, mailing list, or IRC channel.
+ *
+ * \section Doc_Tutorial_Developer_SignalProcessing_Introduction Introduction
+ * \subsection Doc_Tutorial_Developer_SignalProcessing_AlgoInternals Algorithm internals
+ * The algorithm is a very generic, low level component which can easily communicate with other algorithms.
+ * An algorithm can be called by other algorithms or by a Box, the high level component encapsulating a whole process.
+ *
+ * An Algorithm implementation is divided in 2 parts :
+ * - The \b Algorithm implementing OpenViBE::Plugins::IAlgorithm, that do the task on the data structures
+ * - The \b Algorithm \b Descriptor implementing OpenViBE::Plugins::IAlgorithmDesc, that gives the kernel an abstract view of the algorithm and an easy way to create a new instance of the algorithm.
+ * 
+ * An algorithm processes one or more input and returns one or more outputs. 
+ * In the implemented algorithm object, each input and output has a corresponding data structure.
+ * For the programmer to easily manage these structures, we provide the template handler OpenViBE::Kernel::TParameterHandler.
+ * Therefore the algorithm has one TParameterHandler per input or output parameter. 
+ * The type of parameter you can specify are described in the OpenViBE::Kernel::TParameterHandler documentation (boolean, int64, StimulationSet, etc.).
+ * For example the following handler will manage an input Matrix:
+ * \code
+ * OpenViBE::Kernel::TParameterHandler < OpenViBE::IMatrix* > ip_pMatrix;
+ * \endcode 
+ * This input matrix handler has to be initialized to be connected to the concrete OpenViBE::Kernel::IParameter.
+ * \code
+ * ip_pMatrix.initialize(inputParameterMatrixPointer);
+ * \endcode
+ * 
+ * The algorithm communicate with its surroundings 
+ * using input and output \b triggers (that mean for example "Do the process", or "Process successful"). The kernel
+ * (OpenViBE::Kernel::IAlgorithmContext) provides 2 functions related to triggers, to be used on an algorithm object:
+ * - <code> activateOutputTrigger(OpenViBE::CIdentifier& rOutputTriggerIdentifier, OpenViBE::boolean bTriggerState) </code> sets the state of an output trigger of the algorithm.
+ * - <code> isInputTriggerActive(OpenViBE::CIdentifier& rInputTriggerIdentifier) </code> checks the current state of an input trigger.
+ *
+ * The figure below illustrates the algorithm concept with a processing unit that use an input matrix to output a second matrix. 
+ * The algorithm is controlled by 2 input triggers that ask the algorithm to initialize or start some process. 
+ * When the process is done, the algorithm rises a dedicated trigger.
+ * \image html algo-diagram.png "An algorithm, its input, output and triggers"
+ *
+ * \subsection Doc_Tutorial_Developer_SignalProcessing_BoxInternals Box internals
+ * A box is an abstract view of a single processing chain, that may include several algorithms linked to perform a precise task.
+ * The Box manages all the data structures
+ * The box has its own inputs and outputs, all receiving or sending encoded data
+ * in EBML structures. These data are divided in blocks called "chunks". 
+ * Chunk management is done through the box's dynamic context OpenViBE::Kernel::IBoxIO.
+ * Once a chunk is received, the box can put it on the input(s) of the algorithm(s). Most of the time the first algorithm used will be a EBML decoder, that extracts the data from the chunk.
+ * The last algorithm in the chain (most of the time an EBML encoder) rises its output trigger signaling the end of process, meaning that the output chunk has been produced. 
+ * The box can then mark the output chunk as ready to be sent !
+ * 
+ * The box declares each algorithm used along with its inputs and outputs. 
+ * The Algorithm itself is represented by an OpenViBE::Kernel::IAlgorithmProxy object. The inputs and outputs are again contained in OpenViBE::Kernel::TParameterHandler handlers.
+ * Here is an example of such declarations in the box definition :
+ * \code
+ * OpenViBE::Kernel::IAlgorithmProxy* m_pSignalProcessingAlgorithm;
+ * OpenViBE::Kernel::TParameterHandler < OpenViBE::IMatrix* > ip_pSignalProcessingAlgorithmMatrix;
+ * OpenViBE::Kernel::TParameterHandler < OpenViBE::IMatrix* > op_pSignalProcessingAlgorithmMatrix;
+ * \endcode
+ * 
+ * The IAlgorithmProxy class is a user interface to an IAlgorithm instanciated object. 
+ * Its purpose is to automatically handle input / output trigger activation and to help in calling processing methods.
+ * During the initialization phase, the box asks the OpenViBE::Kernel::IAlgorithmManager instance of the kernel to create an instance of the Algorithm.
+ * It also initializes the inputs and outputs handlers, giving them the actual parameters of the created algorithm.
+ * The code below illustrates this process with the same algorithm as above.
+ * \code
+ * CIdentifier l_idAlgorithmIdentifier = this->getAlgorithmManager().createAlgorithm(OVP_ClassId_Algorithm_SignalProcessingAlgorithm);
+ * m_pSignalProcessingAlgorithm=&this->getAlgorithmManager().getAlgorithm(l_idAlgorithmIdentifier);
+ * m_pSignalProcessingAlgorithm->initialize();
+ *
+ * ip_pSignalProcessingAlgorithmMatrix.initialize(
+ *          m_pSignalProcessingAlgorithm->getInputParameter(OVP_Algorithm_SignalProcessingAlgorithm_InputParameterId_Matrix));
+ * op_pSignalProcessingAlgorithmMatrix.initialize(
+ *          m_pSignalProcessingAlgorithm->getOutputParameter(OVP_Algorithm_SignalProcessingAlgorithm_OutputParameterId_Matrix));
+ * \endcode
+ *
+ * Finally, the algorithms inputs and outputs are linked together with the  \c setReferenceTarget function of the TParameterHandler handler.
+ * In the example below, the input \c ip_pSignalProcessingAlgorithmMatrix of the signal processing algorithm will be connected to the output \c op_pDecodedMatrix coming from a stream decoder algorithm.
+ * \code
+ * ip_pSignalProcessingAlgorithmMatrix.setReferenceTarget(op_pDecodedMatrix);
+ * \endcode
+ * Note that it is the input that set its output reference target, and not the opposite. The reason is simple : an output can be sent to several inputs, but an input can have only one source output.
+ * 
+ * \subsection Doc_Tutorial_Developer_SignalProcessing_Design Designing the tutorial plugin
+ * In this tutorial, we will build a Box with one Signal input 
+ * and one Signal output. The box will simply modify the incoming signal chunks
+ * by setting to 0 the first sample of every channel. 
+ *
+ * The data streams between boxes are all encapsulated in EBML structures.
+ * The first Algorithm decode these EBML memory buffers coming on the Signal input. 
+ * These chuncks are transformed into a convenient data container called streamed matrix, much easier to manipulate than EBML stream.
+ * The Signal Decoder also outputs the sampling frequency of the incoming signal.
+ * 
+ * The second algorithm is the signal processing algorithm we will implement in this tutorial.
+ * It modify an input streamed matrix containing some samples, and output the result.
+ *
+ * The last algorithm is a Signal Encoder, that constructs new EBML chunks using a sampling frequency 
+ * value and a streamed matrix containing the signal samples.
+ * 
+ * This tutorial will show you how to :
+ * - Implement from scratch the signal processing algorithm
+ * - Implement a box that will use the new algorithm, along with the given signal decoder and encoder.
+ * - Connect within the box the 3 algorithms
+ *
+ * The figure below illustrates the design we will achieve, with the corresponding kernel calls used in the implementation.
+ * All variable prefixed with <code>ip_</code> refer to inputs, <code>op_</code> refer to outputs.
+ * If you are lost during the tutorial, you can go back to this figure.
+ * \image html box-diagram.png "Design of the new plugin"
+ *
+ * Now please go on to the next step : \subpage Doc_Tutorial_Developer_SignalProcessing_Algorithm
+ */

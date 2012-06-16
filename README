@@ -1,0 +1,91 @@
+
+         *========================================*
+                      |OpenViBE| |README|
+         *========================================*
+
+|Introduction|
+
+OpenViBE is a software platform for the design, test and use of
+Brain-Computer Interfaces. This document provides basic
+information on what you just downloaded.
+
+|Code.source.access|
+
+The source code of the project can be found on the INRIA gForge :
+
+https://gforge.inria.fr/projects/openvibe/ (welcome page)
+https://gforge.inria.fr/mail/?group_id=276 (mailing lists)
+http://www.irisa.fr/bunraku/OpenViBE/forum (forums)
+https://gforge.inria.fr/tracker/?group_id=276 (bug tracker)
+
+Getting the latest (unstable) version of the source code from the forge can
+be done thanks to this command :
+
+svn checkout svn+ssh://developername@scm.gforge.inria.fr/svn/openvibe/trunk
+
+|Repository.organisation|
+
+The project repository is composed of several software modules. Each software
+module can have its own branches and tags and is compiled separately
+from other modules. The repository basically looks like this :
+
+root of the repository
+ + <openvibe> (API / specifications)
+ + <openvibe-kernel> (kernel implementation)
+ + <openvibe-toolkit> (development help components)
+ + <openvibe-applications> (OpenViBE user applications)
+    + <acquisition-server>
+    + <designer>
+    + ...
+ + <openvibe-plugins> (OpenViBE plugin collections)
+    + <samples>
+    + <acquisition>
+    + ...
+ + <openvibe-modules> (abstraction and portability components)
+    + <ebml>
+    + <socket>
+    + ...
+
+Each software module has its own subtree which looks like the following:
+
+root of the module
+ + <trunc> (current unstable version)
+ + <tags> (tagged versions)
+    + 0.0.1
+    + ...
+ + <branches> (work in progress, probably very unstable)
+    + wip-developer1
+    + wip-...
+
+Finally, in each branch, each software module is divided in the following UNIX-like tree :
+
++ <bin> (target folder for compiled binaries)
++ <doc> (target folder for compiled documentation)
++ <etc> (target folder for configuration files)
++ <include> (target folder for API headers)
++ <lib> (target folder for compiled libraries)
++ <share> (shared file folder for all data)
++ <src> (source code of the module)
+   + <doc> (documentation files for the module)
++ <test> (unit test source code for the module)
+
+|Support|
+
+You can get support for this software in several ways :
+
+- register to several mailing lists (https://gforge.inria.fr/mail/?group_id=276)
+- use a phpBB forum (http://www.irisa.fr/bunraku/OpenViBE/forum)
+- join an IRC channel (#openvibe on irc.freenode.net)
+
+|Licence|
+
+Please refer to the COPYING file to get details regarding the OpenViBE license.
+
+|Building.the.software|
+
+Please refer to the INSTALL file for instructions on how to build the
+platform.
+
+|End.of.file|
+
+ vim:tw=78:ts=8:ft=help:norl:

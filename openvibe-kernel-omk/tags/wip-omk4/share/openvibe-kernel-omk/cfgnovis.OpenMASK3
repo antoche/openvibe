@@ -1,0 +1,14 @@
+# OpenMASK3
+
+root
+{
+	Class Controller
+	UserParams
+	{
+		TraceAll off
+		Plugins [
+			["${OMK_HOME}/lib/libOMKInputs.so"]
+			["${OMK_HOME}/lib/libOMKAddOn.so"]
+		]
+	}
+}

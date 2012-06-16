@@ -1,0 +1,99 @@
+/**
+* \page Doc_DriverJitterCorrection Tutorial: Jitter monitoring and drift correction
+  <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/tutorial-jitter-monitoring-and-drift-correction/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+*
+* - \b NB: Tutorial based on <b> OpenViBE 0.6.1 </b> (20-may-2010).
+*
+* \section Doc_DriverJitterCorrection_Introduction Introduction
+*
+* The OpenViBE framework provides some mechanisms to improve your acquisition drivers. These services are given by the IDriverContext.
+* We present in this tutorial the jitter monitoring and drift correction service.
+*
+* You can ask the driver to compare in real-time the number of samples sent by the driver to the theorical sample count,
+* based on the sampling frequency. If the difference between these values goes too high, you can ask the driver to correct the drift automatically.
+*
+* \section Doc_DriverJitterCorrection_Warning Warning !
+*
+* The automatic drift correction mechanism is optionnal, but is strongly recommended. However, <b>it can mask a potential bug in the driver.</b>
+* If you are 100% sure that your driver is fully functionnal, and nothing in the code could possibly cause that kind of problem, and you are
+* still experiencing untolerable drifting then you can start using the automatic corrector.
+*
+* \section Doc_DriverJitterCorrection_Monitoring Shifting latency and jitter
+*
+* It is relatively common that the internal clock of the acquisition device does not match precisely the acquisition computer clock frequency.
+* Most of the time, a latency appears with a jitter, but stays in a reasonnable range.
+* For example, 10 samples missing in 1 minute of acquisition, for a 512Hz theorical sampling frequency represents roughly 20 ms shift.
+* However it is critical to control this latency and minimize it, otherwise it can drift to an intelorable value (e.g. 1sec)
+* resulting in misprocessing in OpenViBE, which relies on precisely dated data.
+* The monitoring service is always enabled, and the acquisition server will print a message in the console when you stop the acquisition
+* if it detects that the jitter went beyond a defined threshold. This threshold is given in the openvibe configuration file, in ms:
+* - AcquisitionServer_DriftToleranceDuration = 5
+*
+* It means that the acquisition server will raise a warning if the drift rises above 5 ms, when the user stopped the acquisition.
+* Of course, you can redefine this configuration token in your personal configuration file, lower it to 2 ms for example.
+*
+* A warning message should look like this:
+\verbatim
+[WARNING] After 124.385 seconds, theorical samples per second
+          does not match real samples per second
+[WARNING]   Received : 64320 samples.
+[WARNING]   Should have received : 63684 samples.
+[WARNING]   Difference was : 636 samples.
+[WARNING]   The driver did not try to correct this difference.
+[WARNING]   Please submit a bug report (including the
+            acquisition server log file or at least
+            this complete message) for the driver you are using.
+\endverbatim
+*
+* In this example, the driver sent 636 excedent samples in a 124 seconds window. The sampling fequency is 512Hz,
+* so we reached a drift of 1.24 seconds.
+*
+* \section Doc_DriverJitterCorrection_Implementation Implementation
+*
+* Now we know that our driver is drifting, we have to use correction mechanism.
+* To do so, you can rely on the given functions in the driver context :
+* \code
+* virtual OpenViBE::int64    getDriftSampleCount (void)
+*   Gets jitter sample count.
+* virtual OpenViBE::int64    getDriftToleranceSampleCount (void)
+*   Gets the jitter sample count tolerance.
+* virtual OpenViBE::int64    getSuggestedDriftCorrectionSampleCount (void)
+*   Gets the suggested jitter correction sample count.
+* virtual OpenViBE::boolean  correctDriftSampleCount (OpenViBE::int64 i64SampleCount)
+*   Corrects a drifting device.
+* \endcode
+*
+* Please read the full documentation on the IDriverContext page.
+* It is strongly advised to correct the drift by the suggested value, as shown in the loop function in the driver:
+*
+\code
+boolean CDriverFooBarDevice::loop(void)
+{
+  if(!m_rDriverContext.isConnected())
+    return false;
+
+  if(m_rDriverContext.isStarted())
+  {
+    //... read data from device and fill the buffer
+
+    m_pCallback->setSamples(m_pSample);
+
+    //... and finally, correct drift according to what the
+    // acquisition server suggests !
+
+    m_rDriverContext.correctDriftSampleCount(
+       m_rDriverContext.getSuggestedDriftCorrectionSampleCount());
+  }
+  return true;
+}
+\endcode
+*
+* Please note that the jitter drift has to be implemented \b after call to \c setSamples(m_pSample),
+* as the correction is performed on the buffer to be sent.
+*
+*/

@@ -1,0 +1,68 @@
+/**
+ * \page BoxAlgorithm_StreamSynchronization Stream Synchronization
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Description|
+This box enables you to synchronize inputs from multiple acquisition devices connected together with a hardware tagging system. Each acquisition device must translate the hardware tag into a stimulation, let's call it 'start' stimulation. The synchronisation box outputs signal only after 'start' stimulation has been received, and the time is shifted so that first data is at time 0. Plug each device on its own synchronisation box, so that the signals have the same 'start' time after these boxes.
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Inputs|
+
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Input1|
+The signal from the acquisition device to be synchronized.
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Input2|
+The stimulations from the acquisition device. The 'start' stimulation, marking the beginning of the experiment, should appear in this input.
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Output1|
+Time shifted signal.
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Output2|
+Time shifted stimulations.
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Output2|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Setting1|
+The ID of the stimulation which marks the beginning of the acquisition.
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Examples|
+This box is useful if you want to use two acquisition devices at the same time. The best way to synchronize the two devices is by a physical link, this should be handled by the hardware. When experiment starts, a trigger is sent to both device through this physical link, and each device driver translate this trigger into a stimulation. As the devices received the trigger at the same time, this stimulation will have the same dating in the OpenViBE acquisition server. Finally the output of each acquisition device should pass through the synchronization box, which will re-date the signal as if it started at the moment of the reception of the stimulation.
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_StreamSynchronization_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_StreamSynchronization_Miscellaneous|
+ */

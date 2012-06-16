@@ -1,0 +1,171 @@
+/**
+ * \page BoxAlgorithm_EpochAverage Epoch average
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Description|
+ * This box prosed several methods of averaging for streamed epoched streamed.
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Inputs|
+ * The input type of this box can be changed. Its type must be derived of
+ * type \ref Doc_Streams_StreamedMatrix in order to be parsed by the input
+ * reader. If the author changes the input type, the output type will
+ * be changed the same way.
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Input1|
+ * This input receives the input streamed matrix to average.
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Outputs|
+ * The output type of this box can be changed. Its type must be derived of
+ * type \ref Doc_Streams_StreamedMatrix in order for the writer to format
+ * the  output chunks. If the author changes the output type, the input
+ * type will be changed the same way.
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Output1|
+ * This output sends the averaged streamed matrix. Averaging method is done
+ * according to the box settings.
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Setting1|
+ * This setting gives the method to use in order to average the input
+ * matrices. It can be of two types :
+ *  - <em>Moving average</em> : in this case, the averaging is done at
+ * every input reception on the last few buffers, starting as soon
+ * as enough input has been received.
+ *  - <em>Moving average (Immediate)</em> : in this case, the averaging is done at
+ * every input reception on the last few buffers, starting immediately. When
+ * the number of recevied buffer is lower than the wished number of epochs, the
+ * average is computed on this very few number of input buffers.
+ *  - <em>Epoch block average</em> : in this case, the averaging
+ * is done on a number of epochs (see next setting). Once this exact
+ * number of input is received, the average is computed and output.
+ *  - <em>Cummulative average</em> : in this case, the averaging
+ * is done on an infinite number of epochs starting from the first
+ * received buffer to the last received buffer. This can be \b very
+ * memory consuming !
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Setting2|
+ * This setting tells the box how much buffer it should use in order to
+ * compute the average.
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Examples|
+ * Let's study two cases. First, suppose you have such box with 
+ * <em>Epoch block average</em> set and <em>four</em> epochs.
+ * The input stream is as follows :
+\verbatim
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+| I1 | | I2 | | I3 | | I4 | | I5 | | I6 | | I7 | | I8 | | I9 | ...
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+\endverbatim
+ * The output stream will look like this :
+\verbatim
+                     +----+                      +----+
+                     | O1 |                      | O2 |        ...
+                     +----+                      +----+
+\endverbatim
+ * where \c O1 is the average of \c I1, \c I2, \c I3 and \c I4 and
+ * where \c O2 is the average of \c I5, \c I6, \c I7 and \c I8.
+ *
+ * Now consider the case where you configured this box with
+ * <em>Moving average</em> and <em>four</em> epochs. Given the
+ * same input stream :
+\verbatim
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+| I1 | | I2 | | I3 | | I4 | | I5 | | I6 | | I7 | | I8 | | I9 | ...
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+\endverbatim
+ * The output stream will look like this :
+\verbatim
+                     +----+ +----+ +----+ +----+ +----+ +----+
+                     | O1 | | O2 | | O3 | | O4 | | O5 | | O6 | ...
+                     +----+ +----+ +----+ +----+ +----+ +----+
+\endverbatim
+ * where :
+ *  - \c O1 is the average of \c I1, \c I2, \c I3 and \c I4
+ *  - \c O2 is the average of \c I2, \c I3, \c I4 and \c I5
+ *  - \c O3 is the average of \c I3, \c I4, \c I5 and \c I6
+ *  - \c O4 is the average of \c I4, \c I5, \c I6 and \c I7
+ *  - etc...
+ *
+ * Again consider the case where you configured this box with
+ * <em>Moving average (Immediate)</em> and <em>four</em> epochs. Given the
+ * same input stream :
+\verbatim
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+| I1 | | I2 | | I3 | | I4 | | I5 | | I6 | | I7 | | I8 | | I9 | ...
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+\endverbatim
+ * The output stream will look like this :
+\verbatim
++----+ +----+ +----+ +----+ +----+ +----+
+| O1 | | O2 | | O3 | | O4 | | O5 | | O6 | ...
++----+ +----+ +----+ +----+ +----+ +----+
+\endverbatim
+ * where :
+ *  - \c O1 is exactly \c I1
+ *  - \c O2 is the average of \c I1 and \c I2
+ *  - \c O3 is the average of \c I1, \c I2 and \c I3
+ *  - \c O4 is the average of \c I1, \c I2, \c I3 and \c I4
+ *  - \c O5 is the average of \c I2, \c I3, \c I4 and \c I5
+ *  - \c O6 is the average of \c I3, \c I4, \c I5 and \c I6
+ *  - etc...
+ *
+ * Finally consider the case where you configured this box with
+ * <em>Cumulative average</em> and <em>four</em> epochs. Given the
+ * same input stream :
+\verbatim
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+| I1 | | I2 | | I3 | | I4 | | I5 | | I6 | | I7 | | I8 | | I9 | ...
++----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+ +----+
+\endverbatim
+ * The output stream will look like this :
+\verbatim
++----+ +----+ +----+ +----+ +----+ +----+
+| O1 | | O2 | | O3 | | O4 | | O5 | | O6 | ...
++----+ +----+ +----+ +----+ +----+ +----+
+\endverbatim
+ * where :
+ *  - \c O1 is exactly \c I1
+ *  - \c O2 is the average of \c I1 and \c I2
+ *  - \c O3 is the average of \c I1, \c I2 and \c I3
+ *  - \c O4 is the average of \c I1, \c I2, \c I3 and \c I4
+ *  - \c O5 is the average of \c I1, \c I2, \c I3, \c I4, and \c I5
+ *  - \c O6 is the average of \c I1, \c I2, \c I3, \c I4, \c I5, and \c I6
+ *  - etc...
+
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EpochAverage_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_EpochAverage_Miscellaneous|
+ */

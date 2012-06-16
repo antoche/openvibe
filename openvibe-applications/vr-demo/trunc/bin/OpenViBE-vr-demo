@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# g_GDB="gdb --args"
+
+OpenViBE_app=`pwd`/OpenViBE-vr-demo-dynamic
+
+if [[ "$1" == "" ]]; then
+	echo "no application specified."
+	echo "USAGE: test-vr-demo.cmd application-name"
+	exit -1
+fi;
+
+pushd "../../scripts"
+source linux-init_env_command
+popd
+
+echo "##############################"
+echo " You chose the VR application "
+echo " [$1]"
+echo "##############################"
+
+pushd "../share/openvibe-applications/vr-demo/$1"
+
+cp resources.cfg-base resources.cfg
+cat $OpenViBE_dependencies/share/CEGUI/resources.cfg >> resources.cfg
+
+$g_GDB "$OpenViBE_app" "$1"
+
+popd

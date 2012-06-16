@@ -1,0 +1,61 @@
+/**
+ * \page BoxAlgorithm_AcquisitionClient Acquisition client
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Description|
+ Opens a socket to read experiment information, signal, stimulations and channel localization data sent across the network.
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Output2|
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Output2|
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Output3|
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Output3|
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Output4|
+Channel localisation flow
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Output4|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Setting1|
+ EEG server hostname
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Setting2|
+ EEG server port
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_AcquisitionClient_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_AcquisitionClient_Miscellaneous|
+ */

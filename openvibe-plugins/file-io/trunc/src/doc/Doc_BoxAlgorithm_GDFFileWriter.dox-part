@@ -1,0 +1,66 @@
+/**
+ * \page BoxAlgorithm_GDFFileWriter GDF file writer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Description|
+ Writes incoming experiment information, signal and stimulations data to a file according to the GDF file format. One simply has to connect this box to an output to save the desired streams to a file. For now, only GDF1 files are supported.
+
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Input1|
+ This stream contains information about the experiment and subject.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Input2|
+ Contains the signal information for the different channels.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Input2|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Input3|
+ Contains information about the stimulations that occured during the experiment.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Input3|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Setting1|
+ Name of the GDF file to be written.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Examples|
+ If you want to write the GDF file in your /tmp directory, you can configure the plugin like that :
+ 
+ Filename :
+ \code
+ /tmp/myGDFFile.gdf
+\endcode
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileWriter_Miscellaneous|
+ The only output format is GDF1.
+ 
+The experiment information  such as the subject name and sex may not be parsed correctly by other programs.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileWriter_Miscellaneous|
+ */

@@ -1,0 +1,289 @@
+/**
+\page Doc_Scenario_BoxTutorials Box Tutorials
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/documentation-index/#Existing+scenarios+documentation"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+You will find all the box tutorials scenarios in <b> <i> share/openvibe-scenarios/box-tutorials </i> </b>.
+
+This folder contains simple scenarios, widely commented. Each one shows how to design with the provided boxes a basic processing pipeline. Here is a complete listing of these box-tutorials, ordered alphabetically:
+
+- \b channel-selector.xml: shows how to select a specific subset of channels in an EEG signal stream. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_ChannelSelector
+
+- \b crop.xml: shows how to crop an input signal in a defined amplitude range. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_Crop
+
+- \b gdf-reader.xml: shows how to read recorded data in GDF format. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_GDFFileReader
+
+- \b generic-stream-reader.xml: shows how to read recorded data in OpenViBE generic format. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_GenericStreamReader
+
+- \b lua-stimulator.xml: shows how to process stimulations using the LUA script language. <br/>
+<b>Featured boxes:</b> \ref Doc_BoxAlgorithm_LuaStimulator , \ref Doc_BoxAlgorithm_KeyboardStimulator
+
+- \b network-acquisition.xml: shows how to acquire real-time EEG signal. Please note that this scenario can be used only with the \ref Doc_AcquisitionServerOverview "Acquisition Server" runnning in background. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_AcquisitionClient
+
+- \b power-spectrum.xml: shows how to perform a spectral analyis and display the power spectrum <br/>
+<b>Featured boxes:</b> \ref Doc_BoxAlgorithm_TimeBasedEpoching , \ref Doc_BoxAlgorithm_SpectralAnalysisGPL , \ref Doc_BoxAlgorithm_PowerSpectrumDisplay
+
+- \b run-command.xml: shows how to execute system commands directly with OpenViBE. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_RunCommand
+
+- \b signal-display.xml: shows how to display signal in a visualization window. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_SignalDisplay
+
+- \b simple-dsp.xml: shows how to perform mathematical and logic computations on. <br/>
+<b>Featured box:</b> \ref Doc_BoxAlgorithm_SimpleDSP
+
+- \b sound-player.xml: shows how to play a sound in OpenViBE. <br/>
+<b>Featured boxes:</b> \ref Doc_BoxAlgorithm_SoundPlayer , \ref Doc_BoxAlgorithm_KeyboardStimulator
+
+- \b time-frequency-map.xml: shows how to perform a spectral analysis and display the time-frequency map. <br/>
+<b>Featured boxes:</b> \ref Doc_BoxAlgorithm_SpatialFilter , \ref Doc_BoxAlgorithm_TimeBasedEpoching , \ref Doc_BoxAlgorithm_SpectralAnalysisGPL , \ref Doc_BoxAlgorithm_TimeFrequencyMapDisplay 
+
+- \b topographic-map.xml: shows how to display 2d and 3D topographic maps. <br/>
+<b>Featured boxes:</b> \ref Doc_BoxAlgorithm_TimeBasedEpoching , \ref Doc_BoxAlgorithm_EpochAverage , \ref Doc_BoxAlgorithm_ElectrodeLocalisationFileReader , \ref Doc_BoxAlgorithm_2DTopographicMap , \ref Doc_BoxAlgorithm_3DTopographicMap
+
+- \b voxel-display.xml: shows how to display reconstructed brain activity through inverse model and voxel visualizer. <br/>
+<b>Featured boxes:</b>  \ref Doc_BoxAlgorithm_TimeBasedEpoching , \ref Doc_BoxAlgorithm_EpochAverage , \ref Doc_BoxAlgorithm_SpatialFilter , \ref Doc_BoxAlgorithm_2DTopographicMap , \ref Doc_BoxAlgorithm_VoxelDisplay
+*/
+
+/**
+\page Doc_Scenario_BCI_Neurofeedback Neurofeedback
+
+This Neurofeedback application is based on Motor Imagery of the feet. You will find it in <b>share/openvibe-scenarios/bci/neurofeedback</b>.
+
+- \b neurofeedback.xml: 
+This scenario replays a MI session and shows the real-time feedback the user was given during the session.
+The feedback is presented through signal displays : one for the brain
+activity on the Cz electrode, and one for the band power in 
+the beta activity,related to (imagined) feet movement.
+
+Please note that the \ref Doc_BoxAlgorithm_Crop and \ref Doc_BoxAlgorithm_SimpleDSP configuration is based on a calibration session, that computed the Mean and Variance of Beta activity on Cz on a 30 sec inactivity phase.
+
+<br/>
+
+<img src="neurofeedback.png"></img>
+<center><strong>Fig.1 Neurofeedback with OpenViBE.</strong></center>
+
+<br/>
+*/
+
+/**
+\page Doc_Scenario_BCI_TieFighter Tie Fighter demonstrator
+
+The demonstrator enhances the \ref Doc_Scenario_BCI_Neurofeedback BCI with a motivating visual feedback : a 3D spaceship in a hangar, that can be lifted thanks to brain activity. You will find it in <b>share/openvibe-scenarios/bci/tie-fighter</b>.
+
+- \b tie-fighter-freetime.xml: 
+This scenario replays a MI session and shows the real-time feedback the user was given during the session.
+The feedback is presented through signal displays : one for the brain
+activity on the Cz electrode, and one for the band power in 
+the beta activity,related to (imagined) feet movement.
+
+The scenario communicates with the vr-demo through VRPN, triggering instructions ("Move your feet", "Stop") and providing feedback value (that determines the altitude of the spaceship in the 3D scene.
+
+Please note that the \ref Doc_BoxAlgorithm_Crop and \ref Doc_BoxAlgorithm_SimpleDSP configuration is based on a calibration session, that computed the Mean and Variance of Beta activity on Cz on a 30 sec inactivity phase.
+
+<br/>
+
+<img src="tie-fighter.png"></img>
+<center><strong>Fig.1 The Use-the-Force BCI.</strong></center>
+
+<br/>
+*/
+
+/**
+\page Doc_Scenario_BCI_MotorImagery Motor Imagery BCI
+
+This set of scenarios implements the Graz BCI, based on motor imagery of the hands. You will find it in <b>share/openvibe-scenarios/bci/motor-imagery</b>.
+
+- \b motor-imagery-bci-0-signal-monitoring.xml: 
+This scenario should be always used prior to anything and in background to check the signal quality of the acquisition device. Once you are sure that the EEG acquisition runs correctly, you can go on to the next step !
+
+- \b motor-imagery-bci-1-acquisition.xml: 
+First step is to acquire some data in order to train the classifier that will discriminate Right and Left hand movements. The training session can be configured in the LUA stimulator (number of trials, timings, etc.).
+
+- \b motor-imagery-bci-2-classifier-trainer.xml: 
+This scenario trains a LDA classifier based on the previous acquisition session.
+Note that the signal processing pipeline may be tuned accroding to the type of data acquired.
+For example, the \ref Doc_BoxAlgorithm_ReferenceChannel may not be needed.
+
+- \b motor-imagery-bci-3-online.xml:
+This scenario adds real-time feedback to the visualization, using the trained LDA classifier.
+Again, you may have to tune the signal processing pipeline.
+
+- \b motor-imagery-bci-4-replay.xml:
+This scenario is based on the online one, but the input signal is coming from a file rather than acquisition server.
+
+<br/>
+
+<img src="motor-imagery.png"></img>
+<center><strong>Fig.1 The motor imagery BCI.</strong></center>
+
+<br/>
+
+*/
+
+/**
+\page Doc_Scenario_BCI_MotorImageryCSP Motor Imagery BCI with Common Spatial Pattern filter
+
+This set of scenarios implements the Graz BCI, based on motor imagery of the hands. You will find it in <b>share/openvibe-scenarios/bci/motor-imagery-CSP</b>.
+
+- \b motor-imagery-bci-0-signal-monitoring.xml: 
+This scenario should be always used prior to anything and in background to check the signal quality of the acquisition device. Once you are sure that the EEG acquisition runs correctly, you can go on to the next step !
+
+- \b motor-imagery-bci-1-acquisition.xml: 
+First step is to acquire some data in order to train the classifier that will discriminate Right and Left hand movements. The training session can be configured in the LUA stimulator (number of trials, timings, etc.).
+
+- \b motor-imagery-bci-2-train-csp.xml: 
+This scenario computes Common Sptial Pattern to produce a spatial filter that maximizes 
+the difference between the signal of the two classes. Use a previously acquired file to perform the training.
+
+- \b motor-imagery-bci-3-classifier-trainer.xml: 
+This scenario trains a LDA classifier based on the previous acquisition session.
+Note that the signal processing pipeline may be tuned accroding to the type of data acquired.
+For example, the \ref Doc_BoxAlgorithm_ReferenceChannel may not be needed.
+
+- \b motor-imagery-bci-4-online.xml:
+This scenario adds real-time feedback to the visualization, using the trained LDA classifier.
+Again, you may have to tune the signal processing pipeline.
+
+- \b motor-imagery-bci-5-replay.xml:
+This scenario is based on the online one, but the input signal is coming from a file rather than acquisition server.
+In this version classifier performance tools are used to display the confusion matrix of the classifier and its global performance
+during the session.
+
+<br/>
+
+<img src="motor-imagery-replay.png"></img>
+<center><strong>Fig.1 The motor imagery BCI: offline performance computations.</strong></center>
+
+<br/>
+
+*/
+
+/**
+\page Doc_Scenario_BCI_Handball Handball demonstrator
+
+This application allows anyone to test the handball vr-demo provided with OpenViBE. You will find it in <b>share/openvibe-scenarios/bci/handball</b>.
+The demonstrator enhances the well-known Graz Motor-Imagery BCI with a motivating visual feedback: a gymnasium with goal on each side, where the user is instructed to push the ball in with only the power of mind.
+
+- \b handball-replay.xml: 
+this scenario replays a MI session and discriminate the mental states using a LDA classifier. The feedback is presented with a \ref Doc_BoxAlgorithm_GrazVisualization : cross and arrow for instructions, progress bar for the real-time feedback. Note that the first trial starts near 0:40.  
+
+To use the handball feedback, you just have to laucnh the \b vr-demo-handball script. Then go back in the Designer and play the scenario. You should see in the 2 consoles (Designer and vr-demo) the connection messages between the two.
+
+The Graz visualization is repeated in the handball visualization, and the ball is moving accordingly to the feedback provided by OpenViBE, as shown on Fig.1.
+
+<br/>
+
+<img src="handball.png"></img>
+<center><strong>Fig.1 The handball BCI.</strong></center>
+
+<br/>
+
+*/
+
+/**
+\page Doc_Scenario_BCI_P300Speller OpenViBE P300 Speller
+
+- \b Note: The \ref Doc_Scenario_BCI_P300SpellerXDAWN is providing <b>much better results</b>, at the cost of more electrodes (12+).  
+
+This set of scenarios implements the P300 Speller BCI using only the OpenViBE Designer. You will find it in <b>share/openvibe-scenarios/bci/p300-speller</b>.
+P300 is a well-known pattern in the brainwaves, a positive peak that occurs 300 ms after a relatively rare but expected event. The Speller application flashes randomly a grid of letter, and the user is instructed to ficus on the letter (s)he wants to spell out. After some repetitons, a vote determines which letter the BCI system selects.
+
+- \b p300-speller-1-acquisition.xml: 
+First step is to acquire some data in order to train the LDA classifier that will detect the P300 brainwaves. The default training session is made of 10 trials. Each time the user is instructed to focus on a particular letter (instruction in blue). After 12 repetitions (12 flashes of each row and column, so 24 flashes for each letter on the grid) we move on to the next letter.
+Change the \ref Doc_BoxAlgorithm_LuaStimulator settings to configure the number of letter, the timings, the colors, etc.
+
+- \b p300-speller-2-train-classifier.xml: 
+This scenario trains a LDA classifier that try to discriminate the two classes : P300 or not.
+
+- \b p300-speller-3-online.xml: 
+This scenario allows the user to spell some text. (S)He can choose to spell the designated letters (in blue) or any other letter. However it is advised to follow the instructions as a well-formed online session can be used to train again the classifier if the results are not good enough.
+After the 12 repetitions, the system displays the letter it chose as the best candidate (in green).
+Change the \ref Doc_BoxAlgorithm_LuaStimulator settings to configure the number of letter, the timings, the colors, etc.
+
+\b Warning: the default online scenario uses a \ref Doc_BoxAlgorithm_GenericStreamReader to read data from a recorded session. Connect the \ref Doc_BoxAlgorithm_AcquisitionClient instead if you want online acquisition.
+
+<br/>
+
+<img src="p300.png"></img>
+<center><strong>Fig.1 The P300 Speller.</strong></center>
+
+<br/>
+
+*/
+/**
+\page Doc_Scenario_BCI_P300SpellerXDAWN OpenViBE P300 Speller with xDAWN Spatial Filter
+
+This set of scenarios implements the P300 Speller BCI using only the OpenViBE Designer. You will find it in <b>share/openvibe-scenarios/bci/p300-speller-xDAWN</b>.
+P300 is a well-known pattern in the brainwaves, a positive peak that occurs 300 ms after a relatively rare but expected event. The Speller application flashes randomly a grid of letter, and the user is instructed to ficus on the letter (s)he wants to spell out. After some repetitons, a vote determines which letter the BCI system selects.
+
+The P300 pattern can be enhanced using the xDAWN algorithm that trains a dedicated spatial filter.
+More details can be found here: http://www.icp.inpg.fr/~rivetber/Publications/references/Rivet2009a.pdf
+
+- \b p300-speller-0-signal-monitoring.xml: 
+This scenario should be always used prior to anything and in background to check the signal quality of the acquisition device. Once you are sure that the EEG acquisition runs correctly, you can go on to the next step !
+
+- \b p300-speller-1-acquisition.xml: 
+First step is to acquire some data in order to train the LDA classifier that will detect the P300 brainwaves. The default training session is made of 10 trials. Each time the user is instructed to focus on a particular letter (instruction in blue). After 12 repetitions (12 flashes of each row and column, so 24 flashes for each letter on the grid) we move on to the next letter.
+Change the \ref Doc_BoxAlgorithm_LuaStimulator settings to configure the number of letter, the timings, the colors, etc.
+
+- \b p300-speller-2-train-xDAWN.xml: 
+This scenario trains the \ref Doc_BoxAlgorithm_SpatialFilter that will reduce the signal space to 3 dimensions, the most significant for detecting a P300.
+
+- \b p300-speller-3-train-classifier.xml: 
+This scenario trains a LDA classifier that try to discriminate the two classes : P300 or not. Use this scenario \b after a xDAWN filter has been trained.
+
+- \b p300-speller-3-online.xml: 
+This scenario allows the user to spell some text. (S)He can choose to spell the designated letters (in blue) or any other letter. However it is advised to follow the instructions as a well-formed online session can be used to train again the classifier if the results are not good enough.
+After the 12 repetitions, the system displays the letter it chose as the best candidate (in green).
+Change the \ref Doc_BoxAlgorithm_LuaStimulator settings to configure the number of letter, the timings, the colors, etc.
+
+- \b p300-speller-4-replay.xml: 
+This scenario replays a file, and show the feedback the user could have with the current set of parameter (classifier & spatial filter).
+
+<br/>
+
+<img src="p300.png"></img>
+<center><strong>Fig.1 The P300 speller.</strong></center>
+
+<br/>
+
+*/
+
+*/
+/**
+\page Doc_Scenario_BCI_P300MagicCard P300 Magic Card
+
+This set of scenarios implements a "funny" version of the P300 Speller BCI. You will find it in <b>share/openvibe-scenarios/bci/p300-magic-card</b>.
+The principle is strictly the same, but instead of letters a grid of card is shown, and the computer tries to guess which card the user is focusing on by "reading his mind".
+
+- \b p300-magic-card-1-acquisition.xml: 
+First step is to acquire some data in order to train the LDA classifier that will detect the P300 brainwaves. The default training session is made of 10 trials. Each time the user is instructed to focus on a particular card (instruction in blue). After 12 repetitions (each images is briefly shown and folded) we move on to the next card.
+
+- \b p300-magic-card-2-train-classifier.xml: 
+This scenario trains a LDA classifier that try to discriminate the two classes : P300 or not. 
+
+- \b p300-magic-card-3-online.xml: 
+User can choose to focus on the designated cards (in blue) or any other card. However it is advised to follow the instructions as a well-formed online session can be used to train again the classifier if the results are not good enough.
+After the 12 repetitions, the system displays the card it choosed as the best candidate (in green).
+Change the \ref Doc_BoxAlgorithm_LuaStimulator settings to configure the number of letter, the timings, etc.
+
+\b Warning: the default online scenario uses a \ref Doc_BoxAlgorithm_GenericStreamReader to read data from a recorded session. Connect the \ref Doc_BoxAlgorithm_AcquisitionClient instead if you want online acquisition.
+
+
+<br/>
+
+<img src="p300-magic-card.png"></img>
+<center><strong>Fig.1 The P300 Magic Card.</strong></center>
+
+<br/>
+
+*/

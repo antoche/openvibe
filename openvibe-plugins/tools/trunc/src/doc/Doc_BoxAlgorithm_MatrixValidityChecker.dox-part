@@ -1,0 +1,47 @@
+/**
+ * \page BoxAlgorithm_MatrixValidityChecker Matrix validity checker
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixValidityChecker_Description|
+ Ensures values stored in a matrix are valid, i.e. regular floating point values as opposed to NaN (not a number) or infinite.
+ * |OVP_DocEnd_BoxAlgorithm_MatrixValidityChecker_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixValidityChecker_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixValidityChecker_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixValidityChecker_Input1|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixValidityChecker_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixValidityChecker_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixValidityChecker_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixValidityChecker_Setting1|
+ Log level of messages to be printed whenever Nan or infinite values are found in input matrix.
+ * |OVP_DocEnd_BoxAlgorithm_MatrixValidityChecker_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixValidityChecker_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixValidityChecker_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_MatrixValidityChecker_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_MatrixValidityChecker_Miscellaneous|
+ */

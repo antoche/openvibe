@@ -1,0 +1,25 @@
+/**
+ * \mainpage An Open platform for Virtual Brain Environments
+ *
+ * \image html logo.png
+ *
+ * This is the developper documentation of §OpenViBE§, the open platform for virtual brain environments.
+ * The aim of this documentation is to present the global software architecture and to provide details
+ * for software developers. Given this documentation, developers should be able to integrate new
+ * functionnalities or modify existing ones according to their needs.
+ *
+ * First of all, you will find a software architecture overview \ref Doc_SoftwareArchitectureOverview.
+ *
+ * People interested in the kernel implementation could check the \ref Doc_KernelImplementation.
+ * The kernel may also be partially re-implemented or replaced. For developers interested in such
+ * task, check the \ref Doc_CreatingNewKernel page.
+ *
+ * For people interested in creating plugins, please check the \ref Doc_CreatingNewPlugins page.
+ *
+ * For more informations on the project, here are some reference pointers :
+ *  - §OpenViBE§ website : <a href="http://www.irisa.fr/bunraku/OpenViBE">http://www.irisa.fr/bunraku/OpenViBE</a>
+ *  - §OpenViBE§ forums : <a href="http://www.irisa.fr/bunraku/OpenViBE/forum">http://www.irisa.fr/bunraku/OpenViBE/forum</a>
+ *  - §OpenViBE§ forge : <a href="https://gforge.inria.fr/projects/openvibe">https://gforge.inria.fr/projects/openvibe</a>
+ *  - §OpenViBE§ mailing lists : <a href="https://gforge.inria.fr/mail/?group_id=276">https://gforge.inria.fr/mail/?group_id=276</a>
+ *  - §OpenViBE§ irc : #openvibe on irc.freenodes.net
+ */

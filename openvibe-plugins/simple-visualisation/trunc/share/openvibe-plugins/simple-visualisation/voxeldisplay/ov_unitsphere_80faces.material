@@ -1,0 +1,17 @@
+material ov_unitsphere
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 1
+			diffuse 1 1 1 1
+//			specular 0 0 0 10
+//			emissive 0 0 0 
+			scene_blend src_alpha one			
+			depth_write off
+		}
+	}
+}
+
+

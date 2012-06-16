@@ -1,0 +1,1622 @@
+#!/bin/bash
+
+ov_gnu_mirror=ftp://ftp.cw.net/pub/gnu
+ov_sourceforge_mirror=http://sourceforge.net/projects
+ov_freedesktop_mirror=http://xorg.freedesktop.org
+ov_gnome_mirror=ftp://ftp.gnome.org/pub/GNOME
+
+ov_should_skip_download=true
+ov_should_backup_after_install=false
+ov_native_package_installed=false
+ov_native_package_forced=true
+
+############################
+##                        ##
+##  installation scripts  ##
+##                        ##
+############################
+
+function ov_hit_package
+{
+	# $1 is package name
+
+	touch "$ov_target_folder_hit/$1.hit"
+}
+
+function ov_install_package
+{
+	# $1 is package name
+
+	eval 'ov_current_package='$1
+	eval 'ov_current_package_log_file=$ov_target_folder_log/'$1'.log'
+	eval 'ov_current_package_hit_file=$ov_target_folder_hit/'$1'.hit'
+	eval 'ov_current_package_archive_name=$ov_package_archive_'$1
+	eval 'ov_current_package_url=$ov_package_url_'$1
+	eval 'ov_current_package_additional_configure_flags=$ov_package_additional_configure_flags_'$1
+	eval 'ov_current_package_backup=post-install-backup-'$1'.tar'
+
+	eval 'ov_current_package_hook_download=$ov_package_download_hook_'$1
+	eval 'ov_current_package_hook_download_pre=$ov_package_pre_download_hook_'$1
+	eval 'ov_current_package_hook_download_post=$ov_package_post_download_hook_'$1
+	eval 'ov_current_package_hook_checkout=$ov_package_checkout_hook_'$1
+	eval 'ov_current_package_hook_checkout_pre=$ov_package_pre_checkout_hook_'$1
+	eval 'ov_current_package_hook_checkout_post=$ov_package_post_checkout_hook_'$1
+	eval 'ov_current_package_hook_uncompress=$ov_package_uncompress_hook_'$1
+	eval 'ov_current_package_hook_uncompress_pre=$ov_package_pre_uncompress_hook_'$1
+	eval 'ov_current_package_hook_uncompress_post=$ov_package_post_uncompress_hook_'$1
+	eval 'ov_current_package_hook_configure=$ov_package_configure_hook_'$1
+	eval 'ov_current_package_hook_configure_pre=$ov_package_pre_configure_hook_'$1
+	eval 'ov_current_package_hook_configure_post=$ov_package_post_configure_hook_'$1
+	eval 'ov_current_package_hook_make=$ov_package_make_hook_'$1
+	eval 'ov_current_package_hook_make_pre=$ov_package_pre_make_hook_'$1
+	eval 'ov_current_package_hook_make_post=$ov_package_post_make_hook_'$1
+	eval 'ov_current_package_hook_install=$ov_package_install_hook_'$1
+	eval 'ov_current_package_hook_install_pre=$ov_package_pre_install_hook_'$1
+	eval 'ov_current_package_hook_install_post=$ov_package_post_install_hook_'$1
+
+	ov_current_operation_result=0
+	ov_current_operation_hook_result=0
+	ov_current_operation_hook_pre_result=0
+	ov_current_operation_hook_post_result=0
+
+	if [ ! -e "$ov_current_package_hit_file" ]; then
+
+		echo "Trying to install package [$ov_current_package]..."
+
+		# goes to temporary folder
+		pushd "$ov_target_folder_tmp" >> $ov_current_package_log_file 2>&1
+
+		# empties temporary folder
+		rm -rf *
+
+		# resets log file
+		rm -f $ov_current_package_log_file 2> /dev/null
+		touch $ov_current_package_log_file
+
+		# downloads package archive when needed
+		echo "  Downloading [$ov_current_package_url] as [$ov_current_package_archive_name]..."
+		if [[ "$ov_should_skip_download" == "true" && -e "$ov_target_folder_arch/$ov_current_package_archive_name" && ! "$ov_current_package_archive_name" == "" ]]; then
+			echo "  Downloading [$ov_current_package_url] succeeded... (cached)"
+		else
+			if [ ! "$ov_current_package_hook_download" == "" ]; then
+				# completely replace download phase with hook
+				`eval $ov_current_package_hook_download >> $ov_current_package_log_file 2>&1`
+				ov_current_operation_hook_result=$?
+			else
+				# executes download hook pre
+				`eval $ov_current_package_hook_download_pre >> $ov_current_package_log_file 2>&1`
+				ov_current_operation_hook_pre_result=$?
+				# effectively download file(s)
+				if [ ! "$ov_current_package_archive_name" == "" ]; then
+					$ov_wget -c -O "$ov_target_folder_arch/$ov_current_package_archive_name.tmp" $ov_current_package_url >> $ov_current_package_log_file 2>&1
+					ov_current_operation_result=$?
+					if [[ $ov_current_operation_result -eq 0 ]]; then
+						mv -f "$ov_target_folder_arch/$ov_current_package_archive_name.tmp" "$ov_target_folder_arch/$ov_current_package_archive_name"
+					fi;
+				else
+					$ov_svn checkout $ov_current_package_url >> $ov_current_package_log_file 2>&1
+					ov_current_operation_result=$?
+				fi;
+				# executes download hook post
+				`eval $ov_current_package_hook_download_post >> $ov_current_package_log_file 2>&1`
+				ov_current_operation_hook_post_result=$?
+			fi;
+			if [[ $ov_current_operation_result -eq 0 && $ov_current_operation_hook_result -eq 0 && $ov_current_operation_hook_pre_result -eq 0 && $ov_current_operation_hook_post_result -eq 0 ]]; then
+				echo "  Downloading [$ov_current_package_url] succeeded..."
+			else
+				echo "  Downloading [$ov_current_package_url] failed !"
+				echo "  Log file can be found at [$ov_current_package_log_file] and ends with :"
+				echo ""
+				echo "`$ov_tail "$ov_current_package_log_file"`"
+				exit
+			fi;
+		fi;
+
+		# decompresses package archive in temporary folder
+		if [ ! "$ov_current_package_archive_name" == "" ]; then
+			echo "  Uncompressing [$ov_target_folder_arch/$ov_current_package_archive_name]..."
+			if [ ! "$ov_current_package_hook_uncompress" == "" ]; then
+				# completely replace uncompress phase with hook
+				`eval $ov_current_package_hook_uncompress >> $ov_current_package_log_file 2>&1`
+				ov_current_operation_hook_result=$?
+			else
+				# trying to figure out what kind of archive to decompress
+				ov_package_type=`echo $ov_current_package_archive_name | $ov_sed '
+					s/\(.*\)\.\(tar\.\)/\2/g
+					s/\(.*\)\.\(tgz\)/\2/g
+					s/\(.*\)\.\(zip\)/\2/g'`
+				case $ov_package_type in
+					"tgz")
+						ov_decompress_command="$ov_tar xvfz"
+						;;
+					"tar.gz")
+						ov_decompress_command="$ov_tar xvfz"
+						;;
+					"tar.bz2")
+						ov_decompress_command="$ov_tar xvfj"
+						;;
+					"zip")
+						ov_decompress_command="$ov_unzip"
+						;;
+					*)
+						echo "  Uhandled file extension [$ov_target_folder_arch/$ov_current_package_archive_name], sorry (may you try hook system ?) !"
+						exit
+						;;
+				esac;
+				# executes uncompress hook pre
+				`eval $ov_current_package_hook_uncompress_pre >> $ov_current_package_log_file 2>&1`
+				ov_current_operation_hook_pre_result=$?
+				# effectively uncompress file(s)
+				$ov_decompress_command "$ov_target_folder_arch/$ov_current_package_archive_name" >> $ov_current_package_log_file 2>&1
+				ov_current_operation_result=$?
+				# executes uncompress hook post
+				`eval $ov_current_package_hook_uncompress_post >> $ov_current_package_log_file 2>&1`
+				ov_current_operation_hook_post_result=$?
+			fi;
+			if [[ $ov_current_operation_result -eq 0 && $ov_current_operation_hook_result -eq 0 && $ov_current_operation_hook_pre_result -eq 0 && $ov_current_operation_hook_post_result -eq 0 ]]; then
+				echo "  Uncompressing [$ov_target_folder_arch/$ov_current_package_archive_name] succeeded..."
+			else
+				echo "  Uncompressing [$ov_target_folder_arch/$ov_current_package_archive_name] failed !"
+				echo "  Log file can be found at [$ov_current_package_log_file] and ends with :"
+				echo ""
+				echo "`$ov_tail "$ov_current_package_log_file"`"
+				exit
+			fi;
+		fi;
+
+		# configures the package
+		echo "  Configuring [$ov_current_package]..."
+		if [ ! "$ov_current_package_hook_configure" == "" ]; then
+			# completely replace configure phase with hook
+			`eval $ov_current_package_hook_configure >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_result=$?
+		else
+			# executes configure hook pre
+			`eval $ov_current_package_hook_configure_pre >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_pre_result=$?
+			# effectively configure file
+			pushd * >> $ov_current_package_log_file 2>&1
+			./configure --prefix=$ov_target_folder $ov_current_package_additional_configure_flags CPPFLAGS="-I$ov_target_folder_include" LDFLAGS="-L$ov_target_folder_lib -L$ov_target_folder_lib64" >> $ov_current_package_log_file 2>&1
+			ov_current_operation_result=$?
+			popd >> $ov_current_package_log_file 2>&1
+			# executes configure hook post
+			`eval $ov_current_package_hook_configure_post >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_post_result=$?
+		fi;
+		if [[ $ov_current_operation_result -eq 0 && $ov_current_operation_hook_result -eq 0 && $ov_current_operation_hook_pre_result -eq 0 && $ov_current_operation_hook_post_result -eq 0 ]]; then
+			echo "  Configuring [$ov_current_package] succeeded..."
+		else
+			echo "  Configuring [$ov_current_package] failed !"
+			echo "  Log file can be found at [$ov_current_package_log_file] and ends with :"
+			echo ""
+			echo "`$ov_tail "$ov_current_package_log_file"`"
+			exit
+		fi;
+
+		# builds the package
+		echo "  Building [$ov_current_package]..."
+		if [ ! "$ov_current_package_hook_make" == "" ]; then
+			# completely replace make phase with hook
+			`eval $ov_current_package_hook_make >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_result=$?
+		else
+			# executes make hook pre
+			`eval $ov_current_package_hook_make_pre >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_pre_result=$?
+			# effectively make file
+			pushd * >> $ov_current_package_log_file 2>&1
+			$ov_make -j 2 >> $ov_current_package_log_file 2>&1
+			ov_current_operation_result=$?
+			popd >> $ov_current_package_log_file 2>&1
+			# executes make hook post
+			`eval $ov_current_package_hook_make_post >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_post_result=$?
+		fi;
+		if [[ $ov_current_operation_result -eq 0 && $ov_current_operation_hook_result -eq 0 && $ov_current_operation_hook_pre_result -eq 0 && $ov_current_operation_hook_post_result -eq 0 ]]; then
+			echo "  Building [$ov_current_package] succeeded..."
+		else
+			echo "  Building [$ov_current_package] failed !"
+			echo "  Log file can be found at [$ov_current_package_log_file] and ends with :"
+			echo ""
+			echo "`$ov_tail "$ov_current_package_log_file"`"
+			exit
+		fi;
+
+		# installs the package
+		echo "  Installing [$ov_current_package]..."
+		if [ ! "$ov_current_package_hook_install" == "" ]; then
+			# completely replace install phase with hook
+			`eval $ov_current_package_hook_install >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_result=$?
+		else
+			# executes install hook pre
+			`eval $ov_current_package_hook_install_pre >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_pre_result=$?
+			# effectively install file
+			pushd * >> $ov_current_package_log_file 2>&1
+			$ov_make install >> $ov_current_package_log_file 2>&1
+			ov_current_operation_result=$?
+			popd >> $ov_current_package_log_file 2>&1
+			# executes install hook post
+			`eval $ov_current_package_hook_install_post >> $ov_current_package_log_file 2>&1`
+			ov_current_operation_hook_post_result=$?
+		fi;
+		if [[ $ov_current_operation_result -eq 0 && $ov_current_operation_hook_result -eq 0 && $ov_current_operation_hook_pre_result -eq 0 && $ov_current_operation_hook_post_result -eq 0 ]]; then
+			echo "  Installing [$ov_current_package] succeeded..."
+		else
+			echo "  Installing [$ov_current_package] failed !"
+			echo "  Log file can be found at [$ov_current_package_log_file] and ends with :"
+			echo ""
+			echo "`$ov_tail "$ov_current_package_log_file"`"
+			exit
+		fi;
+
+		# hits this package
+		touch "$ov_current_package_hit_file"
+
+		# goes back to calling folder
+		popd >> $ov_current_package_log_file 2>&1
+
+		# backups target directory
+		if [[ "$ov_should_backup_after_install" == "true" ]]; then
+			echo "  Backuping target directory [$ov_current_package_backup]..."
+			$ov_tar cf $ov_current_package_backup $ov_target_folder >> $ov_current_package_log_file 2>&1
+			ov_current_operation_result=$?
+			if [[ $ov_current_operation_result -eq 0 ]]; then
+				echo "  Backuping target directory [$ov_current_package_backup] succeeded..."
+			else
+				echo "  Backuping target directory [$ov_current_package_backup] failed !"
+				echo "  Log file can be found at [$ov_current_package_log_file] and ends with :"
+v				echo ""
+				echo "`$ov_tail "$ov_current_package_log_file"`"
+				# exit
+			fi;
+		fi;
+
+	else
+
+		echo "Package [$ov_current_package] is already built, skipped..."
+
+	fi;
+}
+
+######################################
+##                                  ##
+##  initializes some env variables  ##
+##                                  ##
+######################################
+
+if [ "$1" == "" ]; then
+	ov_target_folder=`pwd`/software
+else
+	mkdir $1 2> /dev/null
+	pushd $1 2> /dev/null
+	ov_target_folder=`pwd`
+	popd 2> /dev/null
+fi;
+
+if [ "$2" == "" ]; then
+	ov_environment_configuration_script=$ov_target_folder/environment-configuration-script
+else
+	ov_environment_configuration_script=$ov_target_folder/$2
+fi;
+
+#########################
+##                     ##
+##  starts working...  ##
+##                     ##
+#########################
+
+echo "Setting target folder to [$ov_target_folder]..."
+echo "Setting environment configuration script to [$ov_environment_configuration_script]..."
+echo ""
+
+##############################################
+##                                          ##
+##  creates target directories when needed  ##
+##                                          ##
+##############################################
+
+ov_target_folder_arch=$ov_target_folder/arch
+ov_target_folder_tmp=$ov_target_folder/tmp
+ov_target_folder_log=$ov_target_folder/log
+ov_target_folder_hit=$ov_target_folder/hit
+ov_target_folder_include=$ov_target_folder/include
+ov_target_folder_bin=$ov_target_folder/bin
+ov_target_folder_lib=$ov_target_folder/lib
+ov_target_folder_lib64=$ov_target_folder/lib64
+ov_target_folder_share=$ov_target_folder/share
+
+echo "Creating target tree structure..."
+mkdir "$ov_target_folder" 2> /dev/null
+mkdir "$ov_target_folder_arch" 2> /dev/null
+mkdir "$ov_target_folder_tmp" 2> /dev/null
+mkdir "$ov_target_folder_log" 2> /dev/null
+mkdir "$ov_target_folder_hit" 2> /dev/null
+mkdir "$ov_target_folder_include" 2> /dev/null
+mkdir "$ov_target_folder_bin" 2> /dev/null
+mkdir "$ov_target_folder_lib" 2> /dev/null
+mkdir "$ov_target_folder_share" 2> /dev/null
+echo ""
+
+####################################
+##                                ##
+##  checks current distribution   ##
+##                                ##
+####################################
+
+if [[ ! -e "$ov_target_folder_hit/no-native-packages.hit" ]]; then
+
+	echo "Checking native dependencies..."
+
+	if [[ "`grep Ubuntu /etc/lsb-release 2> /dev/null`" != "" ]]; then
+		ov_native_package_installed=true
+		ov_native_package_log_file="$ov_target_folder_log/native-packages.log"
+		ov_ubuntu_packages="subversion doxygen make automake autoconf cmake unzip gcc g++ libgtk2.0-dev libglade2-dev gfortran libgsl0-dev libexpat1-dev libreadline-dev libzzip-dev libtool libxaw7-dev libpcre3-dev libfreeimage-dev libglu1-mesa-dev libalut-dev libvorbis-dev libncurses5-dev python-dev"
+		for package in $ov_ubuntu_packages; do
+			ov_dpkg_output=`dpkg -l $package 2>&1 | grep "^ii"`
+			ov_dpkg_retcode=$?
+
+			if [[ $ov_dpkg_retcode != 0 ]]; then
+				ov_native_package_installed=false
+			fi;
+			if [[ "$ov_dpkg_output" == "" ]]; then
+				ov_native_package_installed=false
+			fi;
+		done;
+
+		if [[ $ov_native_package_installed == false ]]; then
+			echo "  You are currently running Ubuntu"
+			echo ""
+			echo "  It is possible to install native packages in order to avoid some potential"
+			echo "  errors / save time. Such installation requires root access. If you want"
+			echo "  to continue with native packages, answer 'yes' (recommanded)"
+			echo ""
+
+			if [[ -e "$ov_target_folder_hit/native-packages.hit" || $ov_native_package_forced == true ]]; then
+				echo "  Do you want to install native packages (y) ? automatically selected yes"
+				ov_answer=yes
+			else
+				echo -n "  Do you want to install native packages (y) ?"
+				read ov_answer
+			fi;
+
+			if [[ $ov_answer == "yes" || $ov_answer == "y" || $ov_answer == "" ]]; then
+
+				echo "  Installing native packages on background..."
+
+				sudo -k # revokes root privilege
+				sudo apt-get --assume-yes install $ov_ubuntu_packages > $ov_native_package_log_file 2>&1
+				sudo -k # revokes root privilege
+
+				echo "  Installing native packages on background... done."
+
+				ov_should_hit_native=true
+				ov_native_package_installed=true
+			else
+				echo "  All right, we will compile everything..."
+			fi;
+		else
+			if [[ -e "$ov_target_folder_hit/native-packages.hit" ]]; then
+				echo "  You are currently running Ubuntu and all required native packages were"
+				echo "  installed previously, continuing..."
+				ov_should_hit_native=true
+				ov_native_package_installed=true
+			else
+				echo "  You are currently running Ubuntu and all necessary native dependencies are"
+				echo "  already installed."
+				echo ""
+				echo "  It is possible to install use those native packages in order to avoid some potential"
+				echo "  errors / save time. Such installation requires root access. If you want"
+				echo "  to continue with native packages, answer 'yes' (recommanded)"
+				echo ""
+				if [[ $ov_native_package_forced == true ]]; then
+					echo "  Do you want to use native packages (y) ? automatically selected yes"
+					ov_should_hit_native=true
+					ov_native_package_installed=true
+				else
+					echo -n "  Do you want to use native packages (y) ?"
+					read ov_answer
+					if [[ $ov_answer == "yes" || $ov_answer == "y" || $ov_answer == "" ]]; then
+						ov_should_hit_native=true
+						ov_native_package_installed=true
+					fi;
+				fi;
+			fi;
+		fi;
+
+		if [[ $ov_should_hit_native == true ]]; then
+
+			ov_hit_package "native-packages"
+
+			ov_hit_package "pkgconfig"
+			ov_hit_package "cmake"
+
+			ov_hit_package "expat"
+			ov_hit_package "libxml"
+			ov_hit_package "gettext"
+			ov_hit_package "pthreadstubs"
+			ov_hit_package "zlib"
+			ov_hit_package "libpng"
+			ov_hit_package "freetype"
+			ov_hit_package "fontconfig"
+			ov_hit_package "libtool"
+
+			ov_hit_package "libxproto"
+			ov_hit_package "libxextproto"
+			ov_hit_package "libxtrans"
+			ov_hit_package "libxslt"
+			ov_hit_package "libxau"
+			ov_hit_package "libxcbproto"
+			ov_hit_package "libxcb"
+			ov_hit_package "libkbproto"
+			ov_hit_package "libinputproto"
+			ov_hit_package "libxdmcp"
+			ov_hit_package "libx11"
+			ov_hit_package "libxext"
+			ov_hit_package "renderproto"
+			ov_hit_package "libxdmcp"
+			ov_hit_package "libxrender"
+			ov_hit_package "libice"
+			ov_hit_package "libsm"
+			ov_hit_package "libxt"
+			ov_hit_package "libxmu"
+			ov_hit_package "libxpm"
+			ov_hit_package "libxaw"
+			ov_hit_package "libxf86vidmodeproto"
+			ov_hit_package "libXxf86vm"
+			ov_hit_package "librandrproto"
+			ov_hit_package "libXrandr"
+
+			ov_hit_package "mesa"
+
+			ov_hit_package "glib"
+			ov_hit_package "pixman"
+			ov_hit_package "cairo"
+			ov_hit_package "pango"
+			ov_hit_package "atk"
+			ov_hit_package "gtk"
+			ov_hit_package "clearlooks"
+			ov_hit_package "libglade"
+			ov_hit_package "glade"
+#			ov_hit_package "boost"
+
+#			ov_hit_package "itpp_external"
+#			ov_hit_package "itpp"
+			ov_hit_package "gfortran"
+			ov_hit_package "gsl"
+
+			ov_hit_package "freeimage"
+#			ov_hit_package "ois"
+			ov_hit_package "zziplib"
+			ov_hit_package "cg"
+#			ov_hit_package "ogre"
+
+#			mkdir "$ov_target_folder_lib/OGRE" 2> /dev/null
+#			rm "$ov_target_folder_lib/OGRE/Plugins.cfg" 2> /dev/null
+#			echo "# Define plugin folder" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "PluginFolder=/usr/lib/OGRE" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "# Define plugins" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=RenderSystem_GL" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_ParticleFX" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_BSPSceneManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_OctreeSceneManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "#Plugin=Plugin_CgProgramManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+
+		else
+
+			ov_hit_package "no-native-packages"
+
+		fi;
+	fi;
+
+	if [[ "`grep Debian /etc/issue 2> /dev/null`" != "" ]]; then
+		ov_native_package_installed=true
+		ov_native_package_log_file="$ov_target_folder_log/native-packages.log"
+		ov_ubuntu_packages="subversion doxygen make automake autoconf cmake unzip gcc g++ libgtk2.0-dev libglade2-dev libitpp-dev libgsl0-dev libexpat1-dev libois-dev libreadline5-dev libzzip-dev libtool libxaw7-dev libpcre3-dev libfreeimage-dev libglu1-mesa-dev libalut-dev libvorbis-dev"
+		for package in $ov_ubuntu_packages; do
+			ov_dpkg_output=`dpkg -l $package 2>&1 | grep "^ii"`
+			ov_dpkg_retcode=$?
+
+			if [[ $ov_dpkg_retcode != 0 ]]; then
+				ov_native_package_installed=false
+			fi;
+			if [[ "$ov_dpkg_output" == "" ]]; then
+				ov_native_package_installed=false
+			fi;
+		done;
+
+		if [[ $ov_native_package_installed == false ]]; then
+			echo "  You are currently running Debian"
+			echo ""
+			echo "  It is possible to install native packages in order to avoid some potential"
+			echo "  errors / save time. Such installation requires root access. If you want"
+			echo "  to continue with native packages, answer 'yes' (recommanded)"
+			echo ""
+
+			if [[ -e "$ov_target_folder_hit/native-packages.hit" || $ov_native_package_forced == true ]]; then
+				echo "  Do you want to install native packages (y) ? automatically selected yes"
+				ov_answer=yes
+			else
+				echo -n "  Do you want to install native packages (y) ?"
+				read ov_answer
+			fi;
+
+			if [[ $ov_answer == "yes" || $ov_answer == "y" || $ov_answer == "" ]]; then
+
+				echo "  Installing native packages on background..."
+
+				# sudo -k # revokes root privilege
+				# sudo apt-get --assume-yes install $ov_ubuntu_packages > $ov_native_package_log_file 2>&1
+				# sudo -k # revokes root privilege
+
+				su -c "apt-get --assume-yes install $ov_ubuntu_packages > $ov_native_package_log_file 2>&1"
+
+				echo "  Installing native packages on background... done."
+
+				ov_should_hit_native=true
+				ov_native_package_installed=true
+			else
+				echo "  All right, we will compile everything..."
+			fi;
+		else
+			if [[ -e "$ov_target_folder_hit/native-packages.hit" ]]; then
+				echo "  You are currently running Debian and all required native packages were"
+				echo "  installed previously, continuing..."
+				ov_should_hit_native=true
+				ov_native_package_installed=true
+			else
+				echo "  You are currently running Debian and all necessary native dependencies are"
+				echo "  already installed."
+				echo ""
+				echo "  It is possible to install use those native packages in order to avoid some potential"
+				echo "  errors / save time. Such installation requires root access. If you want"
+				echo "  to continue with native packages, answer 'yes' (recommanded)"
+				echo ""
+				if [[ $ov_native_package_forced == true ]]; then
+					echo "  Do you want to use native packages (y) ? automatically selected yes"
+					ov_should_hit_native=true
+					ov_native_package_installed=true
+				else
+					echo -n "  Do you want to use native packages (y) ?"
+					read ov_answer
+					if [[ $ov_answer == "yes" || $ov_answer == "y" || $ov_answer == "" ]]; then
+						ov_should_hit_native=true
+						ov_native_package_installed=true
+					fi;
+				fi;
+			fi;
+		fi;
+
+		if [[ $ov_should_hit_native == true ]]; then
+
+			ov_hit_package "native-packages"
+
+			ov_hit_package "pkgconfig"
+			ov_hit_package "cmake"
+
+			ov_hit_package "expat"
+			ov_hit_package "libxml"
+			ov_hit_package "gettext"
+			ov_hit_package "pthreadstubs"
+			ov_hit_package "zlib"
+			ov_hit_package "libpng"
+			ov_hit_package "freetype"
+			ov_hit_package "fontconfig"
+			ov_hit_package "libtool"
+
+			ov_hit_package "libxproto"
+			ov_hit_package "libxextproto"
+			ov_hit_package "libxtrans"
+			ov_hit_package "libxslt"
+			ov_hit_package "libxau"
+			ov_hit_package "libxcbproto"
+			ov_hit_package "libxcb"
+			ov_hit_package "libkbproto"
+			ov_hit_package "libinputproto"
+			ov_hit_package "libxdmcp"
+			ov_hit_package "libx11"
+			ov_hit_package "libxext"
+			ov_hit_package "renderproto"
+			ov_hit_package "libxdmcp"
+			ov_hit_package "libxrender"
+			ov_hit_package "libice"
+			ov_hit_package "libsm"
+			ov_hit_package "libxt"
+			ov_hit_package "libxmu"
+			ov_hit_package "libxpm"
+			ov_hit_package "libxaw"
+			ov_hit_package "libxf86vidmodeproto"
+			ov_hit_package "libXxf86vm"
+			ov_hit_package "librandrproto"
+			ov_hit_package "libXrandr"
+
+			ov_hit_package "mesa"
+
+			ov_hit_package "glib"
+			ov_hit_package "pixman"
+			ov_hit_package "cairo"
+			ov_hit_package "pango"
+			ov_hit_package "atk"
+			ov_hit_package "gtk"
+			ov_hit_package "clearlooks"
+			ov_hit_package "libglade"
+			ov_hit_package "glade"
+#			ov_hit_package "boost"
+
+			ov_hit_package "itpp_external"
+			ov_hit_package "itpp"
+			ov_hit_package "gsl"
+
+			ov_hit_package "freeimage"
+			ov_hit_package "ois"
+			ov_hit_package "zziplib"
+			ov_hit_package "cg"
+#			ov_hit_package "ogre"
+
+#			mkdir "$ov_target_folder_lib/OGRE" 2> /dev/null
+#			rm "$ov_target_folder_lib/OGRE/Plugins.cfg" 2> /dev/null
+#			echo "# Define plugin folder" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "PluginFolder=/usr/lib/OGRE" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "# Define plugins" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=RenderSystem_GL" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_ParticleFX" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_BSPSceneManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_OctreeSceneManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "#Plugin=Plugin_CgProgramManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+
+		else
+
+			ov_hit_package "no-native-packages"
+
+		fi;
+	fi;
+
+
+	if [[ -e /etc/fedora-release ]]; then
+		ov_native_package_installed=true
+		ov_native_package_log_file="$ov_target_folder_log/native-packages.log"
+		ov_fedora_packages="wget subversion doxygen make automake autoconf cmake unzip gcc gcc-c++ gtk2-devel libglade2-devel gcc-gfortran expat-devel zziplib-devel libtool libXaw-devel python-devel pcre-devel readline-devel freeimage-devel mesa-libGLU-devel freealut-devel libvorbis-devel"
+#		for package in $ov_ubuntu_packages; do
+#			ov_dpkg_output=`dpkg -l $package 2>&1 | grep "^ii"`
+#			ov_dpkg_retcode=$?
+#
+#			if [[ $ov_dpkg_retcode != 0 ]]; then
+#				ov_native_package_installed=false
+#			fi;
+#			if [[ "$ov_dpkg_output" == "" ]]; then
+#				ov_native_package_installed=false
+#			fi;
+#		done;
+		ov_native_package_installed=false
+
+		if [[ $ov_native_package_installed == false ]]; then
+			echo "  You are currently running Fedora"
+			echo ""
+			echo "  It is possible to install native packages in order to avoid some potential"
+			echo "  errors / save time. Such installation requires root access. If you want"
+			echo "  to continue with native packages, answer 'yes' (recommanded)"
+			echo ""
+
+			if [[ -e "$ov_target_folder_hit/native-packages.hit" || $ov_native_package_forced == true ]]; then
+				echo "  Do you want to install native packages (y) ? automatically selected yes"
+				ov_answer=yes
+			else
+				echo -n "  Do you want to install native packages (y) ?"
+				read ov_answer
+			fi;
+
+			if [[ $ov_answer == "yes" || $ov_answer == "y" || $ov_answer == "" ]]; then
+
+				echo "  Installing native packages on background..."
+
+				su -c "yum -y install $ov_fedora_packages " 2>&1 | tee $ov_native_package_log_file
+
+				echo "  Installing native packages on background... done."
+
+				ov_should_hit_native=true
+				ov_native_package_installed=true
+			else
+				echo "  All right, we will compile everything..."
+			fi;
+		else
+			if [[ -e "$ov_target_folder_hit/native-packages.hit" ]]; then
+				echo "  You are currently running Fedora and all required native packages were"
+				echo "  installed previously, continuing..."
+				ov_should_hit_native=true
+				ov_native_package_installed=true
+			else
+				echo "  You are currently running Fedora and all necessary native dependencies are"
+				echo "  already installed."
+				echo ""
+				echo "  It is possible to install use those native packages in order to avoid some potential"
+				echo "  errors / save time. Such installation requires root access. If you want"
+				echo "  to continue with native packages, answer 'yes' (recommanded)"
+				echo ""
+				if [[ $ov_native_package_forced == true ]]; then
+					echo "  Do you want to use native packages (y) ? automatically selected yes"
+					ov_should_hit_native=true
+					ov_native_package_installed=true
+				else
+					echo -n "  Do you want to use native packages (y) ?"
+					read ov_answer
+					if [[ $ov_answer == "yes" || $ov_answer == "y" || $ov_answer == "" ]]; then
+						ov_should_hit_native=true
+						ov_native_package_installed=true
+					fi;
+				fi;
+			fi;
+		fi;
+
+		if [[ $ov_should_hit_native == true ]]; then
+
+			ov_hit_package "native-packages"
+
+			ov_hit_package "pkgconfig"
+			ov_hit_package "cmake"
+
+			ov_hit_package "expat"
+			ov_hit_package "libxml"
+			ov_hit_package "gettext"
+			ov_hit_package "pthreadstubs"
+			ov_hit_package "zlib"
+			ov_hit_package "libpng"
+			ov_hit_package "freetype"
+			ov_hit_package "fontconfig"
+			ov_hit_package "libtool"
+
+			ov_hit_package "libxproto"
+			ov_hit_package "libxextproto"
+			ov_hit_package "libxtrans"
+			ov_hit_package "libxslt"
+			ov_hit_package "libxau"
+			ov_hit_package "libxcbproto"
+			ov_hit_package "libxcb"
+			ov_hit_package "libkbproto"
+			ov_hit_package "libinputproto"
+			ov_hit_package "libxdmcp"
+			ov_hit_package "libx11"
+			ov_hit_package "libxext"
+			ov_hit_package "renderproto"
+			ov_hit_package "libxdmcp"
+			ov_hit_package "libxrender"
+			ov_hit_package "libice"
+			ov_hit_package "libsm"
+			ov_hit_package "libxt"
+			ov_hit_package "libxmu"
+			ov_hit_package "libxpm"
+			ov_hit_package "libxaw"
+			ov_hit_package "libxf86vidmodeproto"
+			ov_hit_package "libXxf86vm"
+			ov_hit_package "librandrproto"
+			ov_hit_package "libXrandr"
+
+			ov_hit_package "mesa"
+
+			ov_hit_package "glib"
+			ov_hit_package "pixman"
+			ov_hit_package "cairo"
+			ov_hit_package "pango"
+			ov_hit_package "atk"
+			ov_hit_package "gtk"
+			ov_hit_package "clearlooks"
+			ov_hit_package "libglade"
+			ov_hit_package "glade"
+#			ov_hit_package "boost"
+
+#			ov_hit_package "itpp_external"
+#			ov_hit_package "itpp"
+			ov_hit_package "gcc-gfortran"
+			ov_hit_package "gsl"
+
+			ov_hit_package "freeimage"
+#			ov_hit_package "ois"
+			ov_hit_package "zziplib"
+			ov_hit_package "cg"
+#			ov_hit_package "ogre"
+
+#			mkdir "$ov_target_folder_lib/OGRE" 2> /dev/null
+#			rm "$ov_target_folder_lib/OGRE/Plugins.cfg" 2> /dev/null
+#			echo "# Define plugin folder" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "PluginFolder=/usr/lib/OGRE" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "# Define plugins" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=RenderSystem_GL" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_ParticleFX" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_BSPSceneManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "Plugin=Plugin_OctreeSceneManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+#			echo "#Plugin=Plugin_CgProgramManager" >> "$ov_target_folder_lib/OGRE/Plugins.cfg"
+
+		else
+
+			ov_hit_package "no-native-packages"
+
+		fi;
+	fi;
+
+	echo ""
+
+fi;
+
+####################################
+##                                ##
+##  checks supposed dependencies  ##
+##                                ##
+####################################
+
+echo "Checking software script dependencies..."
+ov_sh=`which sh`
+ov_svn=`which svn`
+ov_wget=`which wget`
+ov_tar=`which tar`
+ov_gzip=`which gzip`
+ov_bzip2=`which bzip2`
+ov_unzip=`which unzip`
+ov_make=`which make`
+ov_gcc=`which gcc`
+ov_gpp=`which g++`
+ov_sed=`which sed`
+ov_find=`which find`
+ov_uname=`which uname`
+ov_true=`which true`
+ov_false=`which false`
+ov_tail=`which tail`
+ov_automake=`which automake`
+ov_autoconf=`which autoconf`
+
+ov_g77=`which g77`
+ov_gfortran=`which gfortran`
+ov_g77_gfortran=""
+ov_lib_g77_gfortran=""
+if [ ! "$ov_gfortran" == "" ]; then
+	ov_g77_gfortran="$ov_gfortran"
+	ov_lib_g77_gfortran="gfortran"
+else
+	if [ ! "$ov_g77" == "" ]; then
+		ov_g77_gfortran="$ov_g77"
+		ov_lib_g77_gfortran="g2c"
+	fi;
+fi;
+
+echo "  Using as sh           : [$ov_sh]..."
+echo "  Using as subversion   : [$ov_svn]..."
+echo "  Using as wget         : [$ov_wget]..."
+echo "  Using as tar          : [$ov_tar]..."
+echo "  Using as gzip         : [$ov_gzip]..."
+echo "  Using as bzip2        : [$ov_bzip2]..."
+echo "  Using as unnzip       : [$ov_unzip]..."
+echo "  Using as make         : [$ov_make]..."
+echo "  Using as gcc          : [$ov_gcc]..."
+echo "  Using as g++          : [$ov_gpp]..."
+echo "  Using as g77/gfortran : [$ov_g77_gfortran]..."
+echo "  Using as sed          : [$ov_sed]..."
+echo "  Using as find         : [$ov_find]..."
+echo "  Using as uname        : [$ov_uname]..."
+echo "  Using as true         : [$ov_true]..."
+echo "  Using as false        : [$ov_false]..."
+echo "  Using as tail         : [$ov_tail]..."
+echo "  Using as automake     : [$ov_automake]..."
+echo "  Using as autoconf     : [$ov_autoconf]..."
+echo ""
+
+ov_machine=`$ov_uname -m`
+
+####################################
+##                                ##
+##  installation script excution  ##
+##                                ##
+####################################
+
+if [[ $ov_native_package_installed == false ]]; then
+
+	echo "Checking gl/glu/glx dev files..."
+
+	echo "
+	#include <GL/gl.h>
+	#include <GL/glu.h>
+	#include <GL/glx.h>
+	int main(int argc, char** argv)
+	{
+		return 0;
+	}" > test_gl.cpp
+	$ov_gcc -c test_gl.cpp -o test_gl.o 2>/dev/null
+	ov_has_gl=$?
+	rm test_gl.cpp 2>/dev/null
+	rm test_gl.o 2>/dev/null
+
+	if [[ $ov_has_gl -eq 0 ]]; then
+		echo ""
+		echo "  Looks like you already have gl/glu/glx dev files... that would be great."
+		echo "  Or you installed the mesa software rendering version thanks to this script... that would simply be ok :)"
+		echo ""
+	else
+		echo ""
+		echo "  Looks like you don't have gl/glu/glx dev files installed."
+		echo "  I recommand you use your distro package system to install it and get them for your video card."
+		echo "  Alternatively, I could build software rendering version of mesa for you but you won't have 3D acceleration."
+		echo ""
+		echo "  If you want to install gl/glu/glx dev files for your distro outside of this script, press CTRL+C now."
+		echo "  After you actually installed them, you will be able to continue the dependencies installation by relaunching this script."
+		echo ""
+		echo "  If you want to install software rendering version of mesa within this script, answer 'continue'"
+		echo ""
+		echo -n "  What is your choice (break) ? "
+		read ov_answer
+		if [[ $ov_answer == "continue" ]]; then
+			echo ""
+			echo "  All right, you won't have 3D acceleration, and you've been warned !"
+			echo ""
+		else
+			echo ""
+			echo "  You did not answer 'continue'."
+			echo "  You did the right choice, see you soon."
+			exit
+		fi;
+	fi;
+fi;
+
+##############################################
+##                                          ##
+##  interesting variables for each package  ##
+##                                          ##
+##############################################
+#
+# ov_package_url_[packagename]=
+# ov_package_archive_[packagename]=
+#
+# ov_package_additional_configure_flags_[packagename]=
+#
+# ov_package_download_hook_[packagename]=
+# ov_package_pre_download_hook_[packagename]=
+# ov_package_post_download_hook_[packagename]=
+#
+# ov_package_checkout_hook_[packagename]=
+# ov_package_pre_checkout_hook_[packagename]=
+# ov_package_post_checkout_hook_[packagename]=
+#
+# ov_package_uncompress_hook_[packagename]=
+# ov_package_pre_uncompress_hook_[packagename]=
+# ov_package_post_uncompress_hook_[packagename]=
+#
+# ov_package_configure_hook_[packagename]=
+# ov_package_pre_configure_hook_[packagename]=
+# ov_package_post_configure_hook_[packagename]=
+#
+# ov_package_make_hook_[packagename]=
+# ov_package_pre_make_hook_[packagename]=
+# ov_package_post_make_hook_[packagename]=
+#
+# ov_package_install_hook_[packagename]=
+# ov_package_pre_install_hook_[packagename]=
+# ov_package_post_install_hook_[packagename]=
+#
+##############################################
+##                                          ##
+##  initializes some environment variables  ##
+##                   urls                   ##
+##                                          ##
+##############################################
+
+# package management related packages
+ov_package_url_pkgconfig=http://pkgconfig.freedesktop.org/releases/pkg-config-0.22.tar.gz
+
+# base libraries
+# http://sourceforge.net/projects
+ov_package_url_boost=$ov_sourceforge_mirror/boost/files/boost/1.49.0/boost_1_49_0.tar.bz2
+ov_package_url_expat=$ov_sourceforge_mirror/expat/files/expat/2.0.0/expat-2.0.0.tar.gz
+ov_package_url_libxml=ftp://xmlsoft.org/libxml2/old/libxml2-sources-2.6.31.tar.gz
+ov_package_url_gettext=$ov_gnu_mirror/gettext/gettext-0.16.1.tar.gz
+ov_package_url_pthreadstubs=$ov_freedesktop_mirror/releases/individual/lib/libpthread-stubs-0.1.tar.bz2
+ov_package_url_zlib=$ov_sourceforge_mirror/libpng/files/zlib/1.2.3/zlib-1.2.3.tar.gz
+ov_package_url_libpng=$ov_sourceforge_mirror/libpng/files/libpng12/1.2.44/libpng-1.2.44.tar.bz2
+ov_package_url_freetype=$ov_sourceforge_mirror/freetype/files/freetype2/2.3.4/freetype-2.3.4.tar.bz2
+ov_package_url_fontconfig=$ov_freedesktop_mirror/releases/X11R7.2/src/extras/fontconfig-2.4.2.tar.gz
+ov_package_url_libtool=$ov_gnu_mirror/libtool/libtool-1.5.22.tar.gz
+
+# base graphic libraries
+ov_package_url_libxproto=$ov_freedesktop_mirror/releases/individual/proto/xproto-7.0.10.tar.bz2
+ov_package_url_libxextproto=$ov_freedesktop_mirror/releases/individual/proto/xextproto-7.0.2.tar.bz2
+ov_package_url_libxtrans=$ov_freedesktop_mirror/releases/individual/lib/xtrans-1.0.3.tar.bz2
+ov_package_url_libxslt=$ov_gnome_mirror/sources/libxslt/1.1/libxslt-1.1.20.tar.bz2
+ov_package_url_libxau=$ov_freedesktop_mirror/releases/individual/lib/libXau-1.0.3.tar.bz2
+ov_package_url_libxcbproto=http://xcb.freedesktop.org/dist/xcb-proto-1.0.tar.bz2
+ov_package_url_libxcb=http://xcb.freedesktop.org/dist/libxcb-1.0.tar.bz2
+ov_package_url_libkbproto=$ov_freedesktop_mirror/releases/individual/proto/kbproto-1.0.3.tar.bz2
+ov_package_url_libinputproto=$ov_freedesktop_mirror/releases/individual/proto/inputproto-1.4.tar.bz2
+ov_package_url_libxdmcp=$ov_freedesktop_mirror/releases/individual/lib/libXdmcp-1.0.2.tar.bz2
+ov_package_url_libx11=$ov_freedesktop_mirror/releases/individual/lib/libX11-1.1.1.tar.bz2
+ov_package_url_libxext=$ov_freedesktop_mirror/releases/individual/lib/libXext-1.0.3.tar.bz2
+ov_package_url_renderproto=$ov_freedesktop_mirror/releases/individual/proto/renderproto-0.9.2.tar.bz2
+ov_package_url_libxdmcp=$ov_freedesktop_mirror/releases/individual/lib/libXdmcp-1.0.2.tar.bz2
+ov_package_url_libxrender=$ov_freedesktop_mirror/archive/individual/lib/libXrender-0.9.2.tar.gz
+ov_package_url_libice=$ov_freedesktop_mirror/releases/individual/lib/libICE-1.0.4.tar.bz2
+ov_package_url_libsm=$ov_freedesktop_mirror/releases/individual/lib/libSM-1.0.3.tar.bz2
+ov_package_url_libxt=$ov_freedesktop_mirror/releases/individual/lib/libXt-1.0.5.tar.bz2
+ov_package_url_libxmu=$ov_freedesktop_mirror/releases/individual/lib/libXmu-1.0.4.tar.bz2
+ov_package_url_libxpm=$ov_freedesktop_mirror/releases/individual/lib/libXpm-3.5.7.tar.bz2
+ov_package_url_libxaw=$ov_freedesktop_mirror/releases/individual/lib/libXaw-1.0.4.tar.bz2
+ov_package_url_libxf86vidmodeproto=$ov_freedesktop_mirror/releases/individual/proto/xf86vidmodeproto-2.2.2.tar.bz2
+ov_package_url_libXxf86vm=$ov_freedesktop_mirror/releases/individual/lib/libXxf86vm-1.0.1.tar.bz2
+ov_package_url_librandrproto=$ov_freedesktop_mirror/releases/individual/proto/randrproto-1.2.1.tar.bz2
+ov_package_url_libXrandr=$ov_freedesktop_mirror/releases/individual/lib/libXrandr-1.2.2.tar.bz2
+ov_package_url_mesa=$ov_sourceforge_mirror/mesa3d/files/MesaLib/7.2/MesaLib-7.2.tar.bz2
+
+# GTK+ related packages
+ov_package_url_glib=$ov_gnome_mirror/sources/glib/2.17/glib-2.17.3.tar.bz2
+ov_package_url_pixman=http://www.cairographics.org/releases/pixman-0.11.6.tar.gz
+ov_package_url_cairo=http://cairographics.org/releases/cairo-1.6.4.tar.gz
+ov_package_url_pango=$ov_gnome_mirror/sources/pango/1.21/pango-1.21.3.tar.bz2
+ov_package_url_atk=$ov_gnome_mirror/sources/atk/1.22/atk-1.22.0.tar.bz2
+ov_package_url_gtk=$ov_gnome_mirror/sources/gtk+/2.12/gtk+-2.12.11.tar.bz2
+ov_package_url_clearlooks=$ov_sourceforge_mirror/clearlooks/files/clearlooks/clearlooks%200.6.2/clearlooks-0.6.2.tar.bz2
+ov_package_url_libglade=$ov_gnome_mirror/sources/libglade/2.6/libglade-2.6.3.tar.bz2
+ov_package_url_glade=$ov_gnome_mirror/sources/glade3/3.5/glade3-3.5.2.tar.bz2
+
+# Computation and signal processing packages
+ov_package_url_itpp_external=$ov_sourceforge_mirror/itpp/files/itpp-external/3.0.0/itpp-external-3.0.0.tar.bz2
+ov_package_url_itpp=$ov_sourceforge_mirror/itpp/files/itpp/4.0.7/itpp-4.0.7.tar.bz2
+ov_package_url_gsl=$ov_gnu_mirror/gsl/gsl-1.9.tar.gz
+ov_package_url_torch=http://www.torch.ch/archives/Torch3src.tgz
+ov_package_url_bliff=http://www.irisa.fr/bunraku/OpenViBE/dependencies/src/bliff-src-16.tar.bz2
+
+# OpenMASK 4 related packages
+ov_package_url_cmake=http://www.cmake.org/files/v2.6/cmake-2.6.2.tar.gz
+ov_package_url_obt=http://www.irisa.fr/bunraku/OpenViBE/dependencies/src/obt-src-22.tar.bz2
+ov_package_url_freeimage=$ov_sourceforge_mirror/freeimage/files/Source%20Distribution/3.11.0/FreeImage3110.zip
+ov_package_url_ois=$ov_sourceforge_mirror/wgois/files/Source%20Release/1.2/ois_1.2.0.tar.gz
+ov_package_url_zziplib=$ov_sourceforge_mirror/zziplib/files/zziplib10/0.10.82/zziplib-0.10.82.tar.bz2
+if [ "$ov_machine" == "x86_64" ]; then
+ov_package_url_cg=http://developer.download.nvidia.com/cg/Cg_2.0/2.0.0012/Cg-2.0_Jan2008_x86_64.tar.gz
+else
+ov_package_url_cg=http://developer.download.nvidia.com/cg/Cg_2.0/2.0.0012/Cg-2.0_Jan2008_x86.tar.gz
+fi;
+ov_package_url_cegui=$ov_sourceforge_mirror/crayzedsgui/files/CEGUI%20Mk-2/0.7.1/CEGUI-0.7.1.tar.gz
+ov_package_url_ogre=$ov_sourceforge_mirror/ogre/files/ogre/1.7/ogre_src_v1-7-3.tar.bz2
+ov_package_url_vrpn=ftp://ftp.cs.unc.edu/pub/packages/GRIP/vrpn/old_versions/vrpn_07_26.zip
+ov_package_url_openmask4=http://www.irisa.fr/bunraku/OpenViBE/dependencies/src/openmask4~dotsceneloader-src-164.tar.bz2
+ov_package_url_openmask4tutorial=http://www.irisa.fr/bunraku/OpenViBE/dependencies/src/openmask4-tutorial-src-164.tar.bz2
+
+# Scripting packages
+ov_package_url_readline=$ov_gnu_mirror/readline/readline-5.2.tar.gz
+ov_package_url_ncurses=$ov_gnu_mirror/ncurses/ncurses-5.7.tar.gz
+ov_package_url_lua=http://www.lua.org/ftp/lua-5.1.4.tar.gz
+ov_package_url_swig=http://prdownloads.sourceforge.net/swig/swig-1.3.36.tar.gz
+
+#svn://scm.gforge.inria.fr/svn/obt
+#svn://scm.gforge.inria.fr/svn/openmask4/OpenMASK
+#svn://scm.gforge.inria.fr/svn/openmask4/Tutorial
+
+##############################################
+##                                          ##
+##  initializes some environment variables  ##
+##              archive names               ##
+##                                          ##
+##############################################
+
+# package management related packages
+ov_package_archive_pkgconfig=`echo "$ov_package_url_pkgconfig" | $ov_sed 's#.*/##g'`
+
+# base libraries
+ov_package_archive_boost=`echo "$ov_package_url_boost" | $ov_sed 's#.*/##g'`
+ov_package_archive_expat=`echo "$ov_package_url_expat" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxml=`echo "$ov_package_url_libxml" | $ov_sed 's#.*/##g'`
+ov_package_archive_gettext=`echo "$ov_package_url_gettext" | $ov_sed 's#.*/##g'`
+ov_package_archive_pthreadstubs=`echo "$ov_package_url_pthreadstubs" | $ov_sed 's#.*/##g'`
+ov_package_archive_zlib=`echo "$ov_package_url_zlib" | $ov_sed 's#.*/##g'`
+ov_package_archive_libpng=`echo "$ov_package_url_libpng" | $ov_sed 's#.*/##g'`
+ov_package_archive_freetype=`echo "$ov_package_url_freetype" | $ov_sed 's#.*/##g'`
+ov_package_archive_fontconfig=`echo "$ov_package_url_fontconfig" | $ov_sed 's#.*/##g'`
+ov_package_archive_libtool=`echo "$ov_package_url_libtool" | $ov_sed 's#.*/##g'`
+
+# base graphic libraries
+ov_package_archive_libxproto=`echo "$ov_package_url_libxproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxextproto=`echo "$ov_package_url_libxextproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxtrans=`echo "$ov_package_url_libxtrans" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxslt=`echo "$ov_package_url_libxslt" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxau=`echo "$ov_package_url_libxau" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxcbproto=`echo "$ov_package_url_libxcbproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxcb=`echo "$ov_package_url_libxcb" | $ov_sed 's#.*/##g'`
+ov_package_archive_libkbproto=`echo "$ov_package_url_libkbproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libinputproto=`echo "$ov_package_url_libinputproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxdmcp=`echo "$ov_package_url_libxdmcp" | $ov_sed 's#.*/##g'`
+ov_package_archive_libx11=`echo "$ov_package_url_libx11" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxext=`echo "$ov_package_url_libxext" | $ov_sed 's#.*/##g'`
+ov_package_archive_renderproto=`echo "$ov_package_url_renderproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxdmcp=`echo "$ov_package_url_libxdmcp" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxrender=`echo "$ov_package_url_libxrender" | $ov_sed 's#.*/##g'`
+ov_package_archive_libice=`echo "$ov_package_url_libice" | $ov_sed 's#.*/##g'`
+ov_package_archive_libsm=`echo "$ov_package_url_libsm" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxt=`echo "$ov_package_url_libxt" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxmu=`echo "$ov_package_url_libxmu" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxpm=`echo "$ov_package_url_libxpm" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxaw=`echo "$ov_package_url_libxaw" | $ov_sed 's#.*/##g'`
+ov_package_archive_libxf86vidmodeproto=`echo "$ov_package_url_libxf86vidmodeproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libXxf86vm=`echo "$ov_package_url_libXxf86vm" | $ov_sed 's#.*/##g'`
+ov_package_archive_librandrproto=`echo "$ov_package_url_librandrproto" | $ov_sed 's#.*/##g'`
+ov_package_archive_libXrandr=`echo "$ov_package_url_libXrandr" | $ov_sed 's#.*/##g'`
+ov_package_archive_mesa=`echo "$ov_package_url_mesa" | $ov_sed 's#.*/##g'`
+
+# GTK+ related packages
+ov_package_archive_glib=`echo "$ov_package_url_glib" | $ov_sed 's#.*/##g'`
+ov_package_archive_pixman=`echo "$ov_package_url_pixman" | $ov_sed 's#.*/##g'`
+ov_package_archive_cairo=`echo "$ov_package_url_cairo" | $ov_sed 's#.*/##g'`
+ov_package_archive_pango=`echo "$ov_package_url_pango" | $ov_sed 's#.*/##g'`
+ov_package_archive_atk=`echo "$ov_package_url_atk" | $ov_sed 's#.*/##g'`
+ov_package_archive_gtk=`echo "$ov_package_url_gtk" | $ov_sed 's#.*/##g'`
+ov_package_archive_clearlooks=`echo "$ov_package_url_clearlooks" | $ov_sed 's#.*/##g'`
+ov_package_archive_libglade=`echo "$ov_package_url_libglade" | $ov_sed 's#.*/##g'`
+ov_package_archive_glade=`echo "$ov_package_url_glade" | $ov_sed 's#.*/##g'`
+
+# Computation and signal processing packages
+ov_package_archive_itpp_external=`echo "$ov_package_url_itpp_external" | $ov_sed 's#.*/##g'`
+ov_package_archive_itpp=`echo "$ov_package_url_itpp" | $ov_sed 's#.*/##g'`
+ov_package_archive_gsl=`echo "$ov_package_url_gsl" | $ov_sed 's#.*/##g'`
+ov_package_archive_torch=`echo "$ov_package_url_torch" | $ov_sed 's#.*/##g'`
+ov_package_archive_bliff=`echo "$ov_package_url_bliff" | $ov_sed 's#.*/##g'`
+
+# OpenMASK 4 related packages
+ov_package_archive_cmake=`echo "$ov_package_url_cmake" | $ov_sed 's#.*/##g'`
+ov_package_archive_obt=`echo "$ov_package_url_obt" | $ov_sed 's#.*/##g'`
+ov_package_archive_freeimage=`echo "$ov_package_url_freeimage" | $ov_sed 's#.*/##g'`
+ov_package_archive_ois=`echo "$ov_package_url_ois" | $ov_sed 's#.*/##g'`
+ov_package_archive_zziplib=`echo "$ov_package_url_zziplib" | $ov_sed 's#.*/##g'`
+ov_package_archive_cg=`echo "$ov_package_url_cg" | $ov_sed 's#.*/##g'`
+ov_package_archive_cegui=`echo "$ov_package_url_cegui" | $ov_sed 's#.*/##g'`
+ov_package_archive_ogre=`echo "$ov_package_url_ogre" | $ov_sed 's#.*/##g'`
+ov_package_archive_vrpn=`echo "$ov_package_url_vrpn" | $ov_sed 's#.*/##g'`
+ov_package_archive_openmask4=`echo "$ov_package_url_openmask4" | $ov_sed 's#.*/##g'`
+ov_package_archive_openmask4tutorial=`echo "$ov_package_url_openmask4tutorial" | $ov_sed 's#.*/##g'`
+
+# Scripting packages
+ov_package_archive_readline=`echo "$ov_package_url_readline" | $ov_sed 's#.*/##g'`
+ov_package_archive_ncurses=`echo "$ov_package_url_ncurses" | $ov_sed 's#.*/##g'`
+ov_package_archive_lua=`echo "$ov_package_url_lua" | $ov_sed 's#.*/##g'`
+ov_package_archive_swig=`echo "$ov_package_url_swig" | $ov_sed 's#.*/##g'`
+
+###########################################
+##                                       ##
+##  several hooks for specific archives  ##
+##                                       ##
+###########################################
+
+ov_package_configure_hook_zlib='
+	pushd * &&
+	./configure --shared --prefix=$ov_target_folder &&
+	popd'
+
+ov_package_post_uncompress_hook_libxml='
+	pushd * &&
+	$ov_sed -i "12,19s#^#// commented by script //#" libxml.h &&
+	popd'
+
+ov_package_configure_hook_boost='
+	pushd * &&
+	./bootstrap.sh --with-libraries=serialization,regex,thread --prefix=$ov_target_folder &&
+	popd'
+ov_package_make_hook_boost='
+	pushd * &&
+	./bjam --layout=tagged threading=multi stage &&
+	popd'
+ov_package_install_hook_boost='
+	pushd * &&
+	./bjam --layout=tagged threading=multi install &&
+	popd'
+
+ov_package_post_install_hook_boost='
+	pushd ../lib &&
+	ln -sf libboost_thread-*-mt.so libboost_thread.so &&
+	popd'
+
+ov_package_pre_configure_hook_libx11='
+	pushd * &&
+	$ov_sed -i "s:XPROTO_CFLAGS -I/usr/include:XPROTO_CFLAGS -I/usr/include -I$ov_target_folder_include:g" ./configure &&
+	popd'
+
+ov_package_configure_hook_mesa='
+	pushd * &&
+	$ov_sed -i "s#^INSTALL_DIR = .*#INSTALL_DIR = $ov_target_folder#" configs/default &&
+	$ov_sed -i "s#^X11_INCLUDES = \(.*\)#X11_INCLUDES = -I$ov_target_folder_include \1#" configs/linux &&
+	$ov_sed -i "s#^EXTRA_LIB_PATH = \(.*\)#EXTRA_LIB_PATH = -L$ov_target_folder_lib \1#" configs/linux &&
+	popd'
+if [ "$ov_machine" == "x86_64" ]; then
+ov_package_make_hook_mesa='
+	pushd * &&
+	make linux-x86-64 &&
+	popd'
+else
+ov_package_make_hook_mesa='
+	pushd * &&
+	make linux-x86 &&
+	popd'
+fi;
+
+ov_package_additional_configure_flags_pixman='
+	--disable-gtk'
+
+ov_package_additional_configure_flags_gtk='
+	--without-libtiff
+	--without-libjpeg
+	--without-libjasper'
+
+ov_package_additional_configure_flags_glade='
+	--disable-scrollkeeper'
+
+ov_package_configure_hook_itpp_external='
+	pushd * &&
+	$ov_sed -i "s/_EXT_ETIME/_INT_ETIME/g" patches/lapack-3.1.1-autotools.patch &&
+	$ov_sed -i "s/_EXT_ETIME/_INT_ETIME/g" src/lapack-lite-3.1.1/SRC/Makefile.in &&
+	$ov_sed -i "s/_EXT_ETIME/_INT_ETIME/g" src/lapack-lite-3.1.1/SRC/Makefile.am &&
+	./configure --prefix=$ov_target_folder &&
+	popd'
+
+ov_package_configure_hook_itpp='
+	pushd * &&
+	./configure --prefix=$ov_target_folder CPPFLAGS="-I$ov_target_folder_include" LDFLAGS="-L$ov_target_folder_lib -L$ov_target_folder_lib64" &&
+	popd'
+
+if [ "$ov_machine" == "x86_64" ]; then
+ov_package_configure_hook_torch='
+	pushd * &&
+	$ov_sed -i "263s#else#//else#g" kernels/QCTrainer.cc&&
+	$ov_sed -i "s#print#//print#g" kernels/QCTrainer.cc &&
+	$ov_sed -i "s#message(#//message(#g" kernels/QCTrainer.cc &&
+	$ov_sed -i "s#message(#//message(#g" kernels/SVMCache.cc &&
+	$ov_sed -i "s#message(#//message(#g" core/TwoClassFormat.cc &&
+	$ov_sed -i "s#message(#//message(#g" core/MultiClassFormat.cc &&
+	$ov_sed -i "s#message(#//message(#g" core/OneHotClassFormat.cc &&
+	$ov_sed -i "s/PACKAGES = /PACKAGES = gradients kernels distributions/g" config/Makefile_options_Linux &&
+	$ov_sed -i "s/-march=i686//g" config/Makefile_options_Linux &&
+	$ov_sed -i "s/-mcpu=i686/-mtune=generic/g" config/Makefile_options_Linux &&
+	$ov_sed -i "s/-malign-double//g" config/Makefile_options_Linux &&
+	ln -s config/Makefile_options_Linux &&
+	make depend &&
+	popd'
+else
+ov_package_configure_hook_torch='
+	pushd * &&
+	ln -s config/Makefile_options_Linux &&
+	make depend &&
+	popd'
+fi;
+ov_package_install_hook_torch='
+	pushd * &&
+	find -name *.h -type f -exec cp -f "{}" ../../include \; &&
+	find -name *.a -type f -exec cp -f "{}" ../../lib \; &&
+	cp Makefile_options_Linux ../.. &&
+	popd'
+
+ov_package_configure_hook_bliff='
+	pushd * &&
+	$ov_sed -i "1iITPP_HOME=$ov_target_folder" Makefile &&
+	$ov_sed -i "1iTORCH_HOME=$ov_target_folder" Makefile &&
+	$ov_sed -i "1iGSL_HOME=$ov_target_folder" Makefile &&
+	$ov_sed -i "1iBOOST_INCLUDE=$ov_target_folder/include/boost-1_36" Makefile &&
+	$ov_sed -i "s/CFLAGS =/CFLAGS = -fPIC/g" Makefile &&
+	$ov_sed -i "s/iostream\.h/iostream/g" include/*.h src/*.inl src/*.cpp &&
+	$ov_sed -i "s/vector\.h/vector/g" include/*.h src/*.inl src/*.cpp &&
+	$ov_sed -i "3i#include <iostream>" include/*.h &&
+	$ov_sed -i "4i#include <algorithm>" include/*.h &&
+	$ov_sed -i "5iusing namespace std;" include/*.h &&
+	popd'
+ov_package_install_hook_bliff='
+	pushd * &&
+	chmod a-x include/*.h &&
+	cp include/*.h ../../include &&
+	cp lib/*.a ../../lib &&
+	popd'
+
+ov_package_configure_hook_cg='
+	$ov_true'
+ov_package_make_hook_cg='
+	$ov_true'
+ov_package_install_hook_cg='
+	cp -rfv */* $ov_target_folder'
+
+ov_package_pre_configure_hook_zziplib='
+	pushd * &&
+	autoconf &&
+	popd'
+ov_package_post_configure_hook_zziplib='
+	pushd * &&
+	$ov_sed -i "76s/(char \*)hdr/hdr/" bins/zziptest.c &&
+	popd'
+
+# $ov_sed -i "s/_disable( false )/_disable( true )/g" Source/OBTTrace.cpp &&
+#  -DCMAKE_BUILD_TYPE=Release
+ov_package_configure_hook_obt='
+	pushd * &&
+	cmake . -DINSTALLPREFIX:PATH=$ov_target_folder &&
+	popd'
+
+# http://sourceforge.net/forum/forum.php?thread_id=1751867&forum_id=36109
+ov_package_configure_hook_freeimage='
+	pushd * &&
+	$ov_sed -i "s#INCDIR = /usr/include#INCDIR = $ov_target_folder_include#g" Makefile.gnu &&
+	$ov_sed -i "s#INSTALLDIR = /usr/lib#INSTALLDIR = $ov_target_folder_lib#g" Makefile.gnu &&
+	$ov_sed -i "s# -fvisibility=hidden##g" Makefile.gnu &&
+	$ov_sed -i "s# -o root##g" Makefile.gnu &&
+	$ov_sed -i "s# -g root##g" Makefile.gnu &&
+	$ov_sed -i "s#ldconfig##g" Makefile.gnu &&
+	$ov_find Source -name \*.h\* -exec $ov_sed -i "s#png_#FI_png_#g" "{}" \; &&
+	$ov_find Source -name \*.c\* -exec $ov_sed -i "s#png_#FI_png_#g" "{}" \; &&
+	$ov_find Source -name \*.h\* -exec $ov_sed -i "s#PNG_#FI_PNG_#g" "{}" \; &&
+	$ov_find Source -name \*.c\* -exec $ov_sed -i "s#PNG_#FI_PNG_#g" "{}" \; &&
+	$ov_find Source -name \*.h\* -exec $ov_sed -i "s#z_#FI_z_#g" "{}" \; &&
+	$ov_find Source -name \*.c\* -exec $ov_sed -i "s#z_#FI_z_#g" "{}" \; &&
+	$ov_find Source -name \*.h\* -exec $ov_sed -i "s#Z_#FI_Z_#g" "{}" \; &&
+	$ov_find Source -name \*.c\* -exec $ov_sed -i "s#Z_#FI_Z_#g" "{}" \; &&
+	popd'
+
+ov_package_post_uncompress_hook_ois='
+	pushd * &&
+	$ov_sed	-i
+		-e "32i#include <unistd.h>"
+		src/linux/LinuxJoyStickEvents.cpp &&
+	$ov_sed	-i
+		-e "6i#include <unistd.h>"
+		demos/FFConsoleDemo.cpp &&
+	$ov_sed	-i
+		-e "11i#include <unistd.h>"
+		demos/OISConsole.cpp &&
+	popd'
+
+ov_package_configure_hook_ois='
+	pushd * &&
+	./bootstrap &&
+	./configure --prefix=$ov_target_folder CPPFLAGS="-I$ov_target_folder_include" LDFLAGS="-L$ov_target_folder_lib -L$ov_target_folder_lib64" &&
+	popd'
+
+ov_package_post_uncompress_hook_ogre='
+	pushd * &&
+	$ov_sed -i
+		-e "13iif \( NOT APPLE AND NOT WIN32 \)"
+		-e "13s/^/#/"
+		CMake/InstallDependencies.cmake &&
+	$ov_sed -i
+		-e "132ifind_package(Boost COMPONENTS \${OGRE_BOOST_COMPONENTS} QUIET NO_DEFAULT_PATH)"
+		CMake/Dependencies.cmake &&
+	popd'
+ov_package_configure_hook_ogre='
+	pushd * &&
+	mkdir build &&
+	cd build &&
+	cmake .. -DOGRE_DEPENDENCIES_DIR=$ov_target_folder -DBoost_LIBRARY_DIRS=$ov_target_folder/lib -DCMAKE_INSTALL_PREFIX=$ov_target_folder -DOGRE_BUILD_SAMPLES=OFF &&
+	popd'
+ov_package_make_hook_ogre='
+	pushd * &&
+	cd build &&
+	make -j 3 &&
+	popd'
+ov_package_install_hook_ogre='
+	pushd * &&
+	cd build &&
+	make install &&
+	cd .. &&
+	echo "# Defines plugins to load" > $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "# Define plugin folder" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "PluginFolder=$ov_target_folder_lib/OGRE" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "# Define plugins" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "Plugin=RenderSystem_GL" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "Plugin=Plugin_ParticleFX" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "Plugin=Plugin_BSPSceneManager" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	echo "Plugin=Plugin_OctreeSceneManager" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+	popd'
+#	echo "Plugin=Plugin_CgProgramManager" >> $ov_target_folder_lib/OGRE/Plugins.cfg &&
+
+ov_package_post_uncompress_hook_cegui='
+	pushd * &&
+	$ov_sed	-i
+		-e "36i#include <cstddef>"
+		cegui/include/CEGUIString.h &&
+	popd'
+
+ov_package_additional_configure_flags_cegui='
+	--disable-samples'
+ov_package_post_install_hook_cegui='
+	pushd * &&
+	echo "FileSystem=$ov_target_folder_share/CEGUI/fonts/" >> $ov_target_folder_share/CEGUI/resources.cfg &&
+	echo "FileSystem=$ov_target_folder_share/CEGUI/imagesets/" >> $ov_target_folder_share/CEGUI/resources.cfg &&
+	echo "FileSystem=$ov_target_folder_share/CEGUI/layouts/" >> $ov_target_folder_share/CEGUI/resources.cfg &&
+	echo "FileSystem=$ov_target_folder_share/CEGUI/looknfeel/" >> $ov_target_folder_share/CEGUI/resources.cfg &&
+	echo "FileSystem=$ov_target_folder_share/CEGUI/lua_scripts/" >> $ov_target_folder_share/CEGUI/resources.cfg &&
+	echo "FileSystem=$ov_target_folder_share/CEGUI/schemes/" >> $ov_target_folder_share/CEGUI/resources.cfg &&
+	echo "FileSystem=$ov_target_folder_share/CEGUI/xml_schemas/" >> $ov_target_folder_share/CEGUI/resources.cfg &&
+	popd'
+
+if [ "$ov_machine" == "x86_64" ]; then
+ov_package_configure_hook_vrpn='
+	$ov_sed -i "s/#HW_OS := pc_linux$/HW_OS := pc_linux64/g" quat/Makefile &&
+	$ov_sed -i "s/#HW_OS := pc_linux$/HW_OS := pc_linux64/g" vrpn/Makefile'
+else
+ov_package_configure_hook_vrpn='
+	$ov_sed -i "s/#HW_OS := pc_linux$/HW_OS := pc_linux/g" quat/Makefile &&
+	$ov_sed -i "s/CC := gcc/CC := gcc -fPIC/g" quat/Makefile &&
+	$ov_sed -i "s/#HW_OS := pc_linux$/HW_OS := pc_linux/g" vrpn/Makefile &&
+	$ov_sed -i "s/CC := gcc/CC := gcc -fPIC/g" vrpn/Makefile &&
+	$ov_sed -i "s/CC := g++/CC := g++ -fPIC/g" vrpn/Makefile'
+fi;
+ov_package_make_hook_vrpn='
+	pushd quat &&
+	make &&
+	cd ../vrpn &&
+	make &&
+	popd'
+if [ "$ov_machine" == "x86_64" ]; then
+ov_package_install_hook_vrpn='
+	chmod a-x quat/*.h vrpn/*.h &&
+	cp quat/*.h vrpn/*.h ../include &&
+	cp quat/pc_linux64/*.a vrpn/pc_linux64/*.a ../lib'
+else
+ov_package_install_hook_vrpn='
+	chmod a-x quat/*.h vrpn/*.h &&
+	cp quat/*.h vrpn/*.h ../include &&
+	cp quat/pc_linux/*.a vrpn/pc_linux/*.a ../lib'
+fi;
+
+ov_package_configure_hook_openmask4='
+	pushd * &&
+	$ov_sed -i "4s/^/ADD_DEFINITIONS(-pthread)\nSET(CMAKE_VERBOSE_MAKEFILE 1)\nFIND_LIBRARY(LIB_STANDARD_MODULE_PTHREAD pthread)\nLINK_LIBRARIES(\$\{LIB_STANDARD_MODULE_PTHREAD\})/g" CMakeLists.txt &&
+	$ov_sed -i "s/, _tNode/, this->Animator::_tNode/g" Source/Vis/Source/OMKOgreAnimatorT.h &&
+	cmake . -DINSTALLPREFIX:PATH=$ov_target_folder -DCMAKE_BUILD_TYPE=Release &&
+	popd'
+#	$ov_sed -i "s/numKeyboard/numKeyBoard/g" Source/Inputs/Source/OMKInputExtension.cpp &&
+#	$ov_sed -i "s/numJoySticks/numJoysticks/g" Source/Inputs/Source/OMKInputExtension.cpp &&
+
+ov_package_configure_hook_openmask4tutorial='
+	pushd * &&
+	$ov_sed -i "7s/^/ADD_DEFINITIONS(-pthread)\nSET(CMAKE_VERBOSE_MAKEFILE 1)\nFIND_LIBRARY(LIB_STANDARD_MODULE_PTHREAD pthread)\nLINK_LIBRARIES(${LIB_STANDARD_MODULE_PTHREAD})/g" CMakeLists.txt &&
+	cmake . -DCMAKE_BUILD_TYPE=Release &&
+	$ov_sed -i "s/ -fPIC//g" Source/CMakeFiles/OMKPlugin_Tuto.dir/*.* &&
+	$ov_sed -i "s#lib\" \"\([a-zA-Z_]*\)#lib/lib\1.so#g" *.OpenMASK3 &&
+	popd'
+ov_package_install_hook_openmask4tutorial='
+	pushd * &&
+	popd'
+
+ov_package_configure_hook_lua='
+	pushd * &&
+	$ov_sed -i "s#^INSTALL_TOP.*#INSTALL_TOP=$ov_target_folder#g" Makefile &&
+	$ov_sed -i "s#^\\(CFLAGS.*\\)#\1 -fPIC -I$ov_target_folder_include#g" src/Makefile &&
+	$ov_sed -i "s#^\\(MYLDFLAGS.*\\)#\1 -L$ov_target_folder_lib64 -L$ov_target_folder_lib#g" src/Makefile &&
+	popd'
+ov_package_make_hook_lua='
+	pushd * &&
+	make linux &&
+	popd'
+
+##################################################
+##                                              ##
+##  generates environment configuration script  ##
+##                                              ##
+##################################################
+
+rm $ov_environment_configuration_script 2> /dev/null
+touch $ov_environment_configuration_script
+
+echo '#!/bin/bash' >> $ov_environment_configuration_script
+echo '' >> $ov_environment_configuration_script
+echo 'export OpenViBE_dependencies='$ov_target_folder >> $ov_environment_configuration_script
+echo '' >> $ov_environment_configuration_script >> $ov_environment_configuration_script
+echo 'export PKG_CONFIG_PATH='$ov_target_folder'/lib/pkgconfig:$PKG_CONFIG_PATH:/usr/lib/pkgconfig:/usr/local/lib/pkgconfig' >> $ov_environment_configuration_script
+echo 'export LD_LIBRARY_PATH='$ov_target_folder'/lib64:'$ov_target_folder'/lib:'$ov_target_folder'/lib/opt:$LD_LIBRARY_PATH' >> $ov_environment_configuration_script
+echo 'export PATH='$ov_target_folder'/bin:$PATH' >> $ov_environment_configuration_script
+echo '' >> $ov_environment_configuration_script
+if [[ ! $ov_native_package_installed == true ]]; then
+	echo '' >> $ov_environment_configuration_script
+	echo 'export BOOST_ROOT='$ov_target_folder'/include/boost_1_34_1' >> $ov_environment_configuration_script
+	echo 'export GTK2_RC_FILES='$ov_target_folder'/share/themes/Clearlooks/gtk-2.0/gtkrc' >> $ov_environment_configuration_script
+	echo 'export GTK_PATH='$ov_target_folder >> $ov_environment_configuration_script
+	echo '' >> $ov_environment_configuration_script
+fi;
+echo 'export LUA_PATH='$ov_target_folder_share'/lua/5.1/?.lua\;?.lua' >> $ov_environment_configuration_script
+echo 'export LUA_CPATH='$ov_target_folder_lib'/lua/5.1/?.so\;?.so' >> $ov_environment_configuration_script
+echo '' >> $ov_environment_configuration_script
+echo 'export OGRE_HOME='$ov_target_folder >> $ov_environment_configuration_script
+echo 'export VRPN_ROOT='$ov_target_folder >> $ov_environment_configuration_script
+echo 'export OMK_BIN='$ov_target_folder >> $ov_environment_configuration_script
+echo 'export OMK_HOME=$OMK_BIN' >> $ov_environment_configuration_script
+echo '' >> $ov_environment_configuration_script
+
+source $ov_environment_configuration_script
+
+####################################
+##                                ##
+##  actually install packages     ##
+##                                ##
+####################################
+
+ov_install_package "cmake"
+
+	# package management related packages
+	ov_install_package "pkgconfig"
+
+	# base libraries
+	ov_install_package "expat"
+	ov_install_package "libxml"
+	ov_install_package "gettext"
+	ov_install_package "pthreadstubs"
+	ov_install_package "zlib"
+	ov_install_package "libpng"
+	ov_install_package "freetype"
+	ov_install_package "fontconfig"
+	ov_install_package "libtool"
+
+	# base graphic libraries
+	ov_install_package "libxproto"
+	ov_install_package "libxextproto"
+	ov_install_package "libxtrans"
+	ov_install_package "libxslt"
+	ov_install_package "libxau"
+	ov_install_package "libxcbproto"
+	ov_install_package "libxcb"
+	ov_install_package "libkbproto"
+	ov_install_package "libinputproto"
+	ov_install_package "libxdmcp"
+	ov_install_package "libx11"
+	ov_install_package "libxext"
+	ov_install_package "renderproto"
+	ov_install_package "libxdmcp"
+	ov_install_package "libxrender"
+	ov_install_package "libice"
+	ov_install_package "libsm"
+	ov_install_package "libxt"
+	ov_install_package "libxmu"
+	ov_install_package "libxpm"
+	ov_install_package "libxaw"
+	ov_install_package "libxf86vidmodeproto"
+	ov_install_package "libXxf86vm"
+	ov_install_package "librandrproto"
+	ov_install_package "libXrandr"
+
+	# is this one necessary ?
+	if [[ ! $ov_has_gl -eq 0 ]]; then
+		ov_install_package "mesa"
+	fi;
+
+	# GTK+ related packages
+	ov_install_package "glib"
+	ov_install_package "pixman"
+	ov_install_package "cairo"
+	ov_install_package "pango"
+	ov_install_package "atk"
+	ov_install_package "gtk"
+	ov_install_package "clearlooks"
+	ov_install_package "libglade"
+	ov_install_package "glade"
+	ov_install_package "boost"
+
+	# Computation and signal processing packages
+	ov_install_package "itpp_external"
+	ov_install_package "itpp"
+
+	# OpenMASK 4 related packages
+	ov_install_package "freeimage"
+	ov_install_package "ois"
+	ov_install_package "zziplib"
+	ov_install_package "cg"
+	ov_install_package "ogre"
+	ov_install_package "cegui"
+
+# If you want BLiFF++
+# ov_install_package "gsl"
+# ov_install_package "torch"
+# ov_install_package "bliff"
+
+ov_install_package "vrpn"
+# ov_install_package "obt"
+# ov_install_package "openmask4"
+# ov_install_package "openmask4tutorial"
+
+# Scripting packages
+#ov_install_package "readline"
+#ov_install_package "ncurses"
+ov_install_package "lua"
+#ov_install_package "swig"
+
+rm -f linux-dependencies 2> /dev/null
+ln -sf $ov_environment_configuration_script linux-dependencies
+echo "Install linux dependencies done"

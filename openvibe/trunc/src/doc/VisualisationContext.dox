@@ -1,0 +1,33 @@
+/** 
+\page Doc_VisualisationContext The Visualisation Context
+
+The visualisation context is an interface made available to plugins and designed to meet their graphical needs. Since it is not the aim
+of OpenViBE to handle complex 3D environments
+
+Howto : setting vertex colors with setVertexColorArray
+
+First, the vertex buffer should be configured to contain a vertex color field. If using an object authoring tool,
+this is done by enabling vertex colors on the mesh. When exporting the mesh to the Ogre format, one should also make
+sure vertex colors are exported (there should be such a setting in the configuration panel of your exporter, e.g.
+OgreMax for 3DS Max)
+
+Second, the material used by the mesh should tell Ogre to use vertex colors instead of a fixed material color. This can
+be achieved by setting the diffuse color field of a rendering pass to 'vertexcolour' (as opposed to four floats describing
+the fixed diffuse color of the material). This is an example of such a material for Ogre : 
+
+\code
+material myMaterial
+{
+	technique
+	{
+		pass
+		{
+			diffuse vertexcolour
+		}
+	}
+}
+\endcode
+
+Of course, more complex materials can be used with objects using vertex colors. If the model is textured, one should ensure 
+the texture is modulated with the diffuse color.
+*/

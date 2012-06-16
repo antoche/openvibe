@@ -1,0 +1,84 @@
+/**
+ * \page BoxAlgorithm_TemporalFilterGPL Temporal filter - GPL
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Description|
+ * This plugin is used to filter the input signal. This plugin allows
+ * the selection of the kinf of filter (Butterworth, Chebychev, Yule-Walker),
+ * the kind of filter (low pass, high pass, band pass, band stop), the low
+ * or/and the high passband edge and the passband ripple for the Chebychev filter.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Input1|
+ * The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Settings|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Setting1|
+ * Select the name of filter between Butterworth, Chebychev and Yule-Walker.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Setting1|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Setting2|
+ * Select the kind of filter between Low pass, High pass, Band pass, Band stop.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Setting2|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Setting3|
+ * Order of the low-pass filter.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Setting3|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Setting4|
+ * Low edge for High pass, Band pass and Band stop filters
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Setting4|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Setting5|
+ * High edge for Low pass, Band pass and Band stop filters
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Setting5|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Setting6|
+ * If Chebychev filter is selected, PassBand Ripple is a necessary info.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Setting6|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Examples|
+ * Let's consider our input signal is very noisy (50 Hz).
+ * To filter this signal, select a Low pass Butterworth filter of 4th
+ * order and High PassBand Edge equal to 30 Hz for example.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_TemporalFilterGPL_Miscellaneous|
+ * This plugin filters the input signal. Several filtering are available.
+ * |OVP_DocEnd_BoxAlgorithm_TemporalFilterGPL_Miscellaneous|
+ */

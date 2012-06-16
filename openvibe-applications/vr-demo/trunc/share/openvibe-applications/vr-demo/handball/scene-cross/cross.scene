@@ -1,0 +1,19 @@
+<scene formatVersion="1.0" upAxis="y" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <nodes>
+        <node name="crossPivot">
+            <scale x="1" y="1" z="1" />
+            <position x="0" y="0" z="0" />
+            <rotation qx="0" qy="0" qz="0" qw="1" />
+            <node name="ze-cross">
+                <scale x="1" y="1" z="1" />
+                <position x="0" y="0" z="0" />
+                <rotation qx="0" qy="0" qz="0" qw="1" />
+                <entity name="crossNode" id="1" meshFile="crossNode.mesh" castShadows="true" receiveShadows="true">
+                    <subentities>
+                        <subentity index="0" materialName="cross-cross-material" />
+                    </subentities>
+                </entity>
+            </node>
+        </node>
+    </nodes>
+</scene>

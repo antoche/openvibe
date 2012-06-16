@@ -1,0 +1,809 @@
+<?xml version="1.0"?>
+<interface>
+  <!-- interface-requires gtk+ 2.12 -->
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkWindow" id="p300-speller">
+    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+    <child>
+      <object class="GtkTable" id="p300-speller-main">
+        <property name="visible">True</property>
+        <property name="n_rows">3</property>
+        <property name="row_spacing">4</property>
+        <child>
+          <object class="GtkTable" id="p300-speller-table">
+            <property name="visible">True</property>
+            <property name="n_rows">6</property>
+            <property name="n_columns">6</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkEventBox" id="eventbox-6.6">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-6.6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">0</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-6.5">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-6.5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">9</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-6.4">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-6.4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">8</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-6.3">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-6.3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">7</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-6.2">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-6.2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">6</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-5.2">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-5.2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Z</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-4.6">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-4.6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">X</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-4.5">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-4.5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">W</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-4.2">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-4.2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">T</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-3.6">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-3.6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">R</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-3.5">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-3.5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Q</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-3.3">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-3.3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">O</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-3.2">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-3.2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">N</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-2.6">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-2.6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">L</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-2.5">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-2.5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">K</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-2.4">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-2.4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">J</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-2.3">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-2.3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">I</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-2.2">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-2.2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">H</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-2.1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-2.1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">G</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-1.6">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-1.6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">F</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-1.5">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-1.5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">E</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-1.4">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-1.4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">D</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-1.3">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-1.3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">C</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-1.2">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-1.2">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">B</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-1.1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-1.1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">A</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-6.1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-6.1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">5</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="top_attach">5</property>
+                <property name="bottom_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-5.1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-5.1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">Y</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-4.1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-4.1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">S</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-3.1">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-3.1">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">M</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-5.3">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-5.3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">1</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-5.4">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-5.4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">2</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-5.5">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-5.5">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">3</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">4</property>
+                <property name="right_attach">5</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-5.6">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-5.6">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">4</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">5</property>
+                <property name="right_attach">6</property>
+                <property name="top_attach">4</property>
+                <property name="bottom_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-3.4">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-3.4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">P</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">2</property>
+                <property name="bottom_attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-4.4">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-4.4">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">V</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">3</property>
+                <property name="right_attach">4</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEventBox" id="eventbox-4.3">
+                <property name="visible">True</property>
+                <child>
+                  <object class="GtkLabel" id="label-4.3">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">U</property>
+                    <property name="use_markup">True</property>
+                    <property name="justify">center</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">3</property>
+                <property name="bottom_attach">4</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTable" id="p300-speller-table-target-result">
+            <property name="visible">True</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">3</property>
+            <property name="column_spacing">4</property>
+            <property name="row_spacing">4</property>
+            <child>
+              <object class="GtkLabel" id="label-result">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="single_line_mode">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label-target">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="single_line_mode">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">2</property>
+                <property name="right_attach">3</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label-result-title">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Result :</property>
+                <property name="single_line_mode">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="top_attach">1</property>
+                <property name="bottom_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="label-target-title">
+                <property name="visible">True</property>
+                <property name="xalign">0</property>
+                <property name="label" translatable="yes">Target :</property>
+                <property name="single_line_mode">True</property>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="right_attach">2</property>
+                <property name="x_options">GTK_FILL</property>
+                <property name="y_options">GTK_FILL</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkImage" id="image">
+                <property name="visible">True</property>
+                <property name="stock">gtk-select-font</property>
+              </object>
+              <packing>
+                <property name="bottom_attach">2</property>
+                <property name="x_options"></property>
+                <property name="y_options"></property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="top_attach">2</property>
+            <property name="bottom_attach">3</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkHSeparator" id="hseparator">
+            <property name="visible">True</property>
+          </object>
+          <packing>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="p300-speller-toolbar">
+    <property name="events">GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK</property>
+    <property name="title" translatable="yes">P300 Speller</property>
+    <property name="type_hint">dialog</property>
+    <child>
+      <object class="GtkToolbar" id="toolbar">
+        <property name="width_request">640</property>
+        <property name="visible">True</property>
+        <property name="toolbar_style">both</property>
+        <child>
+          <object class="GtkToggleToolButton" id="toolbutton-show_target_text">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Show Target Text</property>
+            <property name="stock_id">gtk-info</property>
+            <property name="active">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="homogeneous">True</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkToggleToolButton" id="toolbutton-show_result_text">
+            <property name="visible">True</property>
+            <property name="label" translatable="yes">Show Result Text</property>
+            <property name="stock_id">gtk-info</property>
+            <property name="active">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="homogeneous">True</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

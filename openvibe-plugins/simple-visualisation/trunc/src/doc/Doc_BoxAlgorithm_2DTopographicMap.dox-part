@@ -1,0 +1,106 @@
+/**
+ * \page BoxAlgorithm_2DTopographicMap 2D topographic map
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Description|
+ The 2D Topographic Map plugin is one possible way to combine signal measures and topographical information. It interpolates measured potentials
+ and maps them over the scalp surface using a color scale, making it easy to locate areas where brain activity is the most intense at any given time.
+
+ Since this is a 2D plugin, one cannot freely move the camera around the head, as is the case with the 3D Topographic Map plugin
+ (see \ref BoxAlgorithm_3DTopographicMap). However, the user may switch between several views which, when combined, cover the whole of the skull area
+ over which potentials may be mapped.
+
+ This plugin uses a spherical spline algorithm to interpolate potentials measured at electrode locations over an area of interest (which varies depending on the active view).
+ One can choose to interpolate potentials (which is done by interpolating along a spline whose control points lie at electrode locations) or current densities (which are
+ computed using the spline laplacian).
+* |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Input1|
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Settings|
+Offline options include interpolation type (direct spline interpolation for potentials, or spline laplacian to map currents) and delay applied when mapping data (0 by default). The latter
+can prove useful in the case of e.g. neurofeedback experiments. Indeed, subjects may find it easier to observe their mental activity and the effect mental tasks can have on it
+when it is displayed with a small delay (on the order of a few hundreds of milliseconds).
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Setting1|
+ Spline or laplacian interpolation.
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Setting2|
+ Delay to apply to displayed data, in seconds
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Setting2|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_OnlineVisualizationSettings|
+ Online options include :
+
+  - Radial/Axial Projection : these settings control the projection mode. Radial projection displays a greater mapping area, but localisation is less intuitive than
+  with axial projection.
+  - Map Potentials/Currents : these settings control the nature of mapped values. While potentials are computed from spline values, currents computation uses the spline laplacian.
+  - Toggle Electrodes : toggle electrodes on/off.
+  - Top/Left/Right/Back View : these buttons enable view switching.
+  - Delay : this cursor defines the delay to apply to the values that are drawn.
+
+ \img html topographicmap2ddisplay_toolbar.png "2D Topographic Map toolbar."
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Examples|
+ Practical example :
+
+ This example is based on the following scenario file : tutorials/visualisation/sample_2D_topographic_map
+
+ To see this plugin in action, one should first locate a file corresponding to a prerecorded EEG or MEG session and play it back using e. g. a GDF file reader or some other suitable plugin.
+ The GDF file used by default in this scenario is the following : tutorials/data/real_hand_movements_eeg.gdf
+
+ Signal data read by this box can be forwarded to the 2D Topographic Map plugin, which has a single input connector. However, interpolating unprocessed data will not deliver very meaningful
+ results. To make it easier to analyse, one can restrict signals to a frequency band of interest. Also, it can be desirable to average out signals using DSPs (a typical formula
+ consists in visualising log(1+X*X) where X represents incoming signals) and epoch average boxes. This should result in smoothed out signals where peak activity areas will move gradually
+ between frames, thus making them easily identifiable on the map.
+
+ Let's use a temporal filter box (found under 'Signal Processing GPL > Filters') to restrict incoming signals to a frequency band of our choice, e.g. the Beta range, about 16-24 Hz.
+ Appropriate settings could go like this : 'Butterworth' filter type, 'Band Pass' filtering, 16Hz low pass band edge, 24Hz high pass band edge).
+
+ Next, one can average out signals by applying the typical log(1+X*X) formula. A 'Simple DSP' (found under 'Signal Processing > Basic') can compute the square of the signal ('Equation'
+ should read 'X*X'), its output is averaged using a Signal Average box (found under 'Signal Processing > Basic'), and the decimal log of its output is obtained using another
+ Simple DSP box (formula : 'log(X)')).
+
+ Finally, once data has been restricted to a given frequency band and averaged out, it can be further smoothed out in time using an Epoch Average box ('Signal Processing > Averaging').
+ This allows to average data over a number of epochs. re information.
+
+ Here is what an EEG recording may look like using the scenario that was just described :
+
+ \image html topographicmap2ddisplay_online.png "Top view mapping of potentials interpolated from 9 EEG electrodes."
+
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_2DTopographicMap_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_2DTopographicMap_Miscellaneous|
+ */

@@ -1,0 +1,176 @@
+/** 
+\page Doc_DesignerOverview OpenViBE Designer
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/designer/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+- \b NB: Document based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+
+\section designer_introduction Introduction
+
+OpenViBE Designer is an authoring tool dedicated to creating and executing OpenViBE scenarios. It is targeted at a broad range of users, including
+  - students and researchers of the BCI community
+  - neurophysiology experts who need a tool for signal processing and visualisation in the context of brain activity
+  - clinicians looking for a tool to conduct neurofeedback experiments
+
+It relies on a graphical user interface to provide signal processing tools in an intuitive way, and doesn't require any programming skills. Each of these tools
+comes as a plugin, which communicates with the application via a generic interface hiding implementation details. As a result, it is easy to extend the range of tools
+provided with the platfom. An ever growing number of these signal processing boxes, or 'box algorithms' in OpenViBE terminology, are exposed by the Designer. 
+Users may arrange any number of these boxes in a very flexible fashion, considering there is virtually no limit as to the number of boxes that may be included in a given scenario. 
+Boxes arrangement is also made less error prone by typecasting box inputs/outputs.
+
+Once a scenario is created, it may be run from the Designer, which provides a toolbar for playing, pausing and stepping through a scenario. A number of box algorithms are available 
+for direct visualisation of results, from simple 2D displays such as power spectrum and signal display to 3D paradigms such as 3D topographical mapping. The layout of these displays
+may be customised as desired at scenario editing time using the window manager module of the Designer. 
+
+The following sections are an overview of the main features of the Designer tool, and make for a quick and easy introduction to its usage. Here are the topics covered in this overview : 
+ - the top level menu bar
+ - the toolbar, which provides immediate access to the most common actions
+ - the 'box algorithms' and 'algorithms' tree views available from a tabbed widget
+ - the status bar, which provides performance information when a scenario is being run
+ - a scenario edition window, where box algorithms may be arranged together in order to fulfill the task at hand.
+
+<img src="designer0.5.0.png"></img>
+<center><strong>Fig.1 Designer interface under WindowsXP, as a new scenario is being edited.</strong></center>
+
+\section designer_gui_menubar Menubar
+
+Options available from the menu bar presently are restricted to scenario files handling and exiting application. Scenarios may be saved to XML files. Several scenarios may be edited
+simultaneously, and the active scenario may be changed by clicking onto the corresponding tab at the top of the scenario edition window. Here is a list of options available from the menu bar:
+ 
+ - File
+ 	- New
+ 	- Open
+ 	- Save
+ 	- Save As
+ 	- Close
+ 	- Quit
+ - Edit
+ 	- Cut
+ 	- Copy
+ 	- Paste
+ 	- Delete
+ 	- Preferences
+
+The File menu handles standard scenario operations such as creation, saving and closing. Note that the application won't quit as long as at least one scenario is running.
+
+The Edit menu allows to cut/copy/paste selections (in a scenario or across scenarios). The last item, called 'Preferences', displays the Configuration Manager dialog. It contains a list of all configuration tokens and their values. This list is read only for now. To know more about the Configuration Manager, refer to \ref Doc_ConfigurationManager.
+
+\section designer_gui_toolbar Toolbar
+
+The first section of the toolbar offers direct access to these scenario handling options (see Fig. 1). 
+
+Its second section is dedicated to scenario playing. It comprises the following buttons : 
+
+ <ul>
+ <li>Stop (go back to scenario edition mode)
+ <li>Pause
+ <li>Step (play scenario one step at a time)
+ <li>Run (play scenario in real time)
+ <li>Free Run (play scenario as fast as possible)
+ </ul>
+
+A third section comprises two toolbuttons. The first is a toggle button, allowing for displaying and hiding the window manager. This tool is displayed in a popup window when the button is
+pressed. It takes care of arranging visualisation boxes in a layout. Such boxes (if any in the current scenario) initially appear under the 'Unaffected display plugins' node of the tree view
+in the upper left corner. A window containing one tab is also created by default and displayed on the right. Users may create any number of windows containing any number of tabs, 
+and then drag and drop visualisation boxes (or 'display plugins') onto such tabs in a tree-like structure. This work can be avoided though, since the default behaviour consists in 
+displaying each visualisation box in its own window. For a more in-depth review of the window manager usage, see \ref Doc_WindowManagerUsage.
+
+<img src="window_manager.png"></img>
+<center><strong>Fig.2 Window manager popup dialog for a scenario that doesn't contain any visualisation box.</strong></center>
+
+The next button displays the log levels dialog. It may be used to configure which log messages should be displayed in the debug output(s). It contains 8 levels as shown in the
+following figure :
+
+<img src="log_levels.png"></img>
+<center><strong>Fig.3 Log levels dialog.</strong></center>
+
+Finally, the toolbar contains a time counter which displays the simulation time as a scenario is being run. It is reset to 0 as a scenario is stopped.
+
+\section designer_gui_scenario_building_blocks Box algorithms and algorithms tree views
+
+The right-hand part of the Designer window displays a list of existing box algorithms and algorithms, which are the building blocks of OpenViBE scenarios.
+
+	\subsection designer_gui_boxalgorithms Box algorithms
+
+Under the 'Box algorithms' tab lies a tree view listing available box algorithms, along with a short description of their respective roles.
+Box algorithms are the smallest granularity elements that may be manipulated by a Designer user. They act as black boxes which can be connected together by their inputs and outputs. 
+In order to facilitate their selection, they are grouped into categories, which make up the top level nodes of the tree view. Some categories are related to signal processing, 
+others to scenario serialization or visualisation purposes...
+
+The status of a box varies with the context, and is reflected by the color of the font used in the tree view. The box name and description will use a green font if the box is deprecated, and a light grey font if it is unstable. To know more about box status, go to \ref designer_gui_scenario_edition_area.
+
+	\subsection designer_gui_algorithms Algorithms
+
+While box algorithms can be arranged together by the user to make up a scenario, algorithms lie at a lower level in the OpenViBE object diagram and aren't meant to be directly manipulated by the user. Instead, they can be seen as reusable components which box algorithms relie on.  
+A tree of existing algorithms can be found next to the box algorithms tree. It is similarly sorted by category, only this time, it merely is a reminder of what algorithms 
+are available in the current state of the platform. They can't be added to a scenario by drag and dropping them in the scenario edition window.
+
+\section designer_gui_statusbar Status bar
+
+The status bar that lies at the bottom of the Designer window provides performance information. When a scenario is being run, OpenViBE keeps track of the time used by each box and of the overall execution time. 
+
+Overall performance is displayed in a green gauge overlaid with the same information in percent. A system load 100 percent means the system is barely able to handle the computation load induced by the scenario to run in real-time.
+
+To identify the bottlenecks in a scenario, one can press the button to the right of the gauge as a scenario is being run. This will highlight boxes from green to red, depending on how much time is spent in each box relative to the others.
+
+\section designer_gui_scenario_edition_area Edition Area
+
+The last section of this overview covers the working area of the Designer, which is where OpenViBE scenarios are assembled by connecting box algorithms together.
+
+\subsection designer_gui_box_appearance Box appearance
+
+Box algorithms are added to the active scenario by drag and dropping them from the tree view to the scenario edition window. They appear as rounded rectangles with their name inside the box, inputs (if any) on top and outputs (if any) at the bottom. These connectors are displayed as color-coded triangles. Colors vary with the connector type, and help users making sure they connect boxes properly. See \ref Doc_BoxAlgorithmConnectorTypes for an overview of the different connector types. 
+
+<img src="Doc_BoxAlgorithm_GDFFileReader.png"></img>
+<center><strong>Fig.4 A file reading box algorithm which owns 3 outputs (experiment information, signal and stimulations streams)</strong></center>
+
+Additionally, if the box has customizable settings, the may be set by double clicking onto the box (tip : when a box owns such settings, its name is displayed in bold case). The settings are listed in the popup dialog that appears, along with their default values. Settings may be overriden by directly typing in their desired values, or they may be read from a file. In the latter case, one should expand the 'Override settings with configuration file' section to check the 'File' button and pick a configuration file.
+
+<img src="boxalgorithm_settings.png"></img>
+<center><strong>Fig.5 Settings of a 'GDF file reader' box : filename text entry and number of samples to be stored per buffer.</strong></center>
+
+\subsection designer_gui_box_status Box status
+
+By default, the status of a box is 'normal', and the box is drawn with a white background. However, some boxes may have a different status depending on the situation. Here are the other possible status of a box :
+
+ - \b Unstable: a box which is under development should be flagged as 'unstable', meaning it has probably not been tested enough to guarantee correct behaviour. Such a box is drawn with a dark grey background in the Designer, and the 'unstable' label appears below the box name.
+
+ - \b Update : when a box is not up to date with the latest version used in a given distribution of OpenViBE, it is drawn with a light grey background and the mention 'update' appears below the box name. This situation arises when the prototype of a box has changed between the time the scenario it is stored in is saved and the time it is loaded again. Since scenario files contain information about box prototypes, such as the number of connectors, they may need to be updated when the OpenViBE distribution used to manipulate scenarios changes. To update such a box, simply delete the box from the scenario then add it again. The new box will use the latest version. Tip : after such an update, one should make sure to reconfigure the box settings if needed!
+
+ - \b Deprecated : as OpenViBE evolves with time, some boxes are added to the platform and others are deleted. It can also happen that a box is replaced with another one (maybe for performance reasons). However, the 'old' box is not necessarily deleted from the platform, but may be kept for backward compatibility with older versions (ensuring older scenarios may still be run, for example). In that case, the documentation should mention that from that time on, the new box should be preferred over the deprecated one (which may be removed from the platform at any time, and in any case which probably won't be maintained anymore). Such boxes are displayed with a dark green background and the 'deprecated' label below the box name.
+
+Note : when a box is deprecated and also needs to be updated to the newest version, both 'deprecated' and 'update' labels will appear below its name in the Designer. As to its color, it will appear as dark green, reflecting its deprecated state.
+
+\subsection designer_gui_box_edition Box edition functionalities
+
+All box algorithms may be configured in the Designer. However, not all boxes offer the same configuration options. In this overview, we'll focus on functionalities that are common to all boxes. More advanced possibilities are detailed in another tutorial (\ref Doc_DesignerTutorial4).
+
+To illustrate box edition functionalities, let's start by creating a new scenario, and drop a couple of boxes from the box algorithms tab. Simple boxes such as 'Clock' and 'Nothing' (found under the 'Samples' category) will do for this tutorial. Drag and drop these boxes in the scenario working area, then right-click on the 'Nothing' box. A context menu should appear, listing different edition functionalities.
+
+Box edition functionalities appear in the lower part of the menu :
+
+ - <b> 'Rename box' </b> allows to rename the box. Click this option and enter a new name such as 'Dummy Box' to test this functionality.
+ - <b> 'Delete box' </b> removes this box from the scenario. Note that a box may also be deleted by selecting it, then pressing the 'Delete' key.
+ - <b> 'About box' </b> displays a dialog containing a summary of the box details, such as its author, version, class name, as well as a short and long description of its purpose. Note that the 'short description' field also appears in the second column of the box algorithms tab.
+
+Another option only gets listed for those boxes that offer configurable settings, such as the Clock box (this may be guessed from its name displayed in bold case). Right click on this box and select : 
+ - 'Configure box', which displays the Box Settings dialog (for more information on this, refer to \ref Doc_DesignerTutorial2). Note that this dialog may also be displayed by double clicking on the box itself.
+
+\subsection designer_gui_scenario_edition Scenario edition functionalities
+
+Standard cut/copy/paste functionalities are supported in Designer. Select a box and right click on it to display a menu from which to select these options.
+
+Groups of boxes may be edited in the same way. Select several boxes at once by maintaining the Ctrl key pressed then clicking on the boxes you want to cut or copy. You may also draw a selection area by left clicking in the scenario edition area then drawing a selection rectangle while maintaining the button pressed. 
+
+Cut/copy your selection by right clicking on it then selecting the corresponding entry, or by pressing Ctrl+X/Ctrl+C. 
+
+Paste your selection by right clicking anywhere in the edition area, or pressing Ctrl+V. Note that you may also paste selections from one scenario to another.
+
+Delete your selection by selecting 'Delete boxes' in the contextual menu, or pressing the 'Delete' key.
+
+Finally, the origin of the scenario edition area may be changed by maintaining the Shift key pressed then moving the mouse as desired.
+
+*/

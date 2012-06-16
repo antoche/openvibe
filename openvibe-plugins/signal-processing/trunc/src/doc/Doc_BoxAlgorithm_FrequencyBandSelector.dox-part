@@ -1,0 +1,63 @@
+/**
+ * \page BoxAlgorithm_FrequencyBandSelector Frequency Band Selector
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Description|
+ * This box selects a subset of a spectrum matrix, turning all un selected frequency
+ * band to 0.
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Input1|
+ * The input spectrum to select from.
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Output1|
+ * The modified spectrum with unselected bands turned to 0
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Setting1|
+ * The range of frequencies you want to select.
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Examples|
+ * Suppose you have a full band spectrum and that you want to work on alpha band. You can use
+ * a \ref Doc_BoxAlgorithm_FrequencyBandSelector box to select this band for later processing
+ * with the following setting : "8:12". Now suppose you want to work on two bands, for instance
+ * Alpha and the 16-24Hz subset of Beta, you should use the following setting value : "8:12;16:24"
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FrequencyBandSelector_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_FrequencyBandSelector_Miscellaneous|
+ */

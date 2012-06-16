@@ -1,0 +1,62 @@
+/**
+ * \page BoxAlgorithm_ChannelSelector Channel selector
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Description|
+ This box allows to restrict outgoing signal data to a subset of incoming data based on a list of channels. Channels may be identified by their index (0-based) or by their name (the case matters).
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Input1|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Setting1|
+ List of channels whose data is forwarded to the next box. Successive channel identifiers must be separated by semicolons.
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Setting2|
+ If this setting is checked, channel identifiers refer to their index.
+
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelSelector_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelSelector_Miscellaneous|
+ */

@@ -1,0 +1,75 @@
+/**
+\page Doc_DeveloperTools_SkeletonGenerator Skeleton Generator - beta
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/skeleton-generator-beta/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br> 
+
+- \b NB: Document based on <b> OpenViBE 0.9.0 </b> (dec-2010).
+
+\section Doc_DeveloperTools_SkeletonGenerator_Introduction Introduction
+
+The <i> skeleton-generator </i> is a tool useful for those who want to implement a new driver or plugin.
+Using the GUI, the developer gives various information that will be automatically integrated in the C++ skeletons, such as driver sampling frequencies or box inputs and outputs.
+All fields are required, and each one can be explained by pressing the corresponding "help" button.
+
+Once all entries are filled, they are checked and the generation process can be executed. The files produced must be integrated in an OpenViBE project (<i>openvibe-plugins/signal-processing</i> for example).
+
+\section Doc_DeveloperTools_SkeletonGenerator_Internals Important Warnings
+
+The <i> skeleton-generator </i> uses the GNU utility \i sed to replace tags by user's specific information in template files. 
+To perform these replacements without any problem, the tool checks the information provided. 
+Some particular entries have constraints, for example you cannot use letters in the field "sampling frequencies" of your driver skeleton.
+
+Such constraints are checked before generation, and you will be asked to change any faulty field.
+However, some fields such as box description are free of restriction. We tried to ensure that every character can be used in such field, but still have some doubts on sed/OS compatibility.
+
+For that reasons, the Skeleton-Generator is given as a <b>beta version</b>. Don't hesitate to report unstability or compatibility issues when using this tool.
+
+\section Doc_DeveloperTools_SkeletonGenerator_HowTo How to use it ?
+
+The first interface is simple. You have to enter the developer name and its affiliation. Then choose the skeleton you want to generate : Acquisition Driver or Box Algorithm.
+
+<img src="sk-gen-init.png"></img>
+<center><strong>Fig.1 Skeleton generator dialog window.</strong></center>
+
+For both skeleton generator you will have 3 buttons:
+ - <b>Check</b> : verify all fields, and asks for modification if needed.
+ - <b>Ok</b> : generate the files. This button is enabled only after successful check process. If you modify some entries, please be sure to check them again.
+ - <b>Save & Exit</b> : exit the application and save the current fields for the next time.
+ 
+Press any "help!" buttons for more details about a field.
+ 
+Don't forget to read the README file produced ! It explains how to integrate your skeleton in OpenViBE and build it.
+
+\section Doc_DeveloperTools_SkeletonGenerator_Driver The Acquisition Driver Skeleton Generator
+
+This generator is quiet simple : it needs the driver name, the class name (which should be close to the driver name), the maximum and minimum channel count and the different sampling frequencies.
+Choose the target directory and you're done. 
+<img src="sk-gen-driver.png"></img>
+<center><strong>Fig.2 Driver Skeleton Generator.</strong></center>
+
+Please read the \subpage Doc_DeveloperDocumentation_Driver "dedicated tutorials" to learn how to implement your new driver.
+
+\section Doc_DeveloperTools_SkeletonGenerator_Box The Box Algorithm Skeleton Generator
+
+Bulding a new plugin is lot more complicated. Generating the skeleton can be done in five steps, each one one a different tab.
+- <b>Description</b> : basic information,such as box name, category, icon used in the designer, etc.
+- <b>Inputs</b> : add box inputs by specifying name and type
+- <b>Outputs</b> : add box outputs by specifying name and type
+- <b>Settings</b> : add box settings by specifying name, type and default value
+- <b>Algorithms</b> : add input decoders and output encoders. You should add one algorithm per input/output, even if they have the same type.
+
+\b WARNING : the settings default values are not checked. Please be sure to enter coherent values.
+
+<img src="sk-gen-box-description.png"></img>
+<center><strong>Fig.3 Box description.</strong></center>
+
+The skeleton code is widely commented to help you understand the various possibilities of implementation.
+For a first tutorial, please read the \subpage Doc_DeveloperDocumentation_Plugin "dedicated pages".
+
+Feel free to ask your questions on the forum. Experienced developers will answer you asap !
+Thanks for using OpenViBE.
+*/

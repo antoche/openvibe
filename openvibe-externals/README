@@ -1,0 +1,77 @@
+
+|OVERVIEW|
+
+ This directory can be used if you have external modules designed for OpenViBE
+ that you want to include within your OpenViBE build.
+
+|LAYOUT|
+
+ Each subdirectory of the openvibe-externals directory will be candidate for a
+ build in the build scripts. It must use the usual OpenViBE layout including the
+ trunc, branches and tags directories, followed by all the bin, src and include stuffs.
+
+ For example you create an application "app" based on OpenViBE, and this application uses
+ a collection of plugins "app-plugs". You should then have the following layout :
+
+ openvibe-externals/
+   + my-app/
+       + branches/
+       + tags/
+       + trunc/
+           + bin/
+           + doc/
+           + etc/
+           + ...
+           + CMakeLists.txt
+   + my-app-plugs/
+       + branches/
+       + tags/
+       + trunc/
+           + bin/
+           + doc/
+           + etc/
+           + ...
+           + CMakeLists.txt
+
+|BUILDING|
+
+ In order to include those projects in the build process, you will have
+ to update your <init_env_command> script depending on the OS you are using.
+
+  *Windows*
+
+The <init_env_command> script automatically detects the subdirectories it
+can build. It configures an environment variable that you can later include
+in the <OpenViBE_build_order> to let the build script know what you
+actually want to build. The environment variable to use is something like
+<OpenViBE_externals_subdirname> where <subdirname> is the directory name with
+- (minus) replaced by _ (underscore).
+
+In our case, you should add the following lines to the <OpenViBE_build_order> :
+echo %OpenViBE_externals_my_app% >> %OpenViBE_build_order%
+echo %OpenViBE_externals_my_app_plugs% >> %OpenViBE_build_order%
+
+There you go, calling <win32-build> should now build your two projects along
+to the official OpenViBE.
+
+  *Linux*
+
+The <init_env_command> script automatically detects the subdirectories it
+can build. It configures an environment variable that you can later include
+in the <OpenViBE_build_order> to let the build script know what you
+actually want to build. The environment variable to use is something like
+<OpenViBE_externals_subdirname> where <subdirname> is the directory name with
+- (minus) replaced by _ (underscore).
+
+In our case, you should add the following lines to the <OpenViBE_build_order> :
+$OpenViBE_externals_my_app
+$OpenViBE_externals_my_app_plugs
+
+There you go, calling <linux-build> should now build your two projects along
+to the official OpenViBE.
+
+  *Mac*
+
+TODO
+
+ vim:tw=78:ts=8:ft=help:norl:

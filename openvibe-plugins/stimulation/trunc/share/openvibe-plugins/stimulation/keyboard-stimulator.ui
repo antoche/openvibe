@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<interface>
+  <object class="GtkWindow" id="keyboard_stimulator-window">
+    <child>
+      <object class="GtkEventBox" id="keyboard_stimulator-eventbox">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="has_focus">True</property>
+        <property name="is_focus">True</property>
+        <property name="can_default">True</property>
+        <property name="has_default">True</property>
+        <property name="receives_default">True</property>
+        <property name="events">GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK | GDK_STRUCTURE_MASK</property>
+        <child>
+          <object class="GtkLabel" id="keyboard_stimulator-label">
+            <property name="visible">True</property>
+            <property name="use_markup">True</property>
+            <property name="justify">GTK_JUSTIFY_CENTER</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

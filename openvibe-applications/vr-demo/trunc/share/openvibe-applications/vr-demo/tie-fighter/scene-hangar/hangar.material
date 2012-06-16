@@ -1,0 +1,72 @@
+material hangar-01_-_Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235
+			diffuse 0.588235 0.588235 0.588235
+			specular 0 0 0 10
+			emissive 0 0 0
+
+			texture_unit
+			{
+				texture stars.jpg
+			}
+		}
+	}
+}
+
+material hangar-03_-_Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235
+			diffuse 0.588235 0.588235 0.588235
+			specular 0 0 0 10
+			emissive 0 0 0
+
+			texture_unit
+			{
+				texture steelplt.jpg
+			}
+		}
+	}
+}
+
+material hangar-07_-_Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.243137 0.243137 0.34902
+			diffuse 0.243137 0.243137 0.34902
+			specular 0.234 0.234 0.234 10
+			emissive 0 0 0
+		}
+	}
+}
+
+material hangar-orig_08_-_Default
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235
+			diffuse 0.588235 0.588235 0.588235
+			specular 0 0 0 10
+			emissive 0 0 0
+
+			texture_unit
+			{
+				texture croisertexturecomplete.jpg
+			}
+		}
+	}
+}
+
+

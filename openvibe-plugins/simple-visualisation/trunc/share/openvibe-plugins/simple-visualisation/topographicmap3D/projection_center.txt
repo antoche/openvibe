@@ -1,0 +1,8 @@
+# x y z scale factors
+scale	[1 1 1]
+
+# yaw pitch roll angles, in radians
+orientation [0 0 0]
+
+# x y z in ogre coords (center of segment T3-T4)
+position [0 0.65 -0.075]

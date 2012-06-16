@@ -1,0 +1,15 @@
+material plane-cyan-plane-material
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.196078 0.945098 0.917647 
+			diffuse 0.196078 0.945098 0.917647 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+

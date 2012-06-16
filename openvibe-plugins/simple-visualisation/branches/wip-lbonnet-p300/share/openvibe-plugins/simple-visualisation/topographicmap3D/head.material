@@ -1,0 +1,28 @@
+material ov_face
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.878431 0.705882 0.619608 
+			diffuse 0.878431 0.705882 0.619608 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material ov_scalp
+{
+	technique
+	{
+		pass
+		{
+//			ambient vertexcolour
+			diffuse vertexcolour
+//			specular 0 0 0 10
+//			emissive 0 0 0 
+		}
+	}
+}

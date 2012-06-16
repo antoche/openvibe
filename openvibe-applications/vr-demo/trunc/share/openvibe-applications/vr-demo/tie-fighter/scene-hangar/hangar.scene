@@ -1,0 +1,59 @@
+<scene formatVersion="1.0" upAxis="y" unitsPerMeter="1" minOgreVersion="1.4" author="OgreMax Scene Exporter by Derek Nedelman (www.ogremax.com)">
+    <environment>
+        <colourAmbient r="0.4" g="0.4" b="0.4" />
+        <colourBackground r="0" g="0" b="0" />
+    </environment>
+    <nodes>
+        <node name="DCS_transformationCamera">
+            <position x="-2.0" y="0.9" z="0.0"/>
+            <camera name="camera0" fov="100" projectionType="perspective">
+                <clipping near="1" far="50000.0"/>
+                <position x="0.0" y="0.0" z="0.0"/>
+                <rotation qx="0" qy="-0.707107" qz="0" qw="0.707107" />
+            </camera>
+        </node>
+        <node name="hangar">
+            <scale x="1" y="1" z="1" />
+            <position x="159.534" y="3.22895" z="0.0517212" />
+            <rotation qx="0.5" qy="-0.5" qz="0.5" qw="0.5" />
+            <entity name="hangar" id="20" meshFile="hangar.mesh" castShadows="true" receiveShadows="true">
+                <subentities>
+                    <subentity index="0" materialName="hangar-01_-_Default" />
+                    <subentity index="1" materialName="hangar-03_-_Default" />
+                    <subentity index="2" materialName="hangar-orig_08_-_Default" />
+                    <subentity index="3" materialName="hangar-07_-_Default" />
+                </subentities>
+            </entity>
+        </node>
+        <node name="Omnidir.01">
+            <scale x="1" y="1" z="1" />
+            <position x="6.4589" y="6.17678" z="-10.9969" />
+            <rotation qx="-1" qy="0" qz="0" qw="0" />
+            <light name="Omnidir.01" id="21" type="point" castShadows="true" power="0.5">
+                <colourDiffuse r="0.796079" g="0.756863" b="1" />
+                <colourSpecular r="0" g="0" b="0" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+        <node name="Omnidir.02">
+            <scale x="1" y="1" z="1" />
+            <position x="6.4589" y="6.17678" z="10.4726" />
+            <rotation qx="-1" qy="0" qz="0" qw="0" />
+            <light name="Omnidir.02" id="22" type="point" castShadows="true" power="0.5">
+                <colourDiffuse r="0.796079" g="0.756863" b="1" />
+                <colourSpecular r="0" g="0" b="0" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+        <node name="Omnidir.03">
+            <scale x="1" y="1" z="1" />
+            <position x="24.7165" y="7.7141" z="-0.0938489" />
+            <rotation qx="-1" qy="0" qz="0" qw="0" />
+            <light name="Omnidir.03" id="23" type="point" castShadows="true" power="1">
+                <colourDiffuse r="0.917647" g="0.901961" b="1" />
+                <colourSpecular r="0" g="0" b="0" />
+                <lightAttenuation range="200" constant="1" linear="0" quadric="0" />
+            </light>
+        </node>
+    </nodes>
+</scene>

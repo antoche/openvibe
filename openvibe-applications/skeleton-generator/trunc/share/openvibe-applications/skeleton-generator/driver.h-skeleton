@@ -1,0 +1,67 @@
+#ifndef __OpenViBE_AcquisitionServer_CDriver@@ClassName@@_H__
+#define __OpenViBE_AcquisitionServer_CDriver@@ClassName@@_H__
+
+#include "../ovasIDriver.h"
+#include "../ovasCHeader.h"
+#include <openvibe/ov_all.h>
+
+namespace OpenViBEAcquisitionServer
+{
+	/**
+	 * \class CDriver@@ClassName@@
+	 * \author @@AuthorName@@ (@@CompanyName@@)
+	 * \date @@Date@@
+	 * \erief The CDriver@@ClassName@@ allows the acquisition server to acquire data from a @@DriverName@@ device.
+	 *
+	 * TODO: details
+	 *
+	 * \sa CConfiguration@@ClassName@@
+	 */
+	class CDriver@@ClassName@@ : public OpenViBEAcquisitionServer::IDriver
+	{
+	public:
+
+		CDriver@@ClassName@@(OpenViBEAcquisitionServer::IDriverContext& rDriverContext);
+		virtual ~CDriver@@ClassName@@(void);
+		virtual const char* getName(void);
+
+		virtual OpenViBE::boolean initialize(
+			const OpenViBE::uint32 ui32SampleCountPerSentBlock,
+			OpenViBEAcquisitionServer::IDriverCallback& rCallback);
+		virtual OpenViBE::boolean uninitialize(void);
+
+		virtual OpenViBE::boolean start(void);
+		virtual OpenViBE::boolean stop(void);
+		virtual OpenViBE::boolean loop(void);
+
+		virtual OpenViBE::boolean isConfigurable(void);
+		virtual OpenViBE::boolean configure(void);
+		virtual const OpenViBEAcquisitionServer::IHeader* getHeader(void) { return &m_oHeader; }
+		
+		virtual OpenViBE::boolean isFlagSet(
+			const OpenViBEAcquisitionServer::EDriverFlag eFlag) const
+		{
+			return eFlag==DriverFlag_IsUnstable;
+		}
+
+	protected:
+
+		OpenViBEAcquisitionServer::IDriverCallback* m_pCallback;
+
+		// Replace this generic Header with any specific header you might have written
+		OpenViBEAcquisitionServer::CHeader m_oHeader;
+
+		OpenViBE::uint32 m_ui32SampleCountPerSentBlock;
+		OpenViBE::float32* m_pSample;
+	
+	private:
+
+		/*
+		 * Insert here all specific attributes, such as USB port number or device ID.
+		 * Example :
+		 */
+		// OpenViBE::uint32 m_ui32ConnectionID;
+	};
+};
+
+#endif // __OpenViBE_AcquisitionServer_CDriver@@ClassName@@_H__

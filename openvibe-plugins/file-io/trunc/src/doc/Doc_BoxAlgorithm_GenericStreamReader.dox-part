@@ -1,0 +1,56 @@
+/**
+ * \page BoxAlgorithm_GenericStreamReader Generic stream reader
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamReader_Description|
+This box is able to read any file saved with the \ref Doc_BoxAlgorithm_GenericStreamWriter box.
+It is interesting to notice that such file can contain a variable number of streams. Therefore,
+the user is able to add and modify any output he wants on the box. The box does not supposes
+anything on the streams contained in the file during authoring in the designer. The streams of
+the file are mapped to created output at runtime in an "intelligent way" depending on there types.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamReader_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamReader_Outputs|
+This box can have as many output you want depending on the content of the file.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamReader_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamReader_Output1|
+This is the default output.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamReader_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamReader_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamReader_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamReader_Setting1|
+This setting points to the file to read. This file may contain a variable number of multiplexed
+streams. Those streams will be mapped to corresponding outputs at runtime. The mapping is done in
+an "intelligent way" because it reorders the streams contained in the file to match the types of
+the outputs. If a stream from the file does not find a matching output, a warning is launched.
+If an output does not find a matching stream from the file, a warning is also launched.
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamReader_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamReader_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamReader_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GenericStreamReader_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_GenericStreamReader_Miscellaneous|
+ */

@@ -1,0 +1,66 @@
+/**
+ * \page BoxAlgorithm_ChannelRename Channel Rename
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Description|
+ * This box renames the input channels with whatever name the author wants. The names
+ * should be separated by a semi-column ';'
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Input1|
+ * The input matrix which channels should be renamed. The type of this input can be changed to
+ * signal or spectrum depending on what kind of stream channel to rename.
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Output1|
+ * The output matrix with renamed channels. The type of this output can be changed to
+ * signal or spectrum depending on what kind of stream channel to rename.
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Setting1|
+ * A semi-colon separated list of new channel names.
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Examples|
+ * Suppose you compute the delta, alpha and beta band power at location Cz and merge the three
+ * streams in a single stream. The resulting stream will handle three channels all named Cz. For
+ * convevience, it could be handfull to rename those channels Delta, Alpha and Beta respectively.
+ * In order to achieve this, use a \ref Doc_BoxAlgorithm_ChannelRename with the following setting
+ * value : "Delta;Alpha;Beta"
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_ChannelRename_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_ChannelRename_Miscellaneous|
+ */

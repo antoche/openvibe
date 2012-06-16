@@ -1,0 +1,66 @@
+/**
+ * \page BoxAlgorithm_Crop Crop
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Description|
+ This box allows to set minimum and/or maximum thresholds to incoming data. Values lying outside the allowed range are cropped to it.
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Input1|
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Setting1|
+Method to use to crop incoming data. A minimum and/or a maximum threshold(s) may be defined.
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Setting2|
+Minimum threshold.
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Setting3|
+Maximum threshold.
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Setting3|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Crop_Miscellaneous|
+ Note : the type of input data may be changed. Allowed types include streamed matrix, feature vector, signal and spectrum.
+ * |OVP_DocEnd_BoxAlgorithm_Crop_Miscellaneous|
+ */

@@ -1,0 +1,65 @@
+/**
+ * \page BoxAlgorithm_Simple3DViewer Simple 3D viewer
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Simple3DViewer_Description|
+This plugin was developed for 3D testing purposes. This standalone box demonstrates some capabilities of the OpenViBE 3D API, and can help make sure a 3D context is available, or a 3D model behaves as expected.
+
+ This viewer creates an empty 3D scene by default. It's then up to the user to load 3D models and apply transformations to them, such as position/scale/color transformations.
+ * |OVP_DocEnd_BoxAlgorithm_Simple3DViewer_Description|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Simple3DViewer_OnlineVisualizationSettings|
+Online options include :
+
+ - Create Object : opens a dialog to create an object.
+ - Delete Object : opens a dialog to delete an object.
+ - Set Position : opens a dialog to position an object.
+ - Set Scale : opens a dialog to scale an object.
+ - Set Color : opens a dialog to change the color of an object.
+ - View All : resets the camera position so that it encompasses the whole 3D scene, facing the +Z side of its bounding box
+
+ \image html simple3dviewer_toolbar.png "Simple 3D Viewer toolbar"
+ * |OVP_DocEnd_BoxAlgorithm_Simple3DViewer_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Simple3DViewer_Examples|
+This example is based on the following scenario file : tutorials/visualisation/sample_simple_3D_viewer
+
+ To start with, one should make sure the 3D context was initialised properly. This is done at startup time, and a log message should read "[INF] Created primary render window" at some point during application startup. In any case, loading the sample 3D viewer scenario and pressing Play should display an empty 3D window. If it doesn't, it probably means the 3D context could not be initialised in the first place.
+
+ The viewer allows to load and manipulate 3D objects. Since the rendering library used in OpenViBE is Ogre3D, objects must be stored in the proprietary format of this library which is the .mesh format. See the Ogre3D website for information about it. For now, one can test OpenViBE 3D rendering using the sample objects that come with the platform.
+
+ Press the Create Object button (situated in the plugin toolbar) : here one can load a 'standard' object (these are simple geometrical shapes such as spheres and cones) or any 'custom' object (one should then type in the name of the 3d object file to be loaded, omitting its extension). Let's load a sphere by typing in 'mysphere' in the object name field, then checking the 'standard' radio button and selecting 'sphere' in the drop-down box. Press OK. The camera might end up lying within the object that was just created. Press the 'View All' button to automatically reset the camera position so that it lies in front of the 3D scene. A sphere should now be visible.
+
+ To delete an object, one can press the Delete Object button and type in the name of the object to destroy.
+
+ Now let's move our object. Press the Set Position button, enter 'mysphere' as the object name and then some non-null coordinates to move the sphere. Press OK to see the results. Similarly, the object scale may be modified using the Set Scale button. Notice how the scale can be set independently for each axis. To apply a uniform scale to an object, one should enter the same scale for each axis.
+
+ Let's now change the object color. Type in the object name, and then select 'Set Material Color'. This will modify the material properties of the object, meaning all objects using this material will be affected by this change. Enter an RGB color to attribute to the diffuse color of the material (each component should remain in the [0, 1] range). Similarly, the transparency of an object may be changed using the Transparency field (0 corresponding to a totally opaque object and 1 totally transparent).
+
+ The Object color can also be changed by modifying the colors of its vertices. This may be done by selecting 'Set Vertex Color' in the Set Color dialog box. However, this requires objects to have special properties. Namely, the vertex buffers of the object must have the 'colors_diffuse' tag, which means each element (or vertex) has its own color in addition to a position and a normal.
+
+ Also, one can move the camera at any time using the mouse. Maintaining the left mouse button pressed and moving the mouse rotates the camera around the center of the scene. To recompute the center (e.g. whenever the scene contents have changed), press the 'View All' button. To zoom in and out of the scene, press the right mouse button and move the mouse up or down.
+
+ \image html simple3dviewer_online.png "Manipulating 3D objects using the Simple 3D Viewer plugin"
+
+ * |OVP_DocEnd_BoxAlgorithm_Simple3DViewer_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Simple3DViewer_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_Simple3DViewer_Miscellaneous|
+ */

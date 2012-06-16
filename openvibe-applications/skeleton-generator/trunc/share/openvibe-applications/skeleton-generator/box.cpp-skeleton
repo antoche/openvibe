@@ -1,0 +1,151 @@
+#include "ovpCBoxAlgorithm@@ClassName@@.h"
+
+using namespace OpenViBE;
+using namespace OpenViBE::Kernel;
+using namespace OpenViBE::Plugins;
+
+using namespace OpenViBEPlugins;
+using namespace OpenViBEPlugins::@@Namespace@@;
+
+boolean CBoxAlgorithm@@ClassName@@::initialize(void)
+{
+@@AlgorithmInitialisation@@	
+@@AlgorithmInitialisationReferenceTargets@@	
+	// If you need to retrieve setting values, use the FSettingValueAutoCast function.
+	// For example :
+	// - CString setting at index 0 in the setting list :
+	// CString l_sSettingValue = FSettingValueAutoCast(*this->getBoxAlgorithmContext(), 0);
+	// - unsigned int64 setting at index 1 in the setting list :
+	// uint64 l_ui64SettingValue = FSettingValueAutoCast(*this->getBoxAlgorithmContext(), 1);
+	// - float64 setting at index 2 in the setting list :
+	// float64 l_f64SettingValue = FSettingValueAutoCast(*this->getBoxAlgorithmContext(), 2);
+	// ...
+
+	return true;
+}
+/*******************************************************************************/
+
+boolean CBoxAlgorithm@@ClassName@@::uninitialize(void)
+{
+@@AlgorithmUninitialisation@@
+	return true;
+}
+/*******************************************************************************/
+
+@@ProcessClockCommentIn@@
+boolean CBoxAlgorithm@@ClassName@@::processClock(IMessageClock& rMessageClock)
+{
+	// some pre-processing code if needed...
+
+	// ready to process !
+	getBoxAlgorithmContext()->markAlgorithmAsReadyToProcess();
+
+	return true;
+}
+/*******************************************************************************/
+
+@@ProcessClockCommentIn@@
+uint64 CBoxAlgorithm@@ClassName@@::getClockFrequency(void)
+{
+	// Note that the time is coded on a 64 bits unsigned integer, fixed decimal point (32:32)
+	return @@ClockFrequency@@; // the box clock frequency
+}
+/*******************************************************************************/
+
+@@ProcessInputCommentIn@@
+boolean CBoxAlgorithm@@ClassName@@::processInput(uint32 ui32InputIndex)
+{
+	// some pre-processing code if needed...
+
+	// ready to process !
+	getBoxAlgorithmContext()->markAlgorithmAsReadyToProcess();
+
+	return true;
+}
+/*******************************************************************************/
+
+boolean CBoxAlgorithm@@ClassName@@::process(void)
+{
+	
+	// the static box context describes the box inputs, outputs, settings structures
+	IBox& l_rStaticBoxContext=this->getStaticBoxContext();
+	// the dynamic box context describes the current state of the box inputs and outputs (i.e. the chunks)
+	IBoxIO& l_rDynamicBoxContext=this->getDynamicBoxContext();
+
+	// here is some useful functions:
+	// - To get input/output/setting count:
+	// l_rStaticBoxContext.getInputCount();
+	// l_rStaticBoxContext.getOutputCount();
+	// l_rStaticBoxContext.getSettingCount();
+	
+	// - To get the chunks currently available on a particular input :
+	// l_rDynamicBoxContext.getInputChunkCount(input_index)
+	// l_rDynamicBoxContext.getInputChunk(input_index, chunk_index)
+	
+	// - To get the chunk available on a particular output :
+	// l_rDynamicBoxContext.getOutputChunk(output_index)
+	// - To send an output chunk :
+	// l_rDynamicBoxContext.markOutputAsReadyToSend(output_index, chunk_start_time, chunk_end_time);
+	
+	
+	// A typical process iteration may look like this.
+	// This example only iterate over the first input.
+	/*
+	IBoxIO& l_rDynamicBoxContext=this->getDynamicBoxContext();
+
+	//iterate over all chunk on input 0
+	for(uint32 i=0; i<l_rDynamicBoxContext.getInputChunkCount(0); i++)
+	{
+		// fill the decoder input with input chunk
+		ip_pMemoryBufferToDecode=l_rDynamicBoxContext.getInputChunk(0, i);
+		// link the encoder output to box output chunk
+		op_pEncodedMemoryBuffer=l_rDynamicBoxContext.getOutputChunk(0);
+
+		// decode the input chunk
+		m_pSignalDecoder->process();
+		// the decoder may have decoded 3 different parts : the header, a buffer or the end of stream.
+		// 3 corresponding output triggers may rise.
+		// the decoded block is now in the decoded output (let's say op_pDecodedMatrix)
+		
+		if(m_pSignalDecoder->isOutputTriggerActive(OVP_GD_Algorithm_SignalStreamDecoder_OutputTriggerId_ReceivedHeader))
+		{
+			// Header received. This happens only once when pressing "play". For example with a StreamedMatrix input, you now know the dimension count size, and label of the matrix
+			// ... do some process ...
+			
+			// Pass the header to the next boxes, by encoding it :
+			m_pSignalEncoder->process(OVP_GD_Algorithm_SignalStreamEncoder_InputTriggerId_EncodeHeader);
+			// send the output chunk containing the header :
+			l_rDynamicBoxContext.markOutputAsReadyToSend(0, l_rDynamicBoxContext.getInputChunkStartTime(0, i), l_rDynamicBoxContext.getInputChunkEndTime(0, i));
+		}
+		if(m_pSignalDecoder->isOutputTriggerActive(OVP_GD_Algorithm_SignalStreamDecoder_OutputTriggerId_ReceivedBuffer))
+		{
+			// Buffer received. For example the matrix values
+			// Access to the matrix buffer can be done thanks to :
+			// op_pDecodedMatrix->getBuffer(), which is a one-dimension vector of value.
+			
+			// ... do some process ...
+
+			// Encode the output buffer :
+			m_pSignalEncoder->process(OVP_GD_Algorithm_SignalStreamEncoder_InputTriggerId_EncodeBuffer);
+			// and send it to the next boxes :
+			l_rDynamicBoxContext.markOutputAsReadyToSend(0, l_rDynamicBoxContext.getInputChunkStartTime(0, i), l_rDynamicBoxContext.getInputChunkEndTime(0, i));
+			
+		}
+		if(m_pSignalDecoder->isOutputTriggerActive(OVP_GD_Algorithm_SignalStreamDecoder_OutputTriggerId_ReceivedEnd))
+		{
+			// End of stream received. This happens only once when pressing "stop". Just pass it to the next boxes so they receive the message :
+			m_pSignalEncoder->process(OVP_GD_Algorithm_SignalStreamEncoder_InputTriggerId_EncodeEnd);
+			l_rDynamicBoxContext.markOutputAsReadyToSend(0, l_rDynamicBoxContext.getInputChunkStartTime(0, i), l_rDynamicBoxContext.getInputChunkEndTime(0, i));
+		}
+
+		// The current input chunk has been processed, let's discard it :
+		l_rDynamicBoxContext.markInputAsDeprecated(0, i);
+	}
+	*/
+
+	// check the official developer documentation webpage for more example and information :
+	// http://openvibe.inria.fr/documentation/#Developer+Documentation
+	// Feel free to ask experienced developers on the forum (http://openvibe.inria.fr/forum) and IRC (#openvibe on irc.freenode.net).
+
+	return true;
+}

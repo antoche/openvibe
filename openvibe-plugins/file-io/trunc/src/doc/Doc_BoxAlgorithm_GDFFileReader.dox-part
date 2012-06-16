@@ -1,0 +1,83 @@
+/**
+ * \page BoxAlgorithm_GDFFileReader GDF file reader
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Description|
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Description|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Output1|
+ * This stream contains information about the experiment and subject.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Output2|
+ * Contains the signal information for the different channels (read from the GDF file).
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Output2|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Output3|
+ * Contains information about the stimulations that occured during the experiment.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Output3|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Setting1|
+ * Name of the GDF file to read.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Setting2|
+ * Number of samples per channel in a streamed matrix.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Examples|
+ * If your GDF file is located in your /tmp directory, you can configure the plugin like that :
+ *
+ * Filename :
+ *
+\code
+/tmp/myGDFFile.gdf
+\endcode
+ *
+ * Samples per buffer :
+ *
+\code
+32
+\endcode
+ *
+ * Practical example :
+ *
+ * Let's add a GDF file reader box to an empty scenario. One should also locate a GDF file and enter its path in the 'Filename' setting of the box. A second setting
+ * allows to specify the number of samples to be sent per data block.
+ *
+ * This box has 3 output connectors, corresponding to experiment information, stimulations
+ * and signals. One can connect the last two to the two input connectors of a Signal Display box to visualise the signals and/or stimulations stored in the GDF file.
+ *
+ * \image html gdffilereader_online.png "Loading and visualising a GDF file."
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_GDFFileReader_Miscellaneous|
+ * The experiment information output isn't operational yet.
+ * |OVP_DocEnd_BoxAlgorithm_GDFFileReader_Miscellaneous|
+ */

@@ -1,0 +1,98 @@
+/**
+ * \page BoxAlgorithm_SignalDisplay Signal display
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Description|
+This plugin displays incoming signals using one 2D graph per channel where values are plotted on the vertical axis while the horizontal axis represents
+time.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Input1|
+Signal information to display.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Input2|
+Stimulations.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Input2|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Setting1|
+Size of time window to display, in seconds.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Setting2|
+Type of display, could be either Scan mode or Scroll mode. In Scan mode, the new data arrives
+from left to right and the displayed data does not move. In Scroll mode, the new data always
+arrives on the right and all displayed data moves right to left.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Setting1|
+Tells the signal display whether vertical scale should be automatically updated or not.
+This can be changed online.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Setting1|
+In case the vertical scale is manual, this settings provides a default value.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Setting1|
+
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_OnlineVisualizationSettings|
+Online settings :
+
+  The first 4 icons are used to select the signal's scaling mode. Each signal can be scaled individually, by clicking a scaling button and then the channel to apply it on.
+
+  - Zoom In/Out : Increase/decrease the ordinate scale of a channel, and center it vertically at the location of the click.
+  - Best Fit : Change the ordinate scale of a channel so it takes up all the available vertical space.
+  - Normal Size : Scale the signal considering that the maximum and minimum values displayed in the window are those of the whole signal.
+  - Left/Bottom Ruler : these buttons toggle channel labels and amplitude values on/off.
+  - Time Scale : this setting adjusts the time span displayed by the plugin, in seconds.
+  - Select Channels : clicking this button pops up a dialog that allows to show/hide some of the channels by checking/unchecking each channel.
+  - Multi-View : clicking this button pops up a dialog that configures what channels should be plotted in an extra graph at the bottom of the Signal Display window. When no channels are selected (default) this extra graph is not displayed.
+  - Information : this button displays information about sampled data (min/max values and so on).
+
+ \image html signaldisplay_toolbar.png "Signal Display toolbar"
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Examples|
+Practical example :
+
+ This example is based on the following scenario file : tutorials/visualisation/sample_signal_display
+
+ An easy way to test this plugin consists in generating signals with the Sinus Oscillator plugin (found under 'Samples'), then connecting its signal output to the signal input of the Signal Display plugin.
+
+ \image html signaldisplay_online.png "Visualising 2 channels using the Signal Display plugin."
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalDisplay_Miscellaneous|
+If a channel has been scaled using the Best Fit or Normal Size option, then it will be automatically rescaled upon new signal data arrival. On the other hand, if the signal has been zoomed in or out, the current zoom ratio will be kept.
+ * |OVP_DocEnd_BoxAlgorithm_SignalDisplay_Miscellaneous|
+ */

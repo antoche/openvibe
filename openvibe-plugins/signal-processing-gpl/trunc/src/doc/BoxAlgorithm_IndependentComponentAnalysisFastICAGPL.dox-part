@@ -1,0 +1,58 @@
+/**
+ * \page BoxAlgorithm_IndependentComponentAnalysisFastICAGPL Independent Component AnalysisFast (FastICA) - GPL
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Description|
+ * This plugin is used to decompose into independant components the
+ * input signal. This plugin is based on the Fast ICA algorithm.
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Inputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Input1|
+ * The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Outputs|
+ *
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Output1|
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Settings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Examples|
+ * Let's consider our input signal.
+ * To decompose the input signal and to enlight for example the blinks,
+ * apply the FastICA. One of the new component will contain blinks.
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Miscellaneous|
+ * This plugin applies the Fast ICA algorithm to the input signal.
+ * |OVP_DocEnd_BoxAlgorithm_IndependentComponentAnalysisFastICAGPL_Miscellaneous|
+ */

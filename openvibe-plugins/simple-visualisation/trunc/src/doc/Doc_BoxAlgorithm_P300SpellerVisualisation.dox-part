@@ -1,0 +1,174 @@
+/**
+ * \page BoxAlgorithm_P300SpellerVisualisation P300 Speller Visualisation
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Description|
+This box can be used with the \ref Doc_BoxAlgorithm_P300SpellerStimulator box in order to
+establish a P300 speller application. The visualisation consists in a matrix of 6 lines and
+columns containing 26 characters and 10 numbers. The lines and columns can be flashed sequencially
+resulting in an evoked potential in the user's brain activity. This evoked potential can be
+detected and used to find which line and which column the user was focused on, thus resulting
+in the ability to write text.
+
+This box relies on a gtk builder interface that contains the actual letters & numbers. This glade
+interface can be freely adpated if you need for example more than 6 lines or 6 columns, or
+if you need something else than letters & words (e.g. words).
+
+\image html Doc_BoxAlgorithm_P300SpellerVisualisation_Snapshot.png "The P300 Speller Visualisation in action"
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Inputs|
+This box has four inputs. The most important one is the first one, sequencing the flashes.
+The three other inputs are optional and used for defining the target and the selected line/columns.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Input1|
+This input is used for sequencing the flashes. It uses specific stimulations to know which
+line/column should be flashed (see \ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting_2
+and \ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting_3). The flash is switched off thanks
+to the \c OVTK_StimulationId_VisualStimulationStop stimultion (this is automatically triggered
+by the \ref Doc_BoxAlgorithm_P300SpellerStimulator box).
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Input2|
+This input is used in order to define the target row/column the user should focus on. See
+\ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting_2 and
+\ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting_3 to know what stimulation should be used.
+The target row/column will be highlighted with a specific color/size so the user quickly notices
+the letter to focus on.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Input2|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Input3|
+This input is used in order to define the selected row. See
+\ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting_2 and
+\ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting_3 to know what stimulation should be used.
+The target row/column will be highlighted with a specific color/size so the user quickly notices
+the letter that has been selected.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Input3|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Input4|
+This input is used in order to define the selected column. See
+\ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting2 and
+\ref Doc_BoxAlgorithm_P300SpellerVisualisation_Setting3 to know what stimulation should be used.
+The target row/column will be highlighted with a specific color/size so the user quickly notices
+the letter that has been selected.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Input4|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Output1|
+This output is used to translate incoming flash stimulations depending if they are target or not.
+The actual target is determined with the second input. As soon as the target is known, each flash
+can be considered as a target flash or not. This can be later use for selecting evoked response
+potentials against other responses.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Output1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting1|
+This is the gtk builder interface to use for the GUI. This file can be adapted depending on your needs, for example
+if you want to replace the letters / numbers by e.g. words or symbols, or if you want to add more lines / columns.
+However, the structure of the GUI is important (wee need some specific hierarchies to allow flash/selection coloring
+to work). So please, respect this structure.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting2|
+This stimulation is used as a basis for the row flashes. For example, flashing the first row consists in sending this
+exact stimulation code to the first input. Flashing the second row needs this stimulation code + 1 and so on.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting2|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting3|
+This stimulation is used as a basis for the column flashes. For example, flashing the first column consists in sending this
+exact stimulation code to the first input. Flashing the second column needs this stimulation code + 1 and so on.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting3|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting4|
+This color defines the flash background. It is not common in P300 spellers to have a changing background but this
+probabaly enhances the response.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting4|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting5|
+This color defines the flash foreground (the colors of the letters).
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting5|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting6|
+This setting defines the size of the letter when the flash occurs. Consider this value as a scale factor with no specific unit.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting6|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting7|
+This color defines the background when there is no flash.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting7|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting8|
+This color defines the foreground when there is no flash.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting8|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting9|
+This setting defines the size of the letter when there is no flash. Consider this value as a scale factor with no specific unit.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting9|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting10|
+This color defines the background of the target letter.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting10|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting11|
+This color defines the foreground of the target letter.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting11|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting12|
+This setting defines the size of the target letter. Consider this value as a scale factor with no specific unit.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting12|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting13|
+This color defines the background of the selected letter.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting13|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting14|
+This color defines the foreground of the selected letter.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting14|
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Setting15|
+This setting defines the size of the selected letter. Consider this value as a scale factor with no specific unit.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Setting15|
+__________________________________________________________________
+
+Online visualisation settings
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_OnlineVisualizationSettings|
+There are no online visualisation settings for this box.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_OnlineVisualizationSettings|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Examples|
+This box is used in the <em>P300 speller</em> BCI. Please see this
+scenario in the sample <em>openvibe-scenarios</em>.
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_P300SpellerVisualisation_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_P300SpellerVisualisation_Miscellaneous|
+ */

@@ -1,0 +1,452 @@
+/**
+ * \page Doc_FAQ Frequently asked questions
+ *
+ * On this page, you will find the most frequently asked question. If you don't find what you need here, feel free to ask on the forum.
+ *
+ * \section Doc_FAQ_WhatDoIFind What do I find in this FAQ ?
+ *
+ * In this FAQ, you will find the following information :
+ * - \ref Doc_FAQ_What
+ * - \ref Doc_FAQ_Vibe
+ * - \ref Doc_FAQ_Licence
+ * - \ref Doc_FAQ_Status
+ * - \ref Doc_FAQ_Environment
+ * - \ref Doc_FAQ_Functionalities
+ * - \ref Doc_FAQ_Devices
+ * - \ref Doc_FAQ_Emotiv
+ * - \ref Doc_FAQ_UnstableDrivers
+ * - \ref Doc_FAQ_UnstableBoxes
+ * - \ref Doc_FAQ_Cite
+ * - \ref Doc_FAQ_GTK
+ * - \ref Doc_FAQ_DownloadSources
+ * - \ref Doc_FAQ_DownloadBinaries
+ * - \ref Doc_FAQ_ProblemsCompiling
+ * - \ref Doc_FAQ_BuildUnderEclipse
+ * - \ref Doc_FAQ_CompileTime
+ * - \ref Doc_FAQ_BranchChanging
+ * - \ref Doc_FAQ_ProblemsUsing
+ * - \ref Doc_FAQ_Bug
+ * - \ref Doc_FAQ_Contribute
+ * - \ref Doc_FAQ_OtherBCISoftwareConnections
+ * - \ref Doc_FAQ_DirectX
+ * - \ref Doc_FAQ_ColorDepth
+ * - \ref Doc_FAQ_DependencyInstallationLinux
+ * - \ref Doc_FAQ_LinuxMatlabWontRun
+ * - \ref Doc_FAQ_FAQCount
+ *
+ * \section Doc_FAQ_What What is OpenViBE ?
+ *
+ * §OpenViBE§ is a software platform that enables to design, test and use
+ * Brain-Computer Interfaces. Brain-Computer Interfaces (BCI) are communication systems that enable users to
+ * send commands to computers only by means of brain activity. BCI are gaining interest inside the Virtual
+ * Reality (VR) community as they have appeared as promising interaction devices for Virtual Environments (VE).
+ *
+ * \section Doc_FAQ_Vibe What does the ViBE stand for ?
+ *
+ * Well, intially, OpenViBE was for "Open Virtual Brain Environment"... We no longer want to limit the use
+ * of OpenViBE to Virtual Environments... So you could now just take OpenViBE as a noun, it's no longer an acronym :)
+\htmlonly
+<!--
+\endhtmlonly
+ * Or you could consider the \e vibe as the brainwave ;)
+\htmlonly
+-->
+\endhtmlonly
+ *
+ * \section Doc_FAQ_Licence What is the licence of OpenViBE ?
+ *
+ * The licence for §OpenViBE§ basically is L-GPL, see \ref Doc_Licence for details about this licence. Some
+ * §OpenViBE§ plugins are based on GPL libraries. Consequently, those plugins are GPL.
+ *
+ * \section Doc_FAQ_Status What is the current status of OpenViBE ?
+ *
+ * §OpenViBE§ is quite a young software. The development began from scratch in 2006. It already offers several
+ * complete processing pipelines. It has been successfully used by the authors in different contexts, including
+ * motor imagery interactions and basic neurofeedback experiments. Currently available functionalities are far
+ * from complete, but the plugin architecture should facilitate the integration of new functionalities and
+ * limit the number of changes to the API (which is bound to evolve in the next few months anyway, if only to be
+ * improved). Additionally, it is expected that external contributions will soon help enlarge §OpenViBE§
+ * functionalities.
+ *
+ * For now, this software should be considered as being in alpha stage with a reasonably stable API.
+ *
+ * \section Doc_FAQ_Environment What kind of computer / operating system do I need to run OpenViBE ?
+ *
+\htmlonly
+<!-- os-compatibility start -->
+\endhtmlonly
+ *
+ * §OpenViBE§ currently runs on standard desktop PCs and compiles on differents targets.
+ * Note that even if §OpenViBE§ has been reported to compile / run on many different platforms, we can't provide
+ * support for all of them at the same time... On windows, we support the latest version of visual C++ express.
+ * On the linux side, we basically support both the latest Long Term Support (LTS) and latest non-LTS version
+ * of Ubuntu on one hand and the two latest Fedora on the other hand.
+ *
+ * The following table shows a summary of these different configurations... and of the configrations we officially support.
+ *
+\htmlonly
+<table class='faq-os' cellpading=0 cellspacing=0>
+<tr> <td colspan=6 bgcolor=black style="color: white"><center>The following target platforms have been tested</center></td> </tr>
+<tr bgcolor=lightgrey> <th>CPU</th> <th>Operating System</th> <th>Distribution</th> <th>Compiler</th> <th>Status</th> <th>Officially supported</th> </tr>
+<tr> <td rowspan=24>x86</td>   <td rowspan=6>Windows</td>  <td rowspan=2>7</td>           <td>Visual C++ 2010 Express</td>            <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                                                      <td>Visual C++ 2008 Express <b>SP1</b></td> <td bgcolor=green>OK (last built 2011/01)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td rowspan=3>XP SP3</td>      <td>Visual C++ 2010 Express</td>            <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                                                      <td>Visual C++ 2008 Express <b>SP1</b></td> <td bgcolor=green>OK (last built 2010/12)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                                                      <td>Visual C++ 2005 Express <b>SP1</b></td> <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Vista</td>                 <td>Visual C++ 2005 Express <b>SP1</b></td> <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                           <td rowspan=18>Linux</td>   <td>Ubuntu 11.04 Narval</td> <td>GCC 4.5.2</td>                          <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                       <td>Ubuntu 10.04 LTS Lucid</td><td>GCC 4.4.3</td>                          <td bgcolor=green>OK (last built 2011/04)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                          							   <td>Ubuntu 10.10 Maverick</td> <td>GCC 4.4.5</td>                          <td bgcolor=green>OK (last built 2011/04)</td> <td bgcolor=Orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 9.10 Karmic</td>    <td>GCC 4.4.1</td>                          <td bgcolor=green>OK (last built 2010/09)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 9.04 Jaunty</td>    <td>GCC 4.3.3</td>                          <td bgcolor=green>OK (last built 2010/04)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 8.10 Intrepid</td>  <td>GCC 4.3.2</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 8.04 LTS Hardy</td> <td>GCC 4.2.4</td>                          <td bgcolor=green>OK (last built 2010/04)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 15</td>             <td>GCC 4.6.0</td>                          <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                       <td>Fedora 14</td>             <td>GCC 4.5.1</td>                          <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                       <td>Fedora 13</td>             <td>GCC 4.4.5</td>                          <td bgcolor=green>OK (last built 2011/04)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 12</td>             <td>GCC 4.4.2</td>                          <td bgcolor=green>OK (last built 2010/09)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 11</td>             <td>GCC 4.4.1</td>                          <td bgcolor=green>OK (last built 2010/04)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 10</td>             <td>GCC 4.3.2</td>                          <td bgcolor=green>OK (last built 2009/12)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 8</td>              <td>GCC ?</td>                              <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora Core 5</td>         <td>GCC ?</td>                              <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora Core 4</td>         <td>GCC ?</td>                              <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora Core 3</td>         <td>GCC 3.4.3</td>                          <td bgcolor=orange>No 3D visualisation</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Debian 5</td>              <td>GCC 4.3.2</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr> <td rowspan=20>x86_64</td> <td rowspan=3>Windows</td> <td>7</td>                     <td>Visual C++ 2010 Express</td>            <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                       <td>7</td>                     <td>Visual C++ 2008 Express <b>SP1</b></td> <td bgcolor=grey>Has been reported to work (2011/01)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td colspan=2>Others</td>                                                  <td bgcolor=grey>Untested (feedbacks welcome)</td> <td bgcolor=grey>No</td> </tr>
+<tr>                            <td rowspan=17>Linux</td>  <td>Ubuntu 11.04 Narval</td> <td>GCC 4.5.2</td>                          <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                       <td>Ubuntu 10.04 LTS Lucid</td><td>GCC 4.4.3</td>                          <td bgcolor=green>OK (last built 2011/08)</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                          							   <td>Ubuntu 10.10 Maverick</td> <td>GCC 4.4.5</td>                          <td bgcolor=green>OK (last built 2011/04)</td> <td bgcolor=Orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 9.10 Karmic</td>    <td>GCC 4.4.1</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 9.04 Jaunty</td>    <td>GCC 4.3.3</td>                          <td bgcolor=green>OK (last built 2010/04)</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 8.10 Intrepid</td>  <td>GCC 4.3.2</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Ubuntu 8.04 LTS Hardy</td> <td>GCC 4.2.4</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 15</td>             <td>GCC 4.6.0</td>                          <td bgcolor=green>OK</td> <td bgcolor=green>Yes</td> </tr>
+<tr>   
+<tr>                                                       <td>Fedora 14</td>             <td>GCC 4.5.1</td>                          <td bgcolor=green>OK</td> <td bgcolor=green>Yes</td> </tr>
+<tr>                                                       <td>Fedora 13</td>             <td>GCC 4.4.5</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 12</td>             <td>GCC 4.4.2</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 11</td>             <td>GCC 4.4.1</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 10</td>             <td>GCC 4.3.2</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Fedora 9</td>              <td>GCC 4.3.0</td>                          <td bgcolor=green>OK</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Arch 2009.08</td>          <td>GCC ?</td>                              <td bgcolor=orange>Needs some tuning on dependencies installation</td> <td bgcolor=orange>No</td> </tr>
+<tr>                                                       <td>Gentoo</td>                <td>GCC ?</td>                              <td bgcolor=orange>Dependencies installed manually with native packages</td> <td bgcolor=orange>No</td> </tr>
+</table>
+<!-- os-compatibility stop -->
+\endhtmlonly
+ *
+ * If you have tested §OpenViBE§ on another platform, please fill free to report its status for this platform.
+ *
+ * \section Doc_FAQ_Functionalities What are the current functionalities of OpenViBE ?
+ *
+ * Here is a non exhaustive list of §OpenViBE§ functionalities :
+\htmlonly
+<!-- features start -->
+<table class='faq-os' cellpading=0 cellspacing=0>
+<tr> <td colspan=2 bgcolor=black style="color: white"><center>The following functionnalities are already integrated</center></td> </tr>
+<tr bgcolor=lightgrey> <th>Category</th> <th>Box</th> </tr>
+<tr> <td rowspan=6>File reading and writing</td> <td>Generic files (r/w)</td> </tr>
+<tr>                                             <td>GDF files (r/w)</td> </tr>
+<tr>                                             <td>BCI Competition IIIb (r)</td> </tr>
+<tr>                                             <td>Brainamp files (r)</td> </tr>
+<tr>                                             <td>CSV files (w)</td> </tr>
+<tr>                                             <td>File concatenation</td> </tr>
+<tr> <td rowspan=8>Preprocessing</td> <td>Time based epoching</td> </tr>
+<tr>                                  <td>Stimulation based epoching</td> </tr>
+<tr>                                  <td>Moving average</td> </tr>
+<tr>                                  <td>Windowing</td> </tr>
+<tr>                                  <td>Channel selection</td> </tr>
+<tr>                                  <td>Simple DSP</td> </tr>
+<tr>                                  <td>Temporal filter</td> </tr>
+<tr>                                  <td>Downsampling</td> </tr>
+<tr> <td rowspan=2>Feature extraction</td> <td>Spectral analysis</td> </tr>
+<tr>                                       <td>Spatial filter (xDAWN and CSP)</td> </tr>
+<tr> <td rowspan=2>Classification</td> <td>Linear Discriminant Analysis</td> </tr>
+<tr>                                   <td>Support Vector Machine</td> </tr>
+<tr> <td rowspan=4>Stimulation presentation</td> <td>Graz-like motor imagery presentation</td> </tr>
+<tr>                                             <td>P300 Speller</td> </tr>
+<tr>                                             <td>P300 Magic Card</td> </tr>
+<tr>                                             <td>P300 Identifier</td> </tr>
+<tr> <td rowspan=6>Visualisation</td> <td>Simple levels</td> </tr>
+<tr>                                  <td>Raw signal</td> </tr>
+<tr>                                  <td>Spectrum</td> </tr>
+<tr>                                  <td>Time/Frequency analysis</td> </tr>
+<tr>                                  <td>2D/3D topography</td> </tr>
+<tr>                                  <td>Confusion Matrix</td> </tr>
+<tr> <td rowspan=3>Connection to external software</td> <td>VRPN integration (Virtual Reality Peripheral Network)</td> </tr>
+<tr>                                                    <td>TurboFieldTrip integration (r/w, in progress)</td> </tr>
+<tr>                                  <td>Matlab (SVN version only)</td> </tr>
+</table>
+<!-- features stop -->
+\endhtmlonly
+ *
+ * \section Doc_FAQ_Devices What acqusition devices are compatible with OpenViBE ?
+ *
+\htmlonly
+<!-- hardware-compatibility start -->
+\endhtmlonly
+ * The following table sums up current device integration in OpenViBE :
+\htmlonly
+<table class='faq-os' cellpading=0 cellspacing=0>
+<tr> <td colspan=6 bgcolor=black style="color: white"><center>The following devices have been integrated</center></td> </tr>
+<tr bgcolor=lightgrey> <th width=10%>Manufacturer</th> <th width=20%>Amplifier</th> <th width=20%>Driver Name</th> <th width=10%>OS</th> <th width=15%>Status</th><th width=25%>Officially supported</th> </tr>
+<tr> <td rowspan=2><a href=http://www.ant-neuro.com>ANT</a></td>                <td><a href=http://www.ant-neuro.com/products/asa-lab>Neuro ASALAB EEG / ERP amplifier</a></td>              <td>Either MindMedia Nexus32B or TMSi drivers</td>                       <td><img src=windows.svg.png /></td> <td bgcolor=green>has been reported to work</td> <td bgcolor=red>no</td> </tr>
+<tr>                                                                            <td><a href=http://www.tmsi.com/?id=4>Others TMSi derived devices</a></td>                                   <td>Either MindMedia Nexus32B or TMSi drivers</td>                       <td><img src=windows.svg.png /></td> <td bgcolor=grey>untested</td> <td bgcolor=red>no</td> </tr>
+<tr> <td rowspan=4><a href=http://www.brainproducts.com>Brain Products</a></td> <td><a href=http://www.brainproducts.com/productdetails.php?id=15>V-Amp</a></td>                             <td>Brain Products V-Amp</td>                                            <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=green>yes</td> </tr>
+<tr>                                                                            <td><a href=http://www.brainproducts.com/productdetails.php?id=14>QuickAmp</a></td>                          <td>Either MindMedia Nexus32B or TMSi drivers</td>                       <td><img src=windows.svg.png /></td> <td bgcolor=green>has been reported to work</td> <td bgcolor=red>no</td> </tr>
+<tr>                                                                            <td><a href=http://www.brainproducts.com/products_by_name.php?letter=1>BrainAmp Series</a></td>              <td>Brain Products BrainAmp Series</td>                                  <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>Yann Renard</li></ul></div></td> </tr>
+<tr>                                                                            <td><a href=http://www.brainproducts.com/products_by_type.php?tid=1>All</a></td>                             <td>Brain Products BrainAmp Standard (through BrainVision Recorder)</td> <td><img src=windows.svg.png /><img src=linux.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>Emmanuel Maby (<i>INSERM</i>)</li><li>Pierre-Emmanuel Aguera (<i>INSERM</i>)</li></ul></div></td> </tr>
+<tr> <td rowspan=1>CTF/VSM</td>                                                 <td>MEG</td>                                                                                                 <td>CTF/VSM MEG</td>                                                     <td><img src=windows.svg.png /><img src=linux.svg.png /></td> <td bgcolor=orange>unstable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>Emmanuel Maby (<i>INSERM</i>)</li><li>Pierre-Emmanuel Aguera (<i>INSERM</i>)</li></ul></div></td> </tr>
+<tr> <td rowspan=1><a href=http://www.egi.com>EGI</a></td>                      <td><a href=http://www.egi.com/research-division-research-products/eeg-systems/251-conventional-eeg>Net Amps 300</a></td> <td>EGI Net Amps 300 (through AmpServer)</td>               <td><img src=windows.svg.png /><img src=linux.svg.png /></td> <td bgcolor=orange>unstable</td> <td bgcolor=orange>community</td> </tr>
+<tr> <td rowspan=1><a href=http://www.emotiv.com>Emotiv</a></td>                <td><a href=http://emotiv.com/store/>EPOC</a></td>                                                           <td>Emotiv EPOC</td>                                                     <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=green>yes</td> </tr>
+<tr> <td rowspan=2><a href=http://www.gtec.at>gTec</a></td>                     <td><a href=http://www.gtec.at/Products/Hardware-and-Accessories/g.USBamp-Specs-Features>gUSBamp</a></td>    <td>g.Tec gUSBamp</td>                                                   <td><img src=windows.svg.png /></td> <td bgcolor=green>stable<br>multi amp missing</td> <td bgcolor=green>yes</td> </tr>
+<tr>                                                                            <td><a href=http://www.gtec.at/Products/Hardware-and-Accessories/g.MOBIlab-Specs-Features>gMobilab+</a></td> <td>gTec gMOBIlab+</td>                                                  <td><img src=none.svg.png /><img src=linux.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>Lucie Daubigney (<i>Supelec</i>)</li></ul></div></td> </tr>
+<tr> <td rowspan=1><a href=http://www.micromed.eu>Micromed</a></td>             <td><a href=http://www.micromed.eu/prodsel.asp?cat=2&prod=11>SD LTM</a></td>                                 <td>Micromed SD LTM (through SystemPlus Evolution)</td>                  <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=green>yes</td> </tr>
+<tr> <td rowspan=1><a href=http://www.mindmedia.nl>MindMedia</a></td>           <td><a href=http://www.mindmedia.nl/english/nexus32.php>NeXus32</a></td>                                     <td>MindMedia Nexus32B</td>                                              <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=green>yes</td> </tr>
+<tr> <td rowspan=1><a href=http://www.neurosky.com>Neurosky</a></td>            <td><a href=http://neurosky.com/mindset/mindset.html>Mindset</a></td>                                        <td>NeuroSky MindSet</td>                                                <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=green>yes</td> </tr>
+<tr> <td rowspan=2><a href=http://www.openeeg.sourceforge.net>OpenEEG</a></td>  <td>MonolithEEG</td>                                                                                         <td>OpenEEG Modular EEG P2</td>                                          <td><img src=windows.svg.png /><img src=linux.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>Christoph Veigl (<i>University of Applied Sciences Technikum Wien</i>)</li><li>Yann Renard</li></ul></div></td> </tr>
+<tr>                                                                            <td><a href=http://openeeg.sourceforge.net/doc/modeeg/modeeg.html>ModularEEG</a></td>                        <td>OpenEEG Modular EEG P2</td>                                          <td><img src=windows.svg.png /><img src=linux.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>Christoph Veigl (<i>University of Applied Sciences Technikum Wien</i>)</li><li>Yann Renard</li></ul></div></td> </tr>
+<tr> <td rowspan=3><a href=http://www.tmsi.com>TMSi</a></td>                    <td><a href=http://www.tmsi.com/?id=12>Porti32</a></td>                                                      <td>Either MindMedia Nexus32B or TMSi drivers</td>                       <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=green>yes</td> </tr>
+<tr>                                                                            <td><a href=http://www.tmsi.com/?id=7>Refa32</a></td>                                                        <td>Either MindMedia Nexus32B or TMSi drivers</td>                       <td><img src=windows.svg.png /></td> <td bgcolor=green>stable</td> <td bgcolor=green>yes</td> </tr>
+<tr>                                                                            <td><a href=http://www.tmsi.com/?id=4>Others devices</a></td>                                                <td>Either MindMedia Nexus32B or TMSi drivers</td>                       <td><img src=windows.svg.png /></td> <td bgcolor=grey>untested</td> <td bgcolor=red>no</td> </tr>
+
+<tr> <td colspan=6 bgcolor=black style="color: white"><center>The following devices are currently <b>being integrated</b><br>You can contact us for beta tests</center></td> </tr>
+<tr bgcolor=lightgrey> <th>Manufacturer</th> <th>Amplifier</th>                  <th>Driver Name</th> <th>OS</th> <th>Status</th><th>Officially supported</th> </tr>
+<tr> <td rowspan=1><a href=http://www.mitsar-medical.com>Mitsar</a></td>        <td><a href=http://www.mitsar-medical.com/page.php?id=eeg_202>EEG 202</a></td>                          <td>Mitsar EEG 202</td>                                             <td><img src=windows.svg.png /></td> <td bgcolor=orange>unstable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>Guillaume Lio (<i>GipsaLab</i>)</li></ul></div></td> </tr>
+<tr> <td rowspan=1><a href=http://www.neuroscan.com>Neuroscan</a></td>          <td><a href=http://www.neuroscan.com/synamps.cfm>SynAmps2</a></td>                         <td>Neuroscan SynAmps2 (through Scan 4.3)</td>                      <td><img src=windows.svg.png /><img src=linux.svg.png /></td> <td bgcolor=orange>unstable</td> <td bgcolor=orange>community :<div class=maintainer><ul><li>David White (<i>Swinburne University of Technology</i>)</li></ul></div></td> </tr>
+
+<tr> <td colspan=6 bgcolor=black style="color: white"><center>The following devices are <b>not yet supported</b></center></td> </tr>
+<tr bgcolor=lightgrey> <th>Manufacturer</th> <th>Amplifier</th>      <th>Driver Name</th> <th>OS</th> <th>Status</th><th>Officially supported</th> </tr>
+<tr> <td rowspan=1><a href=http://www.biosemi.com>Biosemi</a></td>              <td>All</td>                           <td>.</td>                                                          <td>.</td> <td bgcolor=red>none</td> <td bgcolor=red>no</td> </tr>
+<tr> <td rowspan=1><a href=http://www.brainquiry.com>Brainquiry</a></td>        <td>QPET9</td>                         <td>Brainquiry Qpet-9</td>                                          <td>.</td> <td bgcolor=red>development is stalled</td> <td bgcolor=red>no</td> </tr>
+<tr> <td rowspan=1>Legacy amplifiers</td> <td>All</td>                          <td>.</td>                                                          <td>.</td> <td bgcolor=red>none</td> <td bgcolor=red>no</td> </tr>
+</table>
+<!-- hardware-compatibility stop -->
+\endhtmlonly
+ *
+ * \section Doc_FAQ_Emotiv How can I use the Emotiv Driver ?
+ * We provide an acquisition driver for the Emotiv EPOC headset, with some constraints:
+ * - You must have the <a href=http://www.emotiv.com/apps/sdk/209/> Emotiv Research SDK</a> (or any superior version)
+ * - You need to build the driver from sources. Look \ref Doc_Install "here" for a dedicated documentation.
+ * 
+ * The build scripts look in <em>C:/Program Files/Emotiv/Emotiv Development Kit_v1.0.0.3-PREMIUM</em> or <em>C:/Program Files/Emotiv Development Kit_v1.0.0.3-PREMIUM</em> to find the SDK.
+ * If you want to modify this path, modify the file <em>cmake-modules/FindThirdPartyEmotivAPI.cmake</em>.
+ *
+ * Please note that you can't use both Emotiv Control Panel and the OpenViBE driver at the same time.
+ *
+ * \section Doc_FAQ_UnstableDrivers I want to use "partially supported" acquisition drivers but they do not appear in the acquisition server driver combo box.
+ *
+ * Those drivers are flagged as \e unstable in the sense they will work only in some specific conditions.
+ * In order to make them appear, you will have to edit the configuration file and add it this line
+ * \code
+AcquisitionServer_ShowUnstable = true
+ * \endcode
+ * Your configuration file is \e %HOME%/.openviberc under linux and \e %USERPROFILE%/openvibe.conf under windows.
+ *
+ * Please come on the forum / IRC to discuss what conditions should be considered in order to use those drivers successfully.
+ *
+ * \section Doc_FAQ_UnstableBoxes I want to use "partially supported" boxes but they do not appear in the designer box tree.
+ *
+ * Those boxes are flagged as \e unstable in the sense they will work only in some specific conditions.
+ * In order to make them appear, you will have to edit the configuration file and add it this line
+ * \code
+Designer_ShowUnstable = true
+ * \endcode
+ * Your configuration file is \e %HOME%/.openviberc under linux and \e %USERPROFILE%/openvibe.conf under windows.
+ *
+ * Please come on the forum / IRC to discuss what conditions should be considered in order to use those boxes successfully.
+ *
+ * \section Doc_FAQ_Cite I'm a scientist and I wan't to cite OpenViBE, how should I proceed ?
+ *
+ * Please use the following refence to cite OpenViBE in your publications :
+ * <em>Y. Renard, F. Lotte, G. Gibert, M. Congedo, E. Maby, V. Delannoy, O. Bertrand, A. Lécuyer,
+ * "OpenViBE: An Open-Source Software Platform to Design, Test and Use Brain-Computer Interfaces in Real and Virtual Environments",
+ * Presence : teleoperators and virtual environments, vol. 19, no 1, 2010</em>
+ *
+ * \section Doc_FAQ_GTK Why did you favor GTK over Qt ?
+ *
+ * People often wonder why GTK was chosen to handle $OpenViBE$ GUI requirements, arguing that Qt presents a number of advantages over
+ * GTK, particularly under Windows. This choice comes from the authors decision not to distribute the §OpenViBE§ platform under a GPL licence,
+ * which would make it possible for private companies to base their software on §OpenViBE§ without their having to release their source code.
+ * Even though Qt probably has better support and better implementation/integration under Windows, using this library would have required
+ * most §OpenViBE§ components to be distributed under the GPL. Since the §OpenViBE§ platform is developed in an open source spirit, the GTK
+ * library was found to better fit the context of the project.
+ *
+ * \section Doc_FAQ_DownloadSources Where can I download OpenViBE sources ?
+ *
+ * The latest unstable sources can be downloaded with subversion from the gforge at https://gforge.inria.fr/projects/openvibe .
+ * Alternatively, you may want to download the latest stable source package from http://openvibe.inria.fr
+ *
+ * \section Doc_FAQ_DownloadBinaries Where can I download OpenViBE precompiled binaries ?
+ *
+ * Some probably outdated windows binaries could be found at http://www.irisa.fr/bunraku/OpenViBE/binaries/win32 .
+ * These precompiled versions are not officially supported yet so don't expect regular updates.
+ *
+ * Additionnaly we are looking for a smart solution to have precompiled packages for Linux on several distribution. If you
+ * have any advice, please feel free to share. See \ref Doc_Contact for how to contact us.
+ *
+ * \section Doc_FAQ_ProblemsCompiling I have problems compiling OpenViBE, what should I do ?
+ *
+ * First, make sure you followed the install procedure described in \ref Doc_Install . If problems persist, you can get some help from
+ * the people involved in this project. See \ref Doc_Contact for how to contact us.
+ *
+ * \section Doc_FAQ_BuildUnderEclipse Is it possible to build and run OpenViBE with Eclipse ?
+ *
+ * Well, it's almost possible yes :)
+ *
+ * After, you have made a project for OpenViBE under Eclipse. you can used the OpenViBE commands files with the Eclipse's function "External Tools".
+ *
+ * All configuration is located in the menu "Run > External Tools > External Tools Configuration...".
+ * First, make a new "Program" and choose a name for it.
+ *   - Example: "Openvibe-Build"
+ *
+ * In the tab "Main", fill next fields (for Linux):
+ *   - Location: "${workspace_loc:/openvibe/trunk/scripts/linux-build}"
+ *   - Working directory: "${workspace_loc:/openvibe/trunk/scripts}"
+ *
+ * For Windows, it's the same process but the value of fields change.
+ *   - Location: "${workspace_loc:/openvibe/trunk/scripts/win32-build.cmd}"
+ *   - Working directory: "${workspace_loc:/openvibe/trunk/scripts}"
+ *
+ * Now, if you want run OpenViBE under Eclipse it's the same process.
+ * For Linux, only one "Program" is necessary. create a new "Program" with a different name and fill fields.
+ *   - Example name : "openvibe-linux-test"
+ *   - Location: "${workspace_loc:/openvibe/trunk/scripts/linux-test}"
+ *   - Working directory: "${workspace_loc:/openvibe/trunk/scripts}"
+ *
+ * For Windows, if you want lauch the "Acquisition Server" and the "Designer", you must create 2 "Program":
+ *   - Example name : "openvibe-test-acquisition-server"
+ *   - Location: "${workspace_loc:/openvibe/trunk/dist/test-acquisition-server.cmd}"
+ *   - Working directory: "${workspace_loc:/openvibe/trunk/dist}"
+ *
+ * And for the "Designer":
+ *   - Example name : "openvibe-test-designer"
+ *   - Location: "${workspace_loc:/openvibe/trunk/dist/test-designer.cmd}"
+ *   - Working directory: "${workspace_loc:/openvibe/trunk/dist}"
+ *
+ * Then, you can launch the builder and runners with this same menu "Run > External Tools > External Tools Configuration...".
+ * Select the "Program" you want execute and use the button "Run" at the down of the dialog box.
+ *
+ * \section Doc_FAQ_CompileTime Compiling OpenViBE is far too long especially on Windows, what could I do to speed it up ?
+ *
+ * You have to build the whole software at least once...
+ *
+ * Then suppose you are working on a classification plugin, simply edit your <i>win32-init_env_command.cmd</i> or
+ * <i>linux-init_env_command</i> and remove all the projects of the build order (at the end of the file) except
+ * the openvibe classification plugin project.
+ *
+ * Now when you call <i>win32-build.cmd</i> or <i>linux-build</i>, only your project will be checked, compiled
+ * and installed.
+ *
+ * <b>Warning</b>: You should use this functionnality with care because it won't guarantee a perfect behavior.
+ * For example, if you are modifying the toolkit, all the projects depending on the toolkit will have to be rebuilt.
+ * Additionnaly, if you clean everything with <i>win32-clean.cmd</i> or <i>linux-clean</i>, you will have to reactivate
+ * all the projects back in <i>win32-init_env_command.cmd</i> or <i>linux-init_env_command</i> to have a new working
+ * environment. You've been warned, use with care !
+ *
+ * \section Doc_FAQ_BranchChanging The branch changes are not considered at compilation time, why is that ?
+ *
+ * Don't forget to clean everything before editing your <i>win32-init_env_command.cmd</i> or <i>linux-init_env_command</i>
+ * to switch your developements to other branches. If you don't do this, <i>cmake</i> will keep compiling the software
+ * in the old branches because of its cache. Cleaning everything will cause the header and library files to be
+ * removed and thus force <i>cmake</i> to search for them again.
+ *
+ * More generally here is the correct way to work with our branches :
+ *  * clean
+ *  * svn update / branch switch / whatever eventually involves the structure of the code
+ *  * re-build
+ *
+ * \section Doc_FAQ_ProblemsUsing I have problems using OpenViBE, what should I do ?
+ *
+ * A good place to start learning about the platform is to read the existing documentation. Several documentation files are dedicated to
+ * explaining the use of the platform and its associated tools.
+ *
+ * If still having problems after this reading, you may contact the community to discuss the problem. Visit the forum or send a message to
+ * the mailing lists.
+ *
+ * \section Doc_FAQ_Bug I think I found a bug, what should I do ?
+ *
+ * If you think you found a bug, please take a few minutes to fill a bug report at http://openvibe.inria.fr/tracker/bug_report_page.php .
+ * You will first want to check that your bug is not already listed in the tracker. If it is not, then you may fill in a complete bug report.
+ * Try to provide detailed information regarding the conditions in which the bug occured, this will help us reproduce it. We will typically want to know what
+ * hardware you have, the name/version of your operating system and compiler. Additional data such as a sample scenario and/or EEG record may also prove
+ * useful. Overall, the more information you provide in your bug report, the easier it is for us to try to solve the bug.
+ *
+ * \section Doc_FAQ_Contribute How can I contribute to OpenViBE ?
+ *
+ * There are many ways in which you can contribute to §OpenViBE§ :
+ *  - developers : you can implement new boxes, new algorithms, new drivers
+ *  - documentation : you can enhance the existing documentation or write new tutorials
+ *  - testing : you can help test new features, new operating systems, new hardware, and send us feedback or fill bug reports when needed
+ *  - support : you can provide help to the community by regularly visiting the forum and joining the IRC and mailing lists
+ *  - packaging : you can build <i>RPMs</i>, <i>DEBs</i> or whatever package your linux distro uses
+ *
+ * In any case, you should start by reading the \ref Doc_ContributionRules . If you still have questions, you can also \ref Doc_Contact us.
+ *
+ * \section Doc_FAQ_OtherBCISoftwareConnections Are there any existing connections with other BCI platforms ?
+ *
+ * A bridge with TurboFieldTrip is currently being implemented.
+ *
+ * Other connections are not planned yet, but feel free to \ref Doc_Contact us if you think a connection with your software could be a plus.
+ *
+ * \section Doc_FAQ_DirectX On Windows, launching OpenViBE complains about missing d3dx9_33.dll, d3dx9_38.dll or d3dx9_42.dll what should I do ?
+ *
+ * This message is a generic message that Windows prints when a DLL should be loaded and can't be found. The d3dx9_33.dll, d3dx9_38.dll and d3dx9_42.dll files are part of
+ * DirectX (Microsoft 3D acceleration API) which is used by Ogre3D. The best thing to do is to actually install DirectX on your
+ * computer. You can find it searching for Direct X redist on google (or following this link http://www.google.fr/search?q=directx+redist+site%3Amicrosoft.com).
+ * Be carefull with the release date because you still can find 2004 versions of DirectX and these versions may be proposed first.
+ *
+ * Anyway, if you don't want or can't install DirextX, Ogre3D will use OpenGL and just work with no limitation. You will just have to
+ * click the OK button each time you try to launch OpenViBE.
+ *
+ * \section Doc_FAQ_ColorDepth On Windows, I can drag and drop the boxes but I can't select / click / connect / configure anything, what should I do ?
+ *
+ * Your screen is probably configured with a bad color depth. You should consider changing the color depth to 24 or 32 bits. In
+ * order to do that, right clik on the desktop, chose "properties" and go in the "parameters" tab. You can change the colore depth
+ * on the right side of this panel. Restart OpenViBE when the change is done.
+ *
+ * \section Doc_FAQ_DependencyInstallationLinux Why did you write this crappy dependency installation script for Linux ?
+ *
+ * OK, most Linux users will wonder what this installation script was created for in the first place.
+ *
+ * First, it was estimated at the start of the project that the installation of dependencies in one click would be a plus for a certain
+ * category of users. While this is the standard way of installing an application under Windows, it isn't under Linux, where most
+ * distributions come with their own packaging system, be it rpm or apt-get. However, some of our dependencies (e.g VRPN)
+ * do not appear in the official packages of common Linux distributions, or their version could vary from a distribution to another.
+ * Second, it was decided that the installation process should not
+ * require users to have root access to their computer to install the §OpenViBE§ dependencies. Third, minor patches are applied to some of
+ * the installed dependencies. Last, using such a script guarantees that all Linux users have the same version of the dependencies.
+ *
+ * These are the reasons why an installation script is used. However, it is still possible that dependencies are handled differently in the future,
+ * especially if precompiled packages for dedicated distributions are made available. Until then, one should rather go for the installation script
+ * rather than official precompiled packages.
+ *
+ * Also, one might want to know why this script installs so many low level packages such as Xlib, xproto and so on. In fact, it was decided to
+ * keep the number of required preinstalled dependencies to a minimum (including compiling tools such as g++, gfortran, autotools etc...) and
+ * to compile everything from scratch. The script was conceived so that everything can be built from a very basic configuration, e.g. from a fresh
+ * Ubuntu installation, with \c build-essentials, \c g77, and \c subversion the only required tools before a user may proceed with the installation of
+ * §OpenViBE§.
+ *
+ * \section Doc_FAQ_LinuxMatlabWontRun On Linux, MATLAB filter keeps saying 'Can't start MATLAB engine', what do I do ?
+ *
+ * In order to get MATLAB filter to work properly on Linux, you need \c csh to be installed. This is not always the case, notably on
+ * \c Ubuntu distributions.
+ *
+ * \section Doc_FAQ_FAQCount How many questions does this FAQ contains ?
+ *
+ * You will be asked this question when you request support from the development team, in order to make sure you actually read this FAQ! (the answer to
+ * this question currently is 28!)
+ *
+ */
+/*
+ *  - funding : you can help fund the project and its permanent developers FIXME
+ *
+ * \section Doc_FAQ_Roadmap What is the planned roadmap for OpenViBE development ?
+ *
+ * TODO
+ *
+ * \section Doc_FAQ_OtherBCISoftwareDifferences How does OpenViBE differ from other BCI platforms ?
+ *
+ * TODO
+ */

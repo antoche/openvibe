@@ -1,0 +1,55 @@
+/**
+ * \page BoxAlgorithm_Identity Identity
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Identity_Description|
+ * This box simply duplicats inputs to corresponding outputs in a similar way
+ * |OVP_DocEnd_BoxAlgorithm_Identity_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Identity_Inputs|
+ * This box can have any number of input of any type. Each input has a corresponding
+ * output with the same type. Incoming chunks are simply duplicated to the corresponding output.
+ * |OVP_DocEnd_BoxAlgorithm_Identity_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_Identity_Input1|
+ * The default input for this box.
+ * |OVP_DocEnd_BoxAlgorithm_Identity_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Identity_Outputs|
+ * This box can have any number of output of any type. Each output has a corresponding
+ * input with the same type. Incoming chunks are simply duplicated to the corresponding output.
+ * |OVP_DocEnd_BoxAlgorithm_Identity_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_Identity_Output1|
+ * The default output for this box.
+ * |OVP_DocEnd_BoxAlgorithm_Identity_Output1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Identity_Examples|
+ * This box could be used in order to quickly switch between acquisition or file reading mode.
+ * At the very top of the scenario, you would put an identity box with four connectors of type
+ * \ref Doc_Streams_ExperimentInformation, \ref Doc_Streams_Signal, \ref Doc_Streams_Stimulation and
+ * \ref Doc_Streams_ChannelLocalisation.
+ * |OVP_DocEnd_BoxAlgorithm_Identity_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_Identity_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_Identity_Miscellaneous|
+ */

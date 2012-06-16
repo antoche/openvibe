@@ -1,0 +1,15 @@
+material plane-blue-plane-material
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.196078 0.247059 0.937255 
+			diffuse 0.196078 0.247059 0.937255 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+

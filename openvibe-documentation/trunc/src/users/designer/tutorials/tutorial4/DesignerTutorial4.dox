@@ -1,0 +1,67 @@
+/** 
+\page Doc_DesignerTutorial4 Designer Tutorial 4: Advanced box configuration
+ <p><div class="important"> 
+ This documentation page is deprecated since OpenViBE 0.12.0 (oct 2011), and won't be maintained.
+ </br>
+ The new page can be found \htmlonly <a href="http://openvibe.inria.fr/designer-tutorial-3/"> here </a> \endhtmlonly.</div></p>
+ </br>
+ </br>
+- \b NB: Tutorial based on <b> OpenViBE 0.5.0 </b> (18-feb-2010).
+
+\section Doc_DesignerTutorial4_overview Overview
+
+This tutorial details advanced box configuration settings, which require a general understanding of the Designer application. Not all settings are available for each box. This document goes through all existing ways a box may be configured, illustrating each setting with a concrete example. For more information about advanced box configuration, one should refer to the box algorithms documentation pages.
+
+\section Doc_DesignerTutorial4_step1 Connectors configuration
+
+Some boxes are too generic for the box developer in a way that he is not able to specify how many connectors this box should own, or what type these connectors should be of. Thus the design of such boxes allows the user to configure the number and/or type of connectors.
+
+When the number of connectors a box should own is not known a priori, developers may choose to initialize the box with only one input and/or output connector, or none at all. 
+
+When the type of connector is configurable, the box developer may choose to initialize it with the 'undefined' type. Such connectors appear as white in the Designer, which will alert the author at scenario editing time and remind him that the connectors of the box should be configured depending on the context in which they are used. 
+
+In any case, when a box can handle a varying number of connectors, or when the type of its connectors may be changed, it displays green 'In' and/or 'Out' labels below the box name. These labels tell the author that the box has configurable input and/or output connectors.
+
+\subsection Doc_DesignerTutorial4_step1_1 Configuring the type of a connector
+
+To illustrate the usefulness of setting the type of a connector at scenario edition time, let's take the example of the \ref Doc_BoxAlgorithm_EpochAverage "Epoch Average" box. This box performs matrix averages, and is thus initialized with one streamed matrix input connector and one similarly typed output connector. 
+
+Since the spectrum or feature vector types derive from the matrix type, a 'spectrum' output connector can be connected to the default 'streamed matrix' input connector of the epoch average box. However, doing so would result in the loss of some data specific to the spectrum type (such as the  list of frequency bands min and max thresholds). To perform matrix averages while retaining type-specific information in the output flow, one can modify the type of the input and output connectors and downcast them to 'spectrum' type.
+
+To do so, right-click on the box, and select the 'configure...' action for the first input, and then change the type to 'Spectrum'.
+
+\image html designer_tutorial_4_configure_input_type.png
+\image html designer_tutorial_4_configure_input_type_dialog.png "Changing the connector type of an Epoch average box"
+
+\subsection Doc_DesignerTutorial4_step1_2 Adding connectors
+
+Some boxes are designed to handle a varying number of input or output connectors. For example, the \ref Doc_BoxAlgorithm_GenericStreamReader "Generic stream reader" box (found under 'File reading and writing/OpenViBE') is a reader which doesn't know in advance what kind of data it is supposed to output. It is up to the author to specify what the box should output. For example, let's assume the input stream contains signal data as well as stimulations information. If both data types are relevant in the scenario being edited, the author can choose to add one 'signal' output connector and one 'stimulations' output connector. As the scenario is being run, the box will check what data types it should forward in the output stream and retain signal and stimulations, discarding other input data.
+
+To add a new output connector, right-click the box and select the 'new...' action. You can then specify a name and a type for the new connector.
+
+\image html designer_tutorial_4_configure_output_number.png
+\image html designer_tutorial_4_configure_output_number_dialog.png "Adding a connector on a Generic Stream Reader box"
+
+
+Similarly, the generic stream writer is a generic file writer. It's up to the author to specify what kind of data should be saved to disk by adding the appropriate output connectors to the box.
+
+\section Doc_DesignerTutorial4_step2 Settings configuration
+ 
+Some boxes allows user to modify its settings. For example it can be useful when the box can perform an unknown number of different tasks, each one specified by a given group of settings.
+
+\subsection Doc_DesignerTutorial4_step2_1 Configuring the type of a setting
+
+For now, OpenViBE does not provide any box where setting types can be modified, but further developments could use that mechanism easily.
+
+\subsection Doc_DesignerTutorial4_step2_2 Adding settings
+
+The \ref Doc_BoxAlgorithm_RunCommand "Run Command" box (category 'Stimulation'), which can be used to execute a system command when a given stimulation is received, can be configured with a various number of settings. Right-click the box to add new settings.
+
+When you do so, the box will have 2 more settings: one is the stimulation needed to trigger the comand, the other is the command itself.
+
+\image html designer_tutorial_4_configure_add_setting.png
+\image html designer_tutorial_4_configure_setting_added.png "Adding new settings in a Run Command box"
+
+Used on windows, this illustrative configuration will execute MS notepad when the OVTK_StimulationId_Label_01 is received, and the MS calculator when OVTK_StimulationId_Label_02 is received. Try it with a \ref Doc_BoxAlgorithm_KeyboardStimulator "Keyboard Stimulator" !
+
+*/

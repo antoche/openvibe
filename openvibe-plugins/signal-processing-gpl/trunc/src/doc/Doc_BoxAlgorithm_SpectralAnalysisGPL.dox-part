@@ -1,0 +1,75 @@
+/**
+ * \page BoxAlgorithm_SpectralAnalysisGPL Spectral analysis - GPL
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Description|
+ The Spectral Analysis box performs spectrum computations on incoming signals and possible outputs include the spectrum amplitude (the power of the signal in a number of frequency bands), as well as its phase, real part and imaginary part. Output computations may be enabled/disabled from the settings dialog box. The analysis is performed using a <b> Fast Fourier Transform </b>.
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Input1|
+The input signal.
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Output1|
+Amplitude of input signal in frequency bands.
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Output1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Output2|
+Phase of input signal
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Output2|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Output3|
+Real part of input signal
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Output3|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Output4|
+Imaginary part of input signal
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Output4|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Setting1|
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Setting1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Examples|
+Practical example : visualising the power spectrum of a signal.
+ 	
+ Let's use a Signal Oscillator box to generator sinusoidal signals on one channel. Next we add a Spectral Analysis box and connect boxes together. We make sure the 'Amplitude' of the signal is computed by checking the appropriate setting in the settings dialog box (see image below). Finally, we connect the 'Amplitude' output connector of the Spectral Analysis box to the input connector of a Power Spectrum Display box. The player may now be launched to visualize the power spectrum of the signal.
+ 
+ \image html spectralanalysis_online.png "Visualising the power spectrum of sinusoidal signals."
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Examples|
+
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SpectralAnalysisGPL_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SpectralAnalysisGPL_Miscellaneous|
+ */

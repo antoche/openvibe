@@ -1,0 +1,15 @@
+material arrow-arrow
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.988235 1 0.0666667 
+			diffuse 0.988235 1 0.0666667 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+

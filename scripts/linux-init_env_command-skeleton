@@ -1,0 +1,216 @@
+#!/bin/bash
+
+########################################################################################################################
+#GLOBAL
+
+#this variable sets the default branch for everything
+OpenViBE_default_branch=
+
+########################################################################################################################
+#GENERAL
+
+#these variables set each project branch
+OpenViBE_branch=
+OpenViBE_kernel_branch=
+OpenViBE_toolkit_branch=
+OpenViBE_documentation_branch=
+OpenViBE_scenarios_branch=
+
+########################################################################################################################
+#MODULES
+
+#these variables set each module branch
+OpenViBE_module_automaton_branch=
+OpenViBE_module_ebml_branch=
+OpenViBE_module_fs_branch=
+OpenViBE_module_socket_branch=
+OpenViBE_module_stream_branch=
+OpenViBE_module_system_branch=
+OpenViBE_module_xml_branch=
+
+########################################################################################################################
+#APPLICATIONS
+
+#these variables set each application branch
+OpenViBE_application_acquisition_server_branch=
+OpenViBE_application_designer_branch=
+OpenViBE_application_id_generator_branch=
+OpenViBE_application_omk_test_branch=
+OpenViBE_application_plugin_inspector_branch=
+OpenViBE_application_vr_demo_branch=
+OpenViBE_application_vrpn_simulator_branch=
+OpenViBE_application_ssvep_demo_branch=
+OpenViBE_application_skeleton_generator_branch=
+
+########################################################################################################################
+#PLUGINS
+
+#these variables set each plugin package branch
+OpenViBE_plugin_acquisition_branch=
+OpenViBE_plugin_classification_branch=
+OpenViBE_plugin_classification_gpl_branch=
+OpenViBE_plugin_feature_extraction_branch=
+OpenViBE_plugin_file_io_branch=
+OpenViBE_plugin_matlab_branch=
+OpenViBE_plugin_python_branch=
+OpenViBE_plugin_samples_branch=
+OpenViBE_plugin_signal_processing_branch=
+OpenViBE_plugin_signal_processing_gpl_branch=
+OpenViBE_plugin_simple_visualisation_branch=
+OpenViBE_plugin_stimulation_branch=
+OpenViBE_plugin_stream_codecs_branch=
+OpenViBE_plugin_streaming_branch=
+OpenViBE_plugin_tools_branch=
+OpenViBE_plugin_turbofieldtrip_branch=
+OpenViBE_plugin_vrpn_branch=
+
+########################################################################################################################
+
+export OpenViBE_base=`pwd`/..
+
+########################################################################################################################
+
+if [ "$OpenViBE_default_branch" == "" ]; then
+	OpenViBE_default_branch=trunc
+fi
+
+########################################################################################################################
+
+if [ "$OpenViBE_branch" == "" ]; then
+	OpenViBE_branch=$OpenViBE_default_branch
+fi
+if [ "$OpenViBE_kernel_branch" == "" ]; then
+	OpenViBE_kernel_branch=$OpenViBE_default_branch
+fi
+if [ "$OpenViBE_toolkit_branch" == "" ]; then
+	OpenViBE_toolkit_branch=$OpenViBE_default_branch
+fi
+if [ "$OpenViBE_documentation_branch" == "" ]; then
+	OpenViBE_documentation_branch=$OpenViBE_default_branch
+fi
+if [ "$OpenViBE_scenarios_branch" == "" ]; then
+	OpenViBE_scenarios_branch=$OpenViBE_default_branch
+fi
+
+########################################################################################################################
+
+export OpenViBE=$OpenViBE_base/openvibe/$OpenViBE_branch
+export OpenViBE_kernel=$OpenViBE_base/openvibe-kernel-omk/$OpenViBE_kernel_branch
+export OpenViBE_toolkit=$OpenViBE_base/openvibe-toolkit/$OpenViBE_toolkit_branch
+export OpenViBE_documentation=$OpenViBE_base/openvibe-documentation/$OpenViBE_documentation_branch
+export OpenViBE_scenarios=$OpenViBE_base/openvibe-scenarios/$OpenViBE_scenarios_branch
+export OpenViBE_cmake_modules=$OpenViBE_base/cmake-modules
+
+########################################################################################################################
+
+OpenViBE_modules=$OpenViBE_base/openvibe-modules
+OpenViBE_modules_all=`find $OpenViBE_modules -follow -mindepth 1 -maxdepth 1 -type d -printf "%P\n" | grep -v \.svn | sort`
+for v in $OpenViBE_modules_all; do
+	vv=`echo $v | sed 's/\-/_/g'`
+	eval 'v_branch=$OpenViBE_module_'$vv'_branch'
+	if [ "$v_branch" == "" ]; then
+		eval 'OpenViBE_module_'$vv'_branch=$OpenViBE_default_branch'
+	fi
+	eval 'export OpenViBE_module_'$vv'=$OpenViBE_modules/'$v'/$OpenViBE_module_'$vv'_branch'
+done
+
+########################################################################################################################
+
+OpenViBE_plugins=$OpenViBE_base/openvibe-plugins
+OpenViBE_plugins_all=`find $OpenViBE_plugins -follow -mindepth 1 -maxdepth 1 -type d -printf "%P\n" | grep -v \.svn | sort`
+for v in $OpenViBE_plugins_all; do
+	vv=`echo $v | sed 's/\-/_/g'`
+	eval 'v_branch=$OpenViBE_plugin_'$vv'_branch'
+	if [ "$v_branch" == "" ]; then
+		eval 'OpenViBE_plugin_'$vv'_branch=$OpenViBE_default_branch'
+	fi
+	eval 'export OpenViBE_plugin_'$vv'=$OpenViBE_plugins/'$v'/$OpenViBE_plugin_'$vv'_branch'
+done
+
+########################################################################################################################
+
+OpenViBE_applications=$OpenViBE_base/openvibe-applications
+OpenViBE_applications_all=`find $OpenViBE_applications -follow -mindepth 1 -maxdepth 1 -type d -printf "%P\n" | grep -v \.svn | sort`
+for v in $OpenViBE_applications_all; do
+	vv=`echo $v | sed 's/\-/_/g'`
+	eval 'v_branch=$OpenViBE_application_'$vv'_branch'
+	if [ "$v_branch" == "" ]; then
+		eval 'OpenViBE_application_'$vv'_branch=$OpenViBE_default_branch'
+	fi
+	eval 'export OpenViBE_application_'$vv'=$OpenViBE_applications/'$v'/$OpenViBE_application_'$vv'_branch'
+done
+
+########################################################################################################################
+
+OpenViBE_externals=$OpenViBE_base/openvibe-externals
+OpenViBE_externals_all=`find $OpenViBE_externals -follow -mindepth 1 -maxdepth 1 -type d -printf "%P\n" | grep -v \.svn | sort`
+for v in $OpenViBE_externals_all; do
+	vv=`echo $v | sed 's/\-/_/g'`
+	eval 'v_branch=$OpenViBE_external_'$vv'_branch'
+	if [ "$v_branch" == "" ]; then
+		eval 'OpenViBE_external_'$vv'_branch=$OpenViBE_default_branch'
+	fi
+	eval 'export OpenViBE_external_'$vv'=$OpenViBE_externals/'$v'/$OpenViBE_external_'$vv'_branch'
+done
+
+########################################################################################################################
+
+export OpenViBE_build_order="
+$OpenViBE
+$OpenViBE_application_id_generator
+$OpenViBE_module_ebml
+$OpenViBE_module_fs
+$OpenViBE_module_socket
+$OpenViBE_module_system
+$OpenViBE_module_stream
+$OpenViBE_module_xml
+$OpenViBE_module_automaton
+$OpenViBE_toolkit
+$OpenViBE_kernel
+$OpenViBE_plugin_acquisition
+$OpenViBE_plugin_classification
+$OpenViBE_plugin_classification_gpl
+$OpenViBE_plugin_feature_extraction
+$OpenViBE_plugin_file_io
+$OpenViBE_plugin_samples
+$OpenViBE_plugin_signal_processing
+$OpenViBE_plugin_signal_processing_gpl
+$OpenViBE_plugin_simple_visualisation
+$OpenViBE_plugin_stimulation
+$OpenViBE_plugin_stream_codecs
+$OpenViBE_plugin_streaming
+$OpenViBE_plugin_tools
+$OpenViBE_plugin_matlab
+$OpenViBE_plugin_python
+$OpenViBE_plugin_vrpn
+$OpenViBE_application_designer
+$OpenViBE_application_acquisition_server
+$OpenViBE_application_plugin_inspector
+$OpenViBE_application_vr_demo
+$OpenViBE_application_vrpn_simulator
+$OpenViBE_application_skeleton_generator
+$OpenViBE_application_ssvep_demo
+$OpenViBE_scenarios
+$OpenViBE_documentation
+"
+
+# Use this line to temporarily overwrite the default one
+# add the specific project you want to build
+export OpenViBE_build_order_="
+"
+
+# optional external projects:
+#$OpenViBE_external_
+
+if [ -e ./linux-dependencies ]; then
+	source ./linux-dependencies
+fi;
+
+if [ "$MATLABROOT" == "" ]; then
+	if [ "`which matlab`" != "" ] ; then 
+		export MATLABROOT=`matlab -e | grep "^MATLAB=" | sed "s/^MATLAB=//g"`
+		export MATLABARCH=`matlab -e | grep "^ARCH=" | sed "s/^ARCH=//g"`
+		export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MATLABROOT/bin/$MATLABARCH
+	fi
+fi
+

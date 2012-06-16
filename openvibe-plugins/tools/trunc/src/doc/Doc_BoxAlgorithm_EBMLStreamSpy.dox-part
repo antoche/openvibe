@@ -1,0 +1,192 @@
+/**
+ * \page BoxAlgorithm_EBMLStreamSpy EBML stream spy
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Description|
+ * The purpose of this box is to spy an EBML stream and decode
+ * its structure to the log manager. In order to do so, the box
+ * has to know a list of expected EBML node identifiers and EBML
+ * node types. If you don't know what EBML is, you should check
+ * the \ref Doc_WhatIsEBML page. The list of expected node
+ * identifiers and types is collected from a configuration file.
+ * Also, the author is able to chose which log level to use
+ * in order to output the information.
+ *
+ * Such box is mostly usefull for debug purpose. It allows
+ * a developper to check what arrives to a box in a human
+ * readable way.
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Inputs|
+ * This box can receive as many input as necessary. All the inputs
+ * will be of type \ref Doc_Streams_EBMLStream in order to
+ * be parsed by this the reader.
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Input1|
+ * This is the default input of this box.
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Input1|
+__________________________________________________________________
+
+Settings description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Settings|
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Settings|
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Setting1|
+ * This first setting indicates where to find the configuration file.
+ * The box comes with a default configuration file containing all the
+ * default node identifiers of §OpenViBE§. You should extend this
+ * configuration in order to add your own EBML nodes in case you
+ * have created new EBML stream types.
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Setting1|
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Setting2|
+ * This second settings indicates what log level will be used to
+ * print the EBML stream structure.
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Setting2|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Examples|
+ * As an example, we could connect an EBML stream spy to a sinus
+ * oscillator. Leave the default sinus oscillator settings to their
+ * default, except the sample count per buffer can be set to 8 for the
+ * example. Chose an appropriate log level for the EBML stream spy and
+ * press 'start'. You will probabaly notice that a lot of text is sent
+ * to the log manager, making the use of this box difficult in real time.
+ * Once again, consider it as a debugging box.
+ *
+ * The output should look like this :
+\verbatim
+[  INF  ] <Box algorithm::EBML stream spy>
+[  INF  ] <Box algorithm::EBML stream spy> For input Spied EBML stream 1 of type EBML stream :
+[  INF  ] <Box algorithm::EBML stream spy> For chunk [id:0 (0x0)] at [time:(0x00000000, 0x00000000),(0x00000000, 0x00000000)]
+[  INF  ] <Box algorithm::EBML stream spy>   Opened EBML node [id:(0x002b395f, 0x108adfae)]-[name:OVTK_NodeId_Header]
+[  INF  ] <Box algorithm::EBML stream spy>     Opened EBML node [id:(0x00cdd0f7, 0x46b0278d)]-[name:OVTK_NodeId_Header_StreamType]-[type:uinteger]-[value:0 (0x0)]
+[  INF  ] <Box algorithm::EBML stream spy>     Opened EBML node [id:(0x006f5a08, 0x7796ebc5)]-[name:OVTK_NodeId_Header_StreamVersion]-[type:uinteger]-[value:0 (0x0)]
+[  INF  ] <Box algorithm::EBML stream spy>     Opened EBML node [id:(0x007855de, 0x3748d375)]-[name:OVTK_NodeId_Header_Signal]
+[  INF  ] <Box algorithm::EBML stream spy>       Opened EBML node [id:(0x00141c43, 0x0c37006b)]-[name:OVTK_NodeId_Header_Signal_SamplingRate]-[type:uinteger]-[value:512 (0x200)]
+[  INF  ] <Box algorithm::EBML stream spy>     Opened EBML node [id:(0x0072f560, 0x7ed2cbed)]-[name:OVTK_NodeId_Header_StreamedMatrix]
+[  INF  ] <Box algorithm::EBML stream spy>       Opened EBML node [id:(0x003febd4, 0x2725d428)]-[name:OVTK_NodeId_Header_StreamedMatrix_DimmensionCount]-[type:uinteger]-[value:2 (0x2)]
+[  INF  ] <Box algorithm::EBML stream spy>       Opened EBML node [id:(0x0000e3c0, 0x3a7d5141)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x001302f7, 0x36d8438a)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Size]-[type:uinteger]-[value:4 (0x4)]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:Channel 0]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:Channel 1]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:Channel 2]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:Channel 3]
+[  INF  ] <Box algorithm::EBML stream spy>       Opened EBML node [id:(0x0000e3c0, 0x3a7d5141)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x001302f7, 0x36d8438a)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Size]-[type:uinteger]-[value:8 (0x8)]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>         Opened EBML node [id:(0x00153e40, 0x190227e0)]-[name:OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label]-[type:string]-[value:]
+[  INF  ] <Box algorithm::EBML stream spy>
+[  INF  ] <Box algorithm::EBML stream spy>
+[  INF  ] <Box algorithm::EBML stream spy> For input Spied EBML stream 1 of type EBML stream :
+[  INF  ] <Box algorithm::EBML stream spy> For chunk [id:0 (0x0)] at [time:(0x00000000, 0x00000000),(0x00000000, 0x04000000)]
+[  INF  ] <Box algorithm::EBML stream spy>   Opened EBML node [id:(0x00cf2101, 0x02375310)]-[name:OVTK_NodeId_Buffer]
+[  INF  ] <Box algorithm::EBML stream spy>     Opened EBML node [id:(0x00120663, 0x08fbc165)]-[name:OVTK_NodeId_Buffer_StreamedMatrix]
+[  INF  ] <Box algorithm::EBML stream spy>       Opened EBML node [id:(0x00b18c10, 0x427d098c)]-[name:OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer]-[type:binary]-[bytes:256 (0x100)]
+[  INF  ] <Box algorithm::EBML stream spy>
+[  INF  ] <Box algorithm::EBML stream spy>
+[  INF  ] <Box algorithm::EBML stream spy> For input Spied EBML stream 1 of type EBML stream :
+[  INF  ] <Box algorithm::EBML stream spy> For chunk [id:0 (0x0)] at [time:(0x00000000, 0x04000000),(0x00000000, 0x08000000)]
+[  INF  ] <Box algorithm::EBML stream spy>   Opened EBML node [id:(0x00cf2101, 0x02375310)]-[name:OVTK_NodeId_Buffer]
+[  INF  ] <Box algorithm::EBML stream spy>     Opened EBML node [id:(0x00120663, 0x08fbc165)]-[name:OVTK_NodeId_Buffer_StreamedMatrix]
+[  INF  ] <Box algorithm::EBML stream spy>       Opened EBML node [id:(0x00b18c10, 0x427d098c)]-[name:OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer]-[type:binary]-[bytes:256 (0x100)]
+[  INF  ] <Box algorithm::EBML stream spy>
+[  INF  ] <Box algorithm::EBML stream spy>
+[  INF  ] <Box algorithm::EBML stream spy> For input Spied EBML stream 1 of type EBML stream :
+[  INF  ] <Box algorithm::EBML stream spy> For chunk [id:0 (0x0)] at [time:(0x00000000, 0x08000000),(0x00000000, 0x0c000000)]
+[  INF  ] <Box algorithm::EBML stream spy>   Opened EBML node [id:(0x00cf2101, 0x02375310)]-[name:OVTK_NodeId_Buffer]
+[  INF  ] <Box algorithm::EBML stream spy>     Opened EBML node [id:(0x00120663, 0x08fbc165)]-[name:OVTK_NodeId_Buffer_StreamedMatrix]
+[  INF  ] <Box algorithm::EBML stream spy>       Opened EBML node [id:(0x00b18c10, 0x427d098c)]-[name:OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer]-[type:binary]-[bytes:256 (0x100)]
+[  INF  ] <Box algorithm::EBML stream spy>
+...
+\endverbatim
+ *
+ * Now let's try to understand what is produced. First we notice a clear
+ * separation between the different chunk the box receives. In each chunk, we
+ * have an EBML hierarchy with the different nodes. Here we analyse a signal
+ * stream so we have a header followed by multiple buffers.
+ *
+ * Concerning the header, we can focuse on the signal header part and
+ * the streamed matrix header part. In the first one, we can see that the sampling
+ * rate node appears as an integer with value 512 (the default sinus oscillator
+ * sampling frequency). The second one contains the description of the streamed
+ * matrix. The matrix has two dimensions (electrodes and sample count per buffer).
+ * The first dimension has a size of 4 (the default sinus oscillator channel count)
+ * and each of this channel has a label (channel 0-3). Finally, the second dimension
+ * has a size of 8 (the sample count per buffer you manually put in the sinus
+ * oscillator configuration) and the samples themselves do not have a name.
+ *
+ * Now looking at the buffer, we only have the streamed matrix part (signal
+ * stream do not produce signal specific buffer). The buffer content can not
+ * be displayed in the console (it could be a huge amount of binary non human
+ * readable data, so it is not relevant to print it). But you have an information
+ * of the size of this buffer. 256 is exactly the number of channels (4) multiplied
+ * by the number of samples per buffer (8) multiplied by the size of a single sample
+ * (8 because a sample is coded on a 64 bits float).
+ *
+ * When familiar with EBML and §OpenViBE§ streams, this box is a strong tool
+ * to analyze what is sent from a box to another.
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_EBMLStreamSpy_Miscellaneous|
+ * The syntax of the configuration file is simple. Each line of the file
+ * should contain 3 fields. The first field is the name of the EBML node
+ * that should be printed in the log manager (this is human readable).
+ * The second field is the EBML node identifier. The last field is the node
+ * type. Several types are supported :
+ *  - \e master : this means that this node does not have data attached but has
+ * several children. Any non master node is a leaf, so can contain data.
+ *  - \e integer : this means that this node contains a signed integer value
+ *  - \e uinteger : this means that this node contains an unsigned integer value
+ *  - \e string : this means that this node contains an ASCII string value
+ *  - \e float : this means that this node contains a floating point value
+ *  - \e binary : this means that this node contains a raw buffer of elements.
+ * In such case, only the size of the buffer is printed. The content of the
+ * buffer is not printed.
+ *
+ * Any node identifier found in the stream and not present in the configuration
+ * file will be considered of type \e unknown and treated as if it was a \e binary
+ * node.
+ *
+ * Following is a part of the sample configuration file to illustrate the syntax :
+\verbatim
+...
+
+OVTK_NodeId_Header_StreamedMatrix                                      EBML::CIdentifier(0x0072F560, 0x7ED2CBED) master
+OVTK_NodeId_Header_StreamedMatrix_DimmensionCount                      EBML::CIdentifier(0x003FEBD4, 0x2725D428) uinteger
+OVTK_NodeId_Header_StreamedMatrix_Dimmension                           EBML::CIdentifier(0x0000E3C0, 0x3A7D5141) master
+OVTK_NodeId_Header_StreamedMatrix_Dimmension_Size                      EBML::CIdentifier(0x001302F7, 0x36D8438A) uinteger
+OVTK_NodeId_Header_StreamedMatrix_Dimmension_Label                     EBML::CIdentifier(0x00153E40, 0x190227E0) string
+OVTK_NodeId_Buffer_StreamedMatrix                                      EBML::CIdentifier(0x00120663, 0x08FBC165) master
+OVTK_NodeId_Buffer_StreamedMatrix_RawBuffer                            EBML::CIdentifier(0x00B18C10, 0x427D098C) binary
+
+OVTK_NodeId_Header_Signal                                              EBML::CIdentifier(0x007855DE, 0x3748D375) master
+OVTK_NodeId_Header_Signal_SamplingRate                                 EBML::CIdentifier(0x00141C43, 0x0C37006B) uinteger
+
+...
+\endverbatim
+ * |OVP_DocEnd_BoxAlgorithm_EBMLStreamSpy_Miscellaneous|
+ */

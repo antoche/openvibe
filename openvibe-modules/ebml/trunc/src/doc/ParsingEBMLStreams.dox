@@ -1,0 +1,129 @@
+/**
+ * \page Doc_ParsingEBMLStreams Parsing EBML streams
+ *
+ * \section Doc_ParsingEBMLStreams_Introduction Introduction
+ *
+ * This page tries to teach how a user of this library should use
+ * the reading functions in order to read and parse an EBML
+ * stream correctly. For those who don't know what EBML is,
+ * it is basically a binary XML created and used by the matroska
+ * developpers. The libmatroska is based on the libebml
+ * implementation of these guys. Fore more details, please read 
+ * the \ref Doc_WhatIsEBML page first and eventually visit the 
+ * EBML web page at http://ebml.sourceforge.net/
+ *
+ * \section Doc_ParsingEBMLStreams_Concept Concepts
+ *
+ * The idea of this parsing library is to transform the stream
+ * data provided by the user application into understandable
+ * EBML interpreted commands. Once the EBML nodes are found and
+ * parsed, they are sent to a callback object that should know
+ * what to do with them.
+ *
+ * The design of the parsing interface is closed to the one of
+ * \c eXpat, an XML parser library (see http://expat.sourceforge.net
+ * for more details on \c eXpat). Using such interface allows light
+ * code and on-the-fly parsing, that means the parser does not
+ * need to have all the data ready before starting the parsing
+ * process... The data can arrive while the parsing is beeing
+ * done.
+ *
+ * It is the responsability of the user application to read
+ * the EBML stream from a file, a socket, a user input or
+ * whatever, and then to send this to the parser...
+ *
+ * At least, the callback object may use a reader helper that
+ * knows how to read standard EBML types such as integers,
+ * floats, strings etc...
+ *
+ * The library is divided into three main components :
+ *  - The reader itself that does the parsing stuffs
+ *  - An implementation of the callback object (the implementation
+ *    is left to the user application developper)
+ *  - An optionnal helper object that knows more on the
+ *    content of the EBML stream.
+ *
+ * Here comes the organisation of the different modules and how
+ * data go from one to another. Note that the user application
+ * and the user callback object may share some information so the
+ * callback object communicates with the application itself.
+ *
+ * \image html ebml_parsing_concept.png "Concept"
+ *
+ * Here comes the UML class diagram, presenting the main classes
+ * involved in the presented behavior.
+ *
+ * \image html ebml_parsing_class.png "Class Diagram"
+ *
+ * See EBML::IReader, EBML::IReaderCallback and EBML::IReaderHelper
+ * for more details on each of these classes.
+ *
+ * \section Doc_ParsingEBMLStreams_SampleCode Sample code
+ *
+ * In this section, a sample of user application code is presented
+ * that parses the sample file created in the page named :
+ * \ref Doc_FormatingEBMLStreams
+ *
+ * The parsed value are printed in the console.
+ *
+ * The callback object looks something like this :
+ *
+ * \code
+ * class CReaderCallback : public EBML::IReaderCallback
+ * {
+ * public:
+ *   CReaderCallback(void)
+ *   {
+ *     m_pReaderHelper=EBML::createReaderHelper();
+ *   }
+ *   virtual ~CReaderCallback(void)
+ *   {
+ *     if(m_pReaderHelper) m_pReaderHelper->release();
+ *   }
+ *   virtual bool isMasterChild(const EBML::CIdentifier& rIdentifier)
+ *   {
+ *     if(rIdentifier==EBML_Identifier_Header) return true;
+ *     if(rIdentifier==EBML_Identifier_DocType) return true;
+ *     if(rIdentifier==EBML_Identifier_DocTypeVersion) return true;
+ *     return false;
+ *   }
+ *   virtual void openChild(const EBML::CIdentifier& rIdentifier)
+ *   {
+ *     m_oCurrent=rIdentifier;
+ *   }
+ *   virtual void processChildData(cosnt void* pBuffer, const EBML::uint64 ui64BufferSize)
+ *   {
+ *     if(m_oCurrent==EBML_Identifier_DocType)
+ *       std::cout << "Doc type:" << m_pReaderHelper->getASCIIStringFromChildData(pBuffer, ui64BufferSize) << std::endl;
+ *     if(m_oCurrent==EBML_Identifier_DocTypeVersion)
+ *       std::cout << "Dox type version:" << m_pReaderHelper->getUIntegerFromChildData(pBuffer, ui64BufferSize) << std::endl;
+ *   }
+ *   virtual void closeChild(void)
+ *   {
+ *   }
+ *   EBML::IReaderHelper* m_pReaderHelper;
+ * };
+ * \endcode
+ *
+ * Then in the user application code, we can write the
+ * initialisation this way :
+ *
+ * \code
+ * CReaderCallback oCallback;
+ * EBML::IReader* pReader=EBML::createReader(oCallback);
+ * \endcode
+ *
+ * Now suppose the user application got some data from the file
+ * in a \c pBuffer of size \c ui64BufferSize ; it is sent to the
+ * parser this way :
+ *
+ * \code
+ * pReader->processData(pBuffer, ui64BufferSize);
+ * \endcode
+ *
+ * Finally, don't forget to release the object and to clean memory :
+ *
+ * \code
+ * pReader->release();
+ * \endcode
+ */

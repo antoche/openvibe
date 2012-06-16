@@ -1,0 +1,18 @@
+material ov_skin
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.878431 0.705882 0.619608 1
+			diffuse 0.878431 0.705882 0.619608 1
+//			specular 0 0 0 10
+//			emissive 0 0 0 
+			scene_blend alpha_blend
+			depth_write off
+			depth_check on
+		}
+	}
+}
+
+

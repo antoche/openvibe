@@ -1,0 +1,62 @@
+/**
+ * \page BoxAlgorithm_CommonAverageReferenceFilter Common average reference filter
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CommonAverageReferenceFilter_Description|
+
+Re-referencing the signal to common average reference consists in substracting 
+to each sample the average value of the samples of all electrodes at this time
+
+ * |OVP_DocEnd_BoxAlgorithm_CommonAverageReferenceFilter_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CommonAverageReferenceFilter_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_CommonAverageReferenceFilter_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_CommonAverageReferenceFilter_Input1|
+
+The input signals, to be re-referenced to common average reference
+
+ * |OVP_DocEnd_BoxAlgorithm_CommonAverageReferenceFilter_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CommonAverageReferenceFilter_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_CommonAverageReferenceFilter_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_CommonAverageReferenceFilter_Output1|
+
+the output is equal to the input signals re-referenced to common average reference
+
+ * |OVP_DocEnd_BoxAlgorithm_CommonAverageReferenceFilter_Output1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CommonAverageReferenceFilter_Examples|
+
+Connect the "Signal" output of the "Acquisition client" box to this "Common Average Reference" (CAR), then
+use the output signal for your BCI or any other applications. The CAR is a spatial filter
+commonly employed in EEG-based BCI. This can reduce the noise which is present globally over all electrodes.
+
+ * |OVP_DocEnd_BoxAlgorithm_CommonAverageReferenceFilter_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_CommonAverageReferenceFilter_Miscellaneous|
+
+the input EEG signals should be recorded with more than one electrode, otherwise this box is useless.
+
+ * |OVP_DocEnd_BoxAlgorithm_CommonAverageReferenceFilter_Miscellaneous|
+ */

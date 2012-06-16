@@ -1,0 +1,60 @@
+/**
+ * \page BoxAlgorithm_FirstDifferenceDetrending First difference detrending
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FirstDifferenceDetrending_Description|
+
+This box algorithm enable to perform detrending using the first differencing method. This means the new time series w_t, corresponding to the detrending of the time series x_t, will simply be such that w_t = x_t - x_{t-1}
+
+ * |OVP_DocEnd_BoxAlgorithm_FirstDifferenceDetrending_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FirstDifferenceDetrending_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_FirstDifferenceDetrending_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_FirstDifferenceDetrending_Input1|
+
+the input signals to be detrended
+
+ * |OVP_DocEnd_BoxAlgorithm_FirstDifferenceDetrending_Input1|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FirstDifferenceDetrending_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_FirstDifferenceDetrending_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_FirstDifferenceDetrending_Output1|
+
+the detrended signals
+
+ * |OVP_DocEnd_BoxAlgorithm_FirstDifferenceDetrending_Output1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FirstDifferenceDetrending_Examples|
+
+This box is used to remove a trend from the signal of each electrode, that is very slow variation of the signals.
+It is a cheap high-pass filter.
+
+ * |OVP_DocEnd_BoxAlgorithm_FirstDifferenceDetrending_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FirstDifferenceDetrending_Miscellaneous|
+
+This box triggers a delay of 1 sample (needed to start the detrending)
+
+ * |OVP_DocEnd_BoxAlgorithm_FirstDifferenceDetrending_Miscellaneous|
+ */

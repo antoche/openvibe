@@ -1,0 +1,27 @@
+/** 
+
+\page Doc_DataVisualisation Data visualisation
+
+The OpenViBE platform comes with a number of integrated visualisation plugins that cover a whole range of visualisation paradigms. 2D plugins are drawn using the Gtk library,
+while 3D visualisation is possible thanks to the 3D API of the OpenViBE Kernel. This API hides implementation details, making it possible to switch rendering libraries if necessary. 
+The Ogre 3D library is currently used for 3D rendering.
+
+\section Doc_DataVisualisation_3DVisualisation 3D visualisation
+
+In addition to 2D visualisation plugins, the OpenViBE platform also offers 3D visualisation possibilities to provide different, 
+more realistic brain activity visualisation plugins. The OpenViBE API includes basic 3D scene management methods so that plugins may
+load and manipulate simple 3D scenes within the OpenViBE application context. The 3D API made available to plugins is independent of the
+underlying 3D rendering library (Ogre3D), which can therefore be replaced if need be (or additional rendering libraries may be added). To know more
+about this, see the following documentation : 
+	- \ref visualisation_manager_context for visualisation manager information
+	- \ref Doc_VisualisationContext for explanations on the visualisation context available for plugins
+	- http://www.ogre3d.com for information on Ogre3D, the 3D rendering library used by the OpenViBE kernel to handle 3D scenes.
+
+\section Doc_DataVisualisation_OtherVisualisations Other visualisation paradigms using external applications
+
+One of the goals of the OpenViBE platform is to offer the means to combine virtual reality (VR) and novel visualisation approaches with BCI and neurofeedback 
+experiments. To that end, in addition to the built-in visualisation plugins offered by the platform, it is possible to develop external visualisation applications.
+In such cases, the OpenViBE platform may be seen as an interaction device used to control external VR applications. This is possible thanks to the VRML communication
+protocol supported by OpenViBE.
+
+*/

@@ -1,0 +1,66 @@
+/**
+ * \page BoxAlgorithm_SignalMerger Signal Merger
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Description|
+ * This box merges several input streams in a single output stream. For instance,
+ * if this box has two inputs with 8 channels each, the output will contain 16 channels.
+ *
+ * It important to note that the input streams must have the same structure. That is
+ * same sampling rate, same number of samples per buffer, and similar chunks dates.
+ *
+ * The output channel order is as follows :
+ *  - n channels from input 1 (in the same order as in input 1)
+ *  - m channels from input 2
+ *  - ...
+ *  - p channels from input N
+ *
+ * Such box has initially been proposed by Matthieu Goyat and Guillaume Lio but it
+ * has been completely reimplemented in march 2011 because of unpredictable behaviors in
+ * some conditions.
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Inputs|
+ * This box can receive as many inputs as necessary.
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Input1|
+ * The first input stream.
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Input2|
+ * The second input stream.
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Output1|
+ * The output stream contains all the channels grabed from the different input streams.
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Output1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_SignalMerger_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_SignalMerger_Miscellaneous|
+ */

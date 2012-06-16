@@ -1,0 +1,15 @@
+material plane-pink-plane-material
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.968628 0.196078 0.941177 
+			diffuse 0.968628 0.196078 0.941177 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+

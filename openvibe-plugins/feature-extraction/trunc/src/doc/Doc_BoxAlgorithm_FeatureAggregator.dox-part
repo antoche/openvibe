@@ -1,0 +1,52 @@
+/**
+ * \page BoxAlgorithm_FeatureAggregator Feature aggregator
+__________________________________________________________________
+
+Detailed description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Description|
+ * This plugins aggregates the features it receives on its inputs
+ * into a feature vector that can be used for classification.
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Description|
+__________________________________________________________________
+
+Inputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Inputs|
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Inputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Input1|
+ * A stream of matrices containing features.
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Input1|
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Input2|
+ * A stream of matrices containing features.
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Input2|
+__________________________________________________________________
+
+Outputs description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Outputs|
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Outputs|
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Output1|
+ * A stream of feature vectors made by aggregating incoming features.
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Output1|
+__________________________________________________________________
+
+Examples description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Examples|
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Examples|
+__________________________________________________________________
+
+Miscellaneous description
+__________________________________________________________________
+
+ * |OVP_DocBegin_BoxAlgorithm_FeatureAggregator_Miscellaneous|
+ * |OVP_DocEnd_BoxAlgorithm_FeatureAggregator_Miscellaneous|
+ */

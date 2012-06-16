@@ -1,0 +1,5 @@
+(sendCommand cmd_NumberOfAmps -1 -1 -1)
+(sendCommand cmd_SetPower 0 -1 0)
+(sendCommand cmd_SetPower 0 -1 1)
+(sendCommand cmd_GetAmpDetails 0 -1 -1)
+(sendCommand cmd_SetDecimatedRate 0 0 1000)

@@ -1,0 +1,74 @@
+#!/bin/bash
+
+version_major=0
+version_minor=14
+version_patch=0
+
+projects="
+openvibe
+openvibe-applications/id-generator
+openvibe-modules/ebml
+openvibe-modules/fs
+openvibe-modules/socket
+openvibe-modules/system
+openvibe-modules/stream
+openvibe-modules/xml
+openvibe-modules/automaton
+openvibe-toolkit
+openvibe-externals
+openvibe-kernel-omk
+openvibe-plugins/acquisition
+openvibe-plugins/classification
+openvibe-plugins/classification-gpl
+openvibe-plugins/feature-extraction
+openvibe-plugins/file-io
+openvibe-plugins/samples
+openvibe-plugins/signal-processing
+openvibe-plugins/signal-processing-gpl
+openvibe-plugins/simple-visualisation
+openvibe-plugins/stimulation
+openvibe-plugins/stream-codecs
+openvibe-plugins/streaming
+openvibe-plugins/tools
+openvibe-plugins/matlab
+openvibe-plugins/python
+openvibe-plugins/vrpn
+openvibe-applications/designer
+openvibe-applications/acquisition-server
+openvibe-applications/plugin-inspector
+openvibe-applications/vr-demo
+openvibe-applications/vrpn-simulator
+openvibe-applications/skeleton-generator
+openvibe-applications/ssvep-demo
+openvibe-scenarios
+openvibe-documentation
+"
+
+for project in $projects ; do
+	mkdir -p "../../tags/$version_major.$version_minor.$version_patch/$project"
+done;
+
+svn add "../../tags/$version_major.$version_minor.$version_patch"
+svn commit "../../tags/$version_major.$version_minor.$version_patch" -m ""
+
+for project in $projects ; do
+	echo "---> will create tag in [$project]"
+	# cp -r "../$project/trunc" "../../tags/$version_major.$version_minor.$version_patch/$project"
+	svn cp "../$project/trunc" "../../tags/$version_major.$version_minor.$version_patch/$project"
+	sed -i -e '
+		s:SET(PROJECT_VERSION_MAJOR x):SET(PROJECT_VERSION_MAJOR '$version_major'):g
+		s:SET(PROJECT_VERSION_MINOR x):SET(PROJECT_VERSION_MINOR '$version_minor'):g
+		s:SET(PROJECT_VERSION_PATCH x):SET(PROJECT_VERSION_PATCH '$version_patch'):g
+	' "../../tags/$version_major.$version_minor.$version_patch/$project/trunc/CMakeLists.txt"
+done;
+
+# cp -r ../cmake-modules ../../tags/$version_major.$version_minor.$version_patch
+# cp -r ../scripts ../../tags/$version_major.$version_minor.$version_patch
+
+svn cp ../cmake-modules ../../tags/$version_major.$version_minor.$version_patch
+svn cp ../scripts ../../tags/$version_major.$version_minor.$version_patch
+
+svn cp ../AUTHORS ../../tags/$version_major.$version_minor.$version_patch
+svn cp ../COPYING ../../tags/$version_major.$version_minor.$version_patch
+svn cp ../INSTALL ../../tags/$version_major.$version_minor.$version_patch
+svn cp ../README ../../tags/$version_major.$version_minor.$version_patch
