@@ -49,7 +49,7 @@ boolean CDriverEmokit::initialize(
 {
 	if(m_bUseGyroscope)
 	{
-		m_oHeader.setChannelCount(16); // 14 + 2 REF + 2 Gyro 
+		m_oHeader.setChannelCount(16); // 14 + 2 Gyro 
 	}
 	else
 	{
@@ -77,7 +77,7 @@ boolean CDriverEmokit::initialize(
 		m_oHeader.setChannelName(15, "Gyro-Y");
 	}
 
-	m_oHeader.setSamplingFrequency(128); // let's hope so...
+	m_oHeader.setSamplingFrequency(128);
 
 	m_rDriverContext.getLogManager() << LogLevel_Trace << "INIT called.\n";
 	if(m_rDriverContext.isConnected())
@@ -120,18 +120,22 @@ boolean CDriverEmokit::initialize(
 	if( m_ui32UserID >= nDevices )
 	{
 		m_rDriverContext.getLogManager() << LogLevel_Error << "[INIT] Emokit: There is no headset with ID " << m_ui32UserID << "\n";
+		emokit_delete( m_device );
+		m_device = NULL;
 		return false;
 	}
 	
 	if( emokit_open( m_device, EMOKIT_VID, EMOKIT_PID, m_ui32UserID ) != 0 )
 	{
 		m_rDriverContext.getLogManager() << LogLevel_Error << "[INIT] Emokit: Could not connect to headset " << m_ui32UserID << "\n";
+		emokit_delete( m_device );
+		m_device = NULL;
 		return false;
 	}
 	
 
 	//__________________________________
-	// Saves parameters
+	// Save parameters
 
 	m_pCallback=&rCallback;
 	return true;
@@ -198,7 +202,6 @@ boolean CDriverEmokit::loop(void)
 		{
 			m_rDriverContext.getLogManager() << LogLevel_Error << "[LOOP] emokit_read_data returned " << read_result << "\n";
 		}
-	
 	
 	}
 	return true;

@@ -8,10 +8,7 @@
 
 #include <openvibe/ov_all.h>
 
-extern "C" {
 #include <emokit/emokit.h>
-}
-
 
 #include <vector>
 
